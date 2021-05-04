@@ -69,7 +69,7 @@ const demo = new Vue({
 
 #### Vue中的MVVM  
 
-[MVVM-1](../img/MVVM-1)  
+![MVVM-1](./img/MVVM-1.jpg)  
 
 - View层：视图层  
 - Model层：数据层  
@@ -77,7 +77,7 @@ const demo = new Vue({
   + 实现了数据绑定，将 Model 的改变**实时**的反应到 View 中    
   + 实现了 DOM 的事件监听。当 DOM 中发生一些事件时，会被它监听到，并在需要的情况下改变对应的 Data  
 
-[MVVM-2](../img/MVVM-2)  
+![MVVM-2](./img/MVVM-2.jpg)  
 
 
 
