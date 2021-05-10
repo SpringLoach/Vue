@@ -34,7 +34,6 @@ const demo = new Vue({
         text: 'Hey, man!',
         colors: ['red','yellow','blue','slategrey']
     }
-
 })
 ```
 :snowflake: Vue 实例内部的 option 之间以 `,` 分隔，其中的 data 内部同样以 `,` 分隔。  
@@ -136,7 +135,6 @@ const demo = new Vue({
         url: '<a href="www.bilibili.com">bilibili</a>'
     }
 })
-
 ```
 
 :bug: **绝不要**对用户提供的内容使用插值，很容易导致 XSS 攻击。  
@@ -173,6 +171,110 @@ const demo = new Vue({
 ```
 :snowflake: 届时，当网页卡顿时，就不会将未编译的 Mustache 标签显示出来。
 
+#### 动态绑定属性  
+> 使用 `v-bind` 指令，可以按需求更新属性的值。  
+
+```
+<img v-bind:src="myImg">
+<a :href="aHref">某个网站</a>
+
+/* Vue */
+const demo = new Vue({
+    ...
+    data: {
+        myImg: '<a href="www.bilibili.com">bilibili</a>',
+        aHref: 'wwww.bilibili.com'
+    }
+})
+```
+:snowflake: `v-bind` 的语法糖形式为 `:` 
+
+布尔属性  
+```
+// 布尔属性
+<button :hidden="isActive">Button</button>
+
+/* Vue */
+const demo = new Vue({
+    ...
+    data: {
+        isActive: true
+    }
+})
+```
+:snowflake: 如果 isActive 的值是 null、undefined 或 false，则对应的布尔属性不会被包含在渲染出来的 <button\> 元素中。
+
+#### 绑定class  
+> 在将 `v-bind` 用于 `class` 和 `style` 时，Vue.js 做了专门的增强。表达式结果的类型除了字符串之外，还可以是对象或数组。
+
+**#对象语法**
+```
+// 对象语法
+<p :class="{active: isActive}">abc</p>
+// 和普通的类可以同时存在，不冲突
+<p class="top" :class="{active: isActive, line: isLine}">def</p>
+
+// 嫌长可以将对象抽出来
+<p class="top" :class="getClasses()">def</p>
+
+// 添加事件处理程序
+<button v-on:click="btnClick">按钮</button>
+
+/* Vue */
+const demo = new Vue({
+    ...
+    data: {
+        isActive: true,
+        isLine: false
+    },
+    methods: {
+        btnClick: function() {
+            this.isActive = !this.isActive
+        },
+        getClasses: function() {
+            return {active: this.isActive, line: this.isLine}
+        }
+    }
+})
+```
+
+**#数组语法**   
+```
+<p  class="app" :class="['top', class1]">asdf</p>
+
+/* Vue */
+const demo = new Vue({
+    ...
+    data: {
+        class1: 'active'
+    }
+})
+```
+
+#### 绑定style  
+
+ 对象 | 键 | 值
+ :-: | :-: | :-:
+ class | 类名 | 布尔值（变量）
+ style | 属性名 | 属性值（字符串或变量）
+   
+```
+<p :style="{fontSize: '50px'}">abc</p>
+<p :style="{fontSize: fontSize, color: currentColor}">abc</p>
+<p :style="{fontSize: fontSize2 + 'px'}">abc</p>
+      
+/* Vue */
+const demo = new Vue({
+    ...
+    data: {
+        fontSize: '50px',
+        fontSize2: 50,
+        currentColor: 'red'
+    }
+})      
+```
+:snowflake: 属性用驼峰式大小写。  
+:snowflake: 对于对象中的值，加引号视为字符串，否则视作变量。
 
 
 
