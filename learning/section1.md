@@ -253,6 +253,7 @@ const demo = new Vue({
 
 #### 绑定style  
 
+**#对象语法**
  对象 | 键 | 值
  :-: | :-: | :-:
  class | 类名 | 布尔值（变量）
@@ -261,6 +262,7 @@ const demo = new Vue({
 ```
 <p :style="{fontSize: '50px'}">abc</p>
 <p :style="{fontSize: fontSize, color: currentColor}">abc</p>
+<p :style="style1">abc</p>
 <p :style="{fontSize: fontSize2 + 'px'}">abc</p>
       
 /* Vue */
@@ -269,23 +271,75 @@ const demo = new Vue({
     data: {
         fontSize: '50px',
         fontSize2: 50,
-        currentColor: 'red'
+        currentColor: 'red',
+        style1: {
+            fontSize: '50px',
+            color: 'red'
+        }
     }
 })      
 ```
 :snowflake: 属性用驼峰式大小写。  
 :snowflake: 对于对象中的值，加引号视为字符串，否则视作变量。
 
+**#数组语法**   
+> 可以将多个样式对象应用到同一个元素上。 
 
+```
+<div v-bind:style="[style1, style2]"></div>
+```
 
+#### 计算属性  
+> 对于任何复杂逻辑，都应当使用计算**属性**。  
 
+```
+/* HTML */
+<p>{{fullName}}</p>
+<p>{{getFullName()}}</p>
 
+/* Vue */
+const demo = new Vue({
+    ...
+    data: {
+        firstName: 'Li',
+        lastName: 'Yeoo'
+    },
+    computed: {
+        fullName: function() {
+            return this.firstName + ' ' + this.lastName
+        }
+    },
+    methods: {    
+        getFullName() {     // ES6语法糖
+            return this.firstName + ' ' + this.lastName
+        }
+    }
+})  
+```
+:snowflake: 不同于 `methods`，写在 HTML 中的计算属性，不用加括号。  
+:snowflake: 在取名时，计算属性与方法也会存在一些差别。  
 
+计算属性默认只有 `getter`，不过在需要时你也可以提供一个 `setter`。
+```
+computed: {
+  fullName: {
+    get: function () {
+      return this.firstName + ' ' + this.lastName
+    },
+    set: function (newValue) {
+      var names = newValue.split(' ')
+      this.firstName = names[0]
+      this.lastName = names[names.length - 1]
+    }
+  }
+}
+```
 
+#### 计算属性缓存 vs 方法  
+> 使用计算属性可以节省性能开销。
 
-
-
-
+- 计算属性是基于它们的响应式依赖进行**缓存**的。只在相关响应式依赖发生改变时它们才会重新求值。  
+- 每当触发重新渲染时，调用方法将总会再次执行函数。
 
 
 
