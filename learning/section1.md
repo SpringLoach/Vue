@@ -408,12 +408,61 @@ data: {
  v-if | 初始渲染时条件为假，则什么也不做 | 较少的初始渲染开销
  v-show  | 简单地切换元素的 `display` 属性 | 较少的切换开销，利于频繁地切换
  
+#### v-for遍历数组和对象  
+
+格式：`item in items`
+
+```
+/* 遍历数组 */
+<li v-for="item in niuEr">{{item}}</li>
+
+<li v-for="(item, index) in niuEr">{{item}}-{{index}}</li>
+
+/* 遍历对象 */
+<li v-for="value in niuEr">{{item}}</li>
+
+<li v-for="(value, key, index) in niuEr">{{item}}</li>
+
+/* Vue */
+data: {
+    niuEr: {
+        Name: 'pangNiu',
+        age: 23,
+        school: 'shenDa University'
+    }
+}
+```
+> 其中作为参数的 item 等，可以用其它变量表示。
+
+#### 维护状态  
+> 使用 `key` 是为了某些情况能更高效的更新虚拟 DOM。
+
+当 Vue 正在更新使用 v-for 渲染的元素列表时，它默认使用“就地更新每个元素”的策略。
+
+建议尽可能在使用 v-for 时提供拥有**唯一值**的`key`，它是 Vue 识别节点的一个通用机制，从而重用和重新排序现有元素。
+
+```
+/* 遍历数组 */
+<li v-for="item in niuEr" :key="item.id">{{item}}</li>
+```
  
- 
- 
- 
- 
- 
+#### 数组变更方法  
+> Vue 将被侦听的数组的变更方法进行了包裹，所以它们也将会触发视图更新。
+
+- push()
+- pop()
+- shift()
+- unshift()
+- splice()
+- sort()
+- reverse()
+
+:bug: 由于 JavaScript 的限制，Vue 不能检测数组和对象的变化（如更改某个索引的值）。  
+
+
+
+
+
  
  
  
