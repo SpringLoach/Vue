@@ -341,9 +341,83 @@ computed: {
 - 计算属性是基于它们的响应式依赖进行**缓存**的。只在相关响应式依赖发生改变时它们才会重新求值。  
 - 每当触发重新渲染时，调用方法将总会再次执行函数。
 
+#### 事件监听的参数
+> 对于复杂的事件处理逻辑，可以在 `methods` 对象中定义方法。  
 
+```
+/* 方法不需要参数，可以省略括号 */
+<button @click="btnClick()">按钮</button>
+<button @click="btnClick">按钮</button>
 
+/* 方法需要参数 */
+<button @click="btnClick(123)">按钮</button>
+<button @click="btnClick()">按钮</button>      // undefined
+<button @click="btnClick">按钮</button>        // 默认将 event 事件对象作为参数
 
+/* 方法需要 event 事件对象和其他参数 */
+<button @click="btnClick(123，$event)">按钮</button>
+```
+:snowflake: 可以用特殊变量 `$event` 把原始的 DOM 事件传入方法。
+
+#### v-on修饰符  
+
+```
+<button @keyup.enter="onEnter">按钮</button>
+```
+
+ 修饰符 | 说明
+ :-: | :-: 
+ .stop | 阻止时间冒泡
+ .prevent | 阻止默认行为，可不添加事件
+ .{keyCode|keyAlias} | 监听特定按键
+ .once | 只触发一次回调
+
+#### 条件渲染  
+
+```
+/* HTML */
+<p v-if="score>90">优秀</p>
+<p v-else-if="score>80">良好</p>
+<p v-else-if="score>60">及格</p>
+<p v-else>不及格</p>
+      
+/* Vue */
+data: {
+    score: 87
+}     
+```
+:snowflake: 这种情况用 `计算属性` 处理更合适，但是如果需要渲染不同的模板，可能就需要用到条件渲染。
+
+#### 用 key 管理可复用的元素
+> Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染。
+
+```
+<template v-if="loginType === 'username'">
+  <label>Username</label>
+  <input placeholder="Enter your username" key="username-input">  // 拥有不同 key 值的元素将不会复用
+</template>
+...
+```
+:snowflake: 现在，每次切换时，输入框都将被重新渲染。
+
+#### v-if vs v-show  
+> `v-show` 指令也是根据条件展示元素。
+
+ 修饰符 | 说明 | 优势
+ :-: | :-: | :-: 
+ v-if | 初始渲染时条件为假，则什么也不做 | 较少的初始渲染开销
+ v-show  | 简单地切换元素的 `display` 属性 | 较少的切换开销，利于频繁地切换
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 
 
