@@ -477,14 +477,16 @@ filters: {
 3.保留小数：`toFixed()`    
 4.很多时候，遍历数组元素 `for-in` 要比遍历索引值`for-of`更方便。 
 
+----
+
 #### 表单输入绑定  
 > 可以用 `v-model` 指令在表单元素上创建**双向**数据绑定。
 
  适用元素 | 说明
  :-: | :-:
- <input\> | radio、checkbox、text
+ <input\> | radio、checkbox、text等
  <textarea\> | 文本区域
- <select\> | 单选或多选菜单
+ <select\> | 单选或多选下拉菜单
    
 ```
 /* 语法糖 */
@@ -545,10 +547,88 @@ data: {
 ```    
 :snowflake: 单选框的值为布尔值。  
 
+#### 结合下拉菜单  
 
+```
+/* 单选 */
+<select  v-model="fruit">
+    <option value="菠萝">菠萝</option>
+    <option value="西瓜">西瓜</option>
+    <option value="水蜜桃">水蜜桃</option>
+    <option value="芒果">芒果</option>
+</select>
+<p>最爱吃：{{fruit}}</p>
 
+/* 多选 */
+<select v-model="fruits" multiple>
+    <option value="菠萝">菠萝</option>
+    <option value="西瓜">西瓜</option>
+    <option value="水蜜桃">水蜜桃</option>
+    <option value="芒果">芒果</option>
+</select>
+<p>喜欢吃：{{fruits}}</p>
 
+/* Vue */
+data: {
+    fruit: '水蜜桃',
+    fruits: []
+}
+```  
 
+#### 值绑定  
+
+```
+<label v-for="item in fruits">
+    <input type="checkbox" :value="item" v-model="likeFruit">{{item}}
+ </label>
+<p>{{originFruit}}</p>
+    
+/* Vue */
+data: {
+    fruits: ['水蜜桃','菠萝','香蕉','哈密瓜'],
+    likeFruit: []
+}
+```
+> 这里 data 中有两个数组，一个负责初始化选项，一个负责初始化选中。
+
+#### v-model修饰符  
+
+ 修饰符 | 说明
+ :-: | :-: 
+ .lazy | 转为在 `change事件` 之后进行同步（回车、失去焦点）
+ .number | 自动将用户的输入值转为数值类型 
+ .trim | 自动过滤用户输入的首尾空白字符
+ 
+:snowflake: 正常情况下，`v-model` 绑定的数据即使是数值类型，也会被转化为字符串类型。  
+
+----
+
+#### 组件基本步骤  
+
+1.创建组件构造器  
+2.注册组件    
+3.使用组件（在 Vue 实例的作用范围内）
+ 
+```
+/* HTML */
+/* 在被挂载的元素中使用组件 */
+<div id="demo">
+    <my-cpn></my-cpn>
+</div>
+
+/* 创建组件构造器对象 */
+const cpnConstructor = Vue.extend ({
+    template: `
+        <div>
+            <h2>大家好</h2>
+            <p>今晚去吃好吃的不</p>
+        </div>`
+});
+
+/* 注册组件 */
+Vue.component('my-cpn', cpnConstructor);  // 第一个参数为模板标签
+```
+:snowflake: `template`模板 定义的元素要放在一个根元素中。
 
 
 
