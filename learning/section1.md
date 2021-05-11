@@ -607,17 +607,18 @@ data: {
 
 1.创建组件构造器  
 2.注册组件    
-3.使用组件（在 Vue 实例的作用范围内）
+3.使用组件（在 Vue 实例的作用范围内）  
+4.现在①、②步一般使用[语法糖](#组件基本步骤语法糖)
  
 ```
 /* HTML */
-/* 在被挂载的元素中使用组件 */
+/* 在被挂载的元素的 DOM 结构中使用组件 */
 <div id="demo">
     <my-cpn></my-cpn>
 </div>
 
 /* 创建组件构造器对象 */
-const cpnConstructor = Vue.extend ({
+const cpnC = Vue.extend ({
     template: `
         <div>
             <h2>大家好</h2>
@@ -626,9 +627,149 @@ const cpnConstructor = Vue.extend ({
 });
 
 /* 注册组件 */
-Vue.component('my-cpn', cpnConstructor);  // 第一个参数为模板标签
+Vue.component('my-cpn', cpnC);  // 第一个参数为注册组件的标签名
 ```
 :snowflake: `template`模板 定义的元素要放在一个根元素中。
+
+#### 全局注册与局部注册  
+
+需要局部注册时，在 Vue 实例中加上 `components` 选项。此时，只有该实例中才能使用被注册的组件。
+
+```
+Vue.component('my-cpn', cpnC);
+
+const demo = new Vue({
+    el: '#demo',
+    components: {
+        'my-cpn': cpnC
+    }
+})
+```
+:herb: 局部注册组件时，若标签名中带 `-` 时，必须加上引号。
+
+#### 父组件和子组件  
+
+```
+/* HTML */
+<div id="demo">
+    <my-cpn2></my-cpn2>
+</div>
+
+/* Vue */
+const cpnC1 = Vue.extend ({
+    template: `
+        <div>
+            <h2>你们吃饭了没有</h2>
+        </div>`
+});
+
+/* 将 cpnC1 注册到另一个组件中并使用；使用 cpnC2 时会将 cpnC1 的内容编译 */
+const cpnC2 = Vue.extend ({
+    template: `
+        <div>
+            <h2>大家好</h2>
+            <my-cpn1></my-cpn1>
+        </div>`,
+    components: {
+        'my-cpn1': cpnC1
+    }   
+});
+
+const demo = new Vue({
+    el: '#demo',
+    components: {
+        'my-cpn2': cpnC2
+    }
+})
+```
+:snowflake: 此时<my-cpn1\>仍不能在被挂载的元素中单独使用。  
+:snowflake: 可以将 Vue 实例看作特殊的根组件。  
+
+#### 组件基本步骤语法糖
+
+```
+/* 全局注册 */
+Vue.component('my-cpn', {
+    template: `
+        <div>
+            <h2>大家好</h2>
+            <p>今晚去吃好吃的不</p>
+        </div>`
+}); 
+
+/* 局部注册 */
+components: {
+    'my-cpn': {
+        template: `
+            <div>
+                <h2>大家好</h2>
+                <p>今晚去吃好吃的不</p>
+            </div>`
+    }
+}
+```
+
+#### 模板的分离写法  
+
+```
+/* 方法1，用得较少 */
+<script type="text/x-template" id="myCpn">
+    <div>
+        <h2>大家好</h2>
+        <p>吃完饭了没有</p>
+    </div>
+</script>
+
+/* 方法2，写在 HTML 中 */
+<template id="myCpn">
+    <div>
+        <h2>大家好</h2>
+        <p>吃完饭了没有</p>
+    </div>
+</template>
+
+
+/* Vue */
+const demo = new Vue({
+    el: '#demo',
+    components: {
+        'my-cpn': {
+        template: '#myCpn'
+        }
+    }
+})
+```
+> 两个方法都需要用 `id` 引用到模板。  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
