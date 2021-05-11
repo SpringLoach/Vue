@@ -741,6 +741,121 @@ const demo = new Vue({
 ```
 > 两个方法都需要用 `id` 引用到模板。  
 
+#### 组件的复用  
+> 组件是可复用的 Vue 实例，与 `new Vue` 接收相同的选项。仅有的例外是像 `el` 这样根实例特有的选项。  
+
+```
+/* HTML */
+<template id="myCpn">
+    <div>
+        <p>{{message}}</p>
+    </div>
+</template>
+
+
+/* Vue */
+Vue.component('my-cpn', {
+    template: '#myCpn',
+    data() {
+        return {
+            message: '今晚的饭菜合胃口吗？'
+        }
+    }
+})
+```
+:snowflake: **一个组件的 `data` 选项必须是一个函数，因此每个实例可以维护一份被返回对象的独立的拷贝。**  
+:snowflake: 组件中的数据将保存在组件自身中，而不是存放到 Vue 实例。  
+
+#### 父子组件通信  
+
+\- 通过 props 向子组件传递数据  
+
+\- 通过事件向父组件发送消息  
+
+**#父传子**  
+> 通过**动态绑定**自定义属性，并将父组件的数据传入到子组件。   
+
+```
+<div id="demo">
+    <my-cpn :like="fruits"></my-cpn>
+</div>
+
+<template id="myCpn">
+    <div>
+        <p>{{message}}</p>
+        <p>{{like}}</p>
+    </div>
+</template>
+
+/* Vue */
+const demo = new Vue({
+    el: '#demo',
+    data: {
+        fruits: 'apple'
+    },
+    components: {
+        'my-cpn': {
+            template: '#myCpn',
+            props: ['like'],
+            data() {
+                return {
+                    message: '今晚的饭菜合胃口吗？'
+                }
+            }
+        }
+    }
+})
+```
+
+**#props的用法**  
+> `props` 选项的值通常为对象，在其中可以验证自定义属性的值等。
+
+1. 验证自定义属性的值的类型  
+2. 设置默认值  
+3. 设置为组件标签中的必填属性  
+4. 设置对象或数组的默认值，需从工厂函数获取
+5. 多个可能的类型
+6. 验证自定义属性的值是否与某项匹配
+
+```
+props: {
+    like1: String，
+    like2: {
+            type: String,
+            default: 'a'
+    }，
+    like3: {
+            type: Number,
+            default: 3,
+            required: true
+    }，
+    like4: {
+            type: Array,
+            default() {
+                return [];
+            }
+    },
+    like5: [String，Number],
+    like6: {
+        validator: funciton (value) {
+            return ['a','b','c'].indexOf(value) !== -1
+        }
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
