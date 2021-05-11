@@ -459,14 +459,106 @@ data: {
 
 :bug: 由于 JavaScript 的限制，Vue 不能检测数组和对象的变化（如更改某个索引的值）。  
 
+#### 购物车清算——补给
+
+1. 当在对象/数组循环中，需要用到元素的索引时，在 `v-for` 传入即可获取。  
+2. 使用过滤器，可以格式化数据。   
+```
+{{totalPrice | showPrice}}
+
+/* Vue */
+/* 过滤器，将 | 前的值作为参数 */
+filters: {
+    showPrice(price) {
+        return '￥'+ price.toFixed(2); 
+    }
+}
+```  
+3.保留小数：`toFixed()`    
+4.很多时候，遍历数组元素 `for-in` 要比遍历索引值`for-of`更方便。 
+
+#### 表单输入绑定  
+> 可以用 `v-model` 指令在表单元素上创建**双向**数据绑定。
+
+ 适用元素 | 说明
+ :-: | :-:
+ <input\> | radio、checkbox、text
+ <textarea\> | 文本区域
+ <select\> | 单选或多选菜单
+   
+```
+/* 语法糖 */
+<input type="text" v-model="message">
+
+/* 等价于 */
+<input type="text" :value="message1" @input="message1 = $event.target.value">
+```
+:snowflake: `v-model` 会忽略所有表单元素的一些初始值，将 Vue 实例的数据作为数据来源。故应该在组件的 `data选项` 中声明初始值。
+
+#### 结合radio类型使用  
+> 
+
+```
+<label>
+    <input type="radio" value="男" v-model="message">男孩
+</label>
+<label>
+    <input type="radio" value="女" v-model="message">女孩
+</label>
+
+/* Vue */
+data: {
+    message: '女'
+}
+```
+:snowflake: 为了让选项互斥，一般会给它们加上拥有相同值的 `name` 属性，这里用 `v-model` 也可以达到同样效果。  
+
+
+```
+<label for="male">
+    <input type="radio" id="male" value="男" v-model="message">男性
+</label>
+<label for="female">
+    <input type="radio" id="female" value="女" v-model="message">女性
+</label>
+```
+:snowflake: `label` 中的 for 和 `input` 中的 id 相同时会形成关联。
+
+#### 结合checkbox类型使用  
+
+```
+/* 单选框 */
+<input type="checkbox" v-model="message">已阅读并同意相关协议
+
+/* 复选框 */
+<input type="checkbox" value="篮球" v-model="hobbies">篮球
+<input type="checkbox" value="足球" v-model="hobbies">足球
+<input type="checkbox" value="乒乓球" v-model="hobbies">乒乓球
+<input type="checkbox" value="羽毛球" v-model="hobbies">羽毛球
+    
+
+/* Vue */
+data: {
+    message: false,
+    hobbies: []
+}
+```    
+:snowflake: 单选框的值为布尔值。  
 
 
 
 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
