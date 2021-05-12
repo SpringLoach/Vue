@@ -632,6 +632,14 @@ Vue.component('my-cpn', cpnC);  // 第一个参数为注册组件的标签名
 ```
 :snowflake: `template`模板 定义的元素要放在一个根元素中。
 
+**#单标签**
+> 使用组件时，若不需要传递什么东西，可以使用单标签  
+```
+<div id="demo">
+    <my-cpn/>
+</div>
+```
+
 #### 全局注册与局部注册  
 
 需要局部注册时，在 Vue 实例中加上 `components` 选项。此时，只有该实例中才能使用被注册的组件。
@@ -709,6 +717,8 @@ components: {
     }
 }
 ```
+:snowflake: 类似于根组件必须传一个 `el`，组件也必须传一个 `template`。
+
 
 #### 模板的分离写法  
 
@@ -845,7 +855,7 @@ props: {
 }
 ```
 
-#### Prop的大小写  
+**#Prop的大小写**  
 
 命名方式 | 使用属性模板 | 使用字符串模板
  :-: | :-: | :-:
@@ -902,17 +912,74 @@ const demo = new Vue({
 1. 发射自定义事件： 在 `this.$emit()` 中，第一个参数为自定义事件名，第二个参数为传给自定义事件处理程序的参数。  
 2. 在 HTML 中，若自定义事件的方法不带括号，默认传参将不会是 `event对象`。  
 
+#### 案例——父子组件双向绑定   
+
+1. 父传子：在父模板中使用子自定义属性并赋值（父数据）    
+2. 子传子：在 computed 中新建一个变量，并接受自定义属性的值    
+3. 在 `input` 事件处理程序中，绑定变量与 `event.target.value`，然后将变量发送到父组件    
+4. 在父组件的相应位置，监听自定义事件，并将（父数据）赋值为变量   
+
+:herb: 表单元素不能在双向绑定的同时，又将 value 绑定为父的数据。  
 
 
+#### 父访问子
+> 有 `$children` 和 `$refs` 两种方式，实际开发基本只使用 `$refs`。
+
+```
+/* 根模板 */
+<div id="demo">
+    <my-cpn></my-cpn>
+    <button @click="btnClick">+</button>
+</div>
+
+/* Vue根组件 */
+methods: {
+    btnClick() {
+        this.$children[0].call();
+        console.log(this.$children[0].today);
+    }
+}
+```
+> 假设子组件中有一个 call 方法和 today 属性。  
+
+:snowflake: 可以根据索引值来找到对应的子组件，访问其中的属性或方法。  
 
 
+```
+/* 根模板 */
+<div id="demo">
+    <my-cpn ref="one"></my-cpn>
+    <button @click="btnClick">+</button>
+</div>
 
+/* Vue根组件 */
+methods: {
+    btnClick() {
+        this.$refs.one.call();
+        console.log(this.$refs);
+    }
+}
+```
+:snowflake: 使用这种方式访问的子组件，必须提供 `ref` 属性。也因此，避免了一些在未来混淆的可能。  
 
+#### 子访问父  
+> 通过 `$children` 访问父组件，通过 `$root` 访问根组件。实际上，用得并不多。  
 
+```
+/* 子模板 */
+<template id="myCpn">
+    <button @click="btnClick">+</button>
+</template>
 
-
-
-
+/* 子组件 */
+methods: {
+    btnClick() {
+        this.$children.call();
+        console.log(this.$children);
+    }
+}
+```
+> 假设父（根）组件中有一个 call 方法和 today 属性。  
 
 
 
