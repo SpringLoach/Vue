@@ -373,6 +373,7 @@ computed: {
  .once | 只触发一次回调
 
 #### 条件渲染  
+> 需要多个方案时，指令用到不同的同胞节点上。  
 
 ```
 /* HTML */
@@ -763,14 +764,14 @@ Vue.component('my-cpn', {
     }
 })
 ```
-:snowflake: **一个组件的 `data` 选项必须是一个函数，因此每个实例可以维护一份被返回对象的独立的拷贝。**  
+:snowflake: **一个组件的 `data` 选项必须是一个函数，也因此每个实例可以维护一份被返回对象的独立的拷贝。**  
 :snowflake: 组件中的数据将保存在组件自身中，而不是存放到 Vue 实例。  
 
 #### 父子组件通信  
 
 \- 通过 props 向子组件传递数据  
 
-\- 通过事件向父组件发送消息  
+\- 通过自定义事件向父组件发送消息  
 
 **#父传子**  
 > 通过**动态绑定**自定义属性，并将父组件的数据传入到子组件。   
@@ -843,6 +844,69 @@ props: {
     }
 }
 ```
+
+#### Prop的大小写  
+
+命名方式 | 使用属性模板 | 使用字符串模板
+ :-: | :-: | :-:
+ camelCase | kebab-case | camelCase
+ kebab-case | kebab-case | camelCase
+
+**#子传父**   
+
+- 在子组件中，通过 `$emit()` 来触发事件  
+- 在父组件中，通过 `v-on` 来监听子组件事件  
+
+```
+// 在父组件的相应位置，监听自定义事件
+<div id="demo">
+    <my-cpn @click-today="getToday"></my-cpn>
+</div>
+
+// 在子组件中，通过某些事件触发方法，在方法中发射自定义事件
+<template id="myCpn">
+    <div>
+        <h2>大家好</h2>
+        <button @click="btnClick(today)">今天天气</button>
+    </div>
+</template>
+
+/* 子组件构造器对象 */
+const cpn = {
+    template: '#myCpn',
+    data() {
+        return {
+            today: 'sunny'
+        }
+    },
+    methods: {
+        btnClick(today) {
+            this.$emit('click-today', today)
+        }
+    }
+}
+
+/* Vue */
+const demo = new Vue({
+    el: '#demo',
+    components: {
+        'my-cpn' : cpn
+    },
+    methods: {
+        getToday(today) {
+            console.log(today);
+        }
+    }
+})
+```
+1. 发射自定义事件： 在 `this.$emit()` 中，第一个参数为自定义事件名，第二个参数为传给自定义事件处理程序的参数。  
+2. 在 HTML 中，若自定义事件的方法不带括号，默认传参将不会是 `event对象`。  
+
+
+
+
+
+
 
 
 
