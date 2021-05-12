@@ -981,11 +981,61 @@ methods: {
 ```
 > 假设父（根）组件中有一个 call 方法和 today 属性。  
 
+#### 插槽的基本使用  
+> 组件的插槽是为了让封装的组件更加具有扩展性。  
 
+1. 插槽 `<slot>` 定义到模块内的某个位置（根元素内），组件标签中添加的内容会替换到相应的位置。  
+2. 插槽内部有内容时，默认渲染。组件标签中有内容时，则会替代插槽的内容。  
 
+```
+<div id="demo">
+    <my-cpn></my-cpn>
+    <my-cpn>b</my-cpn>
+    <my-cpn>
+        <p>c</p>
+        <p>d</p>
+    </my-cpn>
+</div>
 
+<template id="myCpn">
+    <div>
+        <slot>a</slot>
+        <p>some text.</p>
+    </div>
+</template>
+```
 
+#### 具名插槽的使用  
+> 给 `<slot>` 添加 `name` 属性。并在模板需要的地方添加 `slot` 属性。  
 
+```
+<div id="demo">
+    <my-cpn></my-cpn>
+    <my-cpn>
+        <span slot="left">变</span>
+        <span slot="right">变</span>
+    </my-cpn>
+    <my-cpn>变中</my-cpn>
+</div>
+
+<template id="myCpn">
+    <div>
+        <slot name="left"><span>左</span></slot>
+        <slot><span>中间</span></slot>
+        <slot name="right"><span>右</span></slot>
+    </div>
+</template>
+```
+
+#### 编译作用域   
+> 某一模板中的变量，匹配自身组件中的值。
+
+```
+<div id="demo">
+    <my-cpn v-show="isShow"></my-cpn>
+</div>
+```
+> 这个栗子的 isShow 变量将对应到 Vue 实例中。   
 
 
 
