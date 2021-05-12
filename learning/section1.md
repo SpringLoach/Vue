@@ -1028,7 +1028,7 @@ methods: {
 ```
 
 #### 编译作用域   
-> 某一模板中的变量，匹配自身组件中的值。
+> 某一模板中的变量，匹配自身组件（作用域）中的值。
 
 ```
 <div id="demo">
@@ -1037,7 +1037,35 @@ methods: {
 ```
 > 这个栗子的 isShow 变量将对应到 Vue 实例中。   
 
+#### 作用域插槽  
+> 父组件替换插槽的标签，且内容来自子组件。  
 
+1. 向子模板的 `<slot>` 中添加一个任意名的绑定属性（名称小写），值为子组件要传递的内容  
+2. 在父模板的对应位置添加 `<template>`，并添加一个 `slot-scope` 属性  
+3. 这时就可以通过它们来获取内容，并处理了  
+
+```
+/* 父组件模板 */
+<div id="demo">
+    <my-cpn></my-cpn>
+    <my-cpn>
+        <template slot-scope="aaa">
+            {{aaa.data.join(' - ')}}
+        </template>
+    </my-cpn>
+</div>
+
+/* 子组件模板 */
+<template id="myCpn">
+    <div>
+        <slot :data="fruits">
+            <ul>
+                <li v-for="item in fruits">{{item}}</li>
+            </ul>
+        </slot>
+    </div>
+</template>
+```
 
 
 
