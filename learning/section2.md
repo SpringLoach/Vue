@@ -469,10 +469,20 @@ name: 'img/[name].[hash:8].[ext]'
  ext | 使用图片原来的拓展名
  [\] | 代表变量
 
+**#webpack中将ES6语法转化为ES5**   
 
+1. 安装loader  
+```
+/* es6 转换成 es5 */
+npm install --save-dev babel-loader@7.1.5 babel-core@6.26.3 babel-preset-es2015@6.24.1
+```
 
-
-
+2. 配置loader  
+```
+/* 按官网配置后，修改这个配置 */
+presets: ['es2015']
+```
+:star: 其中的 `exclude` 属性表示排除哪些文件。  
 
 
 
