@@ -175,7 +175,9 @@ objectA.show();
       + ...
     - css
       + normal.css
+      + special.less
       + ...
+    - img
   + dist
   + index.html
 
@@ -369,15 +371,103 @@ module.exports = {
 
 4. 这时就可以正常的将 css 文件打包了
 
+**#webpack中使用less文件**  
 
+0. 新建文件 `special.less`
+```
+@fontSize: 100px;
 
+body {
+    font-size: @fontSize;
+}
+```
 
+1. 添加依赖
+> 在 `main.js` 最后加上这段代码，为指定 less文件添加依赖。  
+```
+require("./css/special.less")
+document.writeln("<h2>你好，生活！</h2>");
+```
 
+2. 安装loader  
+```
+/* less-loader */
+npm install --save-dev less-loader@4.1.0 less@3.9.0
+```
 
+3. 配置loader
+```
+把 rules 数组中的对象添加到相应位置。
+```
 
+**#webpack中使用图片文件**  
 
+0. 更新文件 `normal.css`
+```
+body {
+    background: url(../img/阿米娅2.png);
+}
+```
+1. 添加依赖
+```
+之前已经将该文件添加了依赖
+```
 
+2. 安装loader  
 
+- `url-loader` 像 `file loader` 一样工作，但如果文件小于限制，可以返回 data URL。  
+- `file-loader` 将文件发送到输出文件夹，并返回（相对）URL。  
+
+```
+/* url-loader */
+npm install --save-dev url-loader@1.1.2
+
+/* file-loader */
+npm install --save-dev file-loader@3.0.1
+```
+
+3. 配置loader  
+> 其中的 `limit` 将限制图片文件大小。  
+```
+...
+options: {
+    limit: 17000
+}
+...
+```
+:href: 只需要配置 `url-loader`，不然会报错。  
+
+4. 图片限制  
+- 若图片小于限制   
+
+  + 将图片编译成 base64 字符串形式。  
+
+- 若图片大于限制    
+
+  + 需要使用 `file-loader` 模块进行加载。且将会在 `dist` 目录下，生成一个通过哈希算法命名的图片文件。  
+  
+  + 由于此时的 `index.html`文件不在 `dist` 中，默认找的路径不对。需要在 `webpack.config.js` 中添加如下代码，拼接路径。
+```
+output: {
+    ...
+    publicPath: 'dist/'
+}
+```
+
+5. 更改图片默认命名方式  
+> 默认的 32 位 hash 值，不一定能满足需求。此时可以在 `webpack.config.js`-`url-loader` 对应的 `options` 中，添加如下选项。    
+
+```
+name: 'img/[name].[hash:8].[ext]'
+```
+
+ 选项 | 说明
+ :-: | :-: 
+ img | 文件要打包到的文件夹
+ name | 获取图片原来的名字
+ hash8 | 防止图片名称冲突
+ ext | 使用图片原来的拓展名
+ [\] | 代表变量
 
 
 
