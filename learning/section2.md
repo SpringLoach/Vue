@@ -170,8 +170,12 @@ objectA.show();
 - 项目文件
   + src
     - main.js
-    - mathUtils.js
-    - ...
+    - js
+      + mathUtils.js
+      + ...
+    - css
+      + normal.css
+      + ...
   + dist
   + index.html
 
@@ -182,10 +186,10 @@ objectA.show();
  index.html | 最终也会添加到 `dist` 中
  main.js | 源文件，也可以命名为 index.js
  
-1. 建立一些模块
+1. 建立一些**存在依赖关系的**模块
 ```
 /* main.js*/
-import {fruit, eat} from "./mathUtils"
+import {fruit, eat} from "./js/mathUtils"
 
 console.log(fruit);
 eat();
@@ -302,7 +306,7 @@ npm run build
 webpack
 ```
 
-**#局部安装webpack**  
+**#webpack的局部安装**  
 > 项目一般在（本地）局部安装 webpack，因为不同的项目依赖的版本不同。  
 
 ```
@@ -319,6 +323,52 @@ npm install webpack@3.6.0 --save-dev
   + 项目文件下的 node_modules/.bin/webpack 中使用相关命令  
 
 :snowflake: `package.json` 中的脚本在执行时，先寻找本地的 node_modules/.bin 路径中的命令，找不到就到全局环境找。  
+
+----
+#### 拓展loader
+> 给 webpack 拓展对应的 loader，就可以具备加载css、图片等的能力。  
+
+1. 通过 npm 安装需要使用的 loader，指令可以到[官网](https://www.webpackjs.com/loaders/)中找。  
+
+2. 在 `webpack.config.js` 中的 `modules` 关键字下进行配置。
+
+**#webpack中使用css文件**  
+> 
+
+1. 添加依赖
+> 在 `main.js` 最后加上这段代码，为指定 css文件添加依赖。  
+```
+require("./css/normal.css")
+```
+
+2. 安装loader  
+```
+/* 项目文件下 */
+/* css-loader，负责将 css 文件进行加载 */
+npm install css-loader@2.0.2 --save-dev
+
+/* style-loader，负责将样式添加到 DOM 中 */
+npm install style-loader@0.23.1 --save-dev
+```
+
+3. 配置loader    
+> 创建 `module.exports` 并添加相应对象。  
+```
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
+      }
+    ]
+  }
+}
+```
+:star2: 使用多个 loader 时，使用顺序是从右向左。
+
+4. 这时就可以正常的将 css 文件打包了
+
 
 
 
