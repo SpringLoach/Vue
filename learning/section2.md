@@ -182,6 +182,157 @@ objectA.show();
  index.html | 最终也会添加到 `dist` 中
  main.js | 源文件，也可以命名为 index.js
  
+1. 建立一些模块
+```
+/* main.js*/
+import {fruit, eat} from "./mathUtils"
+
+console.log(fruit);
+eat();
+
+/* mathUtils.js */
+let fruit = '波罗蜜'
+function eat() {
+    console.log('午饭');
+}
+
+export {fruit, eat}
+```
+> 这里使用了 ES6 的模块化规范，也可以使用 CommonJS 规范。  
+> 
+> 使用 webpack 打包时，`import .. from` 后面的文件可以不加后缀 `.js`
+
+2. 打包源文件 
+  - 在 VScode 中调出终端 `Ctrl`+`~` ，并切换到 cmd[Command Prompt\]  
+  - 使用 `cd` 到项目文件
+  - 将源文件打包 `webpack ./src/main.js ./dist/bundle.js`
+  
+:star2: webpack 将自动处理模块间的依赖关系。  
+:herb: 找不到 webpack 时试试以管理员身份打开 VScode。 
+
+3. 引用打包后的文件  
+```
+/* index.html */
+<script src="./dist/bundle.js"></script>
+```
+
+4. 更改源码后的更新  
+```
+重新打包，即再次执行第二步
+```
+
+#### 配置webpack文件  
+
+**#配置默认打包源文件路径**
+
+1. 添加配置文件 `webpack.config.js`
+
+- 项目文件
+  + webpack.config.js
+
+ 键 | 说明
+ :-: | :-: 
+ entry | 需要打包的源文件
+ path | 打包的绝对路径
+ filename | 打包后的文件
+ ... | node 相关的一些内容
+ require | 导出
+ path.resolve() | 拼接路径
+ \_\_dirname | 当前文件所在路径，注意是双下划线
+
+```
+/* webpack.config.js */
+const path = require('path')
+
+module.exports = {
+    entry: './src/main.js',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js'
+    }
+}
+```
+上面代码中的首行中使用了需要依赖 node 相关的包，故需要进行安装，此时最好初始化 `node`。  
+
+2. 初始化 node，生成 package.json 文件
+```
+/* cmd，项目文件下 */
+npm init
+```
+
+ 提示 | 操作 | 说明
+ :-: | :-: | :-: 
+ packagename | meetwebpack | 不能使用中文和符号
+ ... | 回车 | /
+ entry point | index.js | 这里是随便写的，因为暂时没用上
+ ... | 回车 | / 
+ Is this OK？| 回车 | /
+ 
+3. 若此时需要依赖其它的东西  
+> 将会根据 package.json 中的依赖进行安装。  
+```
+/* cmd，项目文件下 */
+npm install
+```
+
+4. 以后打包时，就可以简化命令了
+```
+/* cmd，项目文件下 */
+webpack
+```
+
+**#配置命令（快捷键）**  
+
+1. 打开 `package.json` 文件  
+2. 在 "script"对象下添加键值对  
+
+```
+"script": {
+    ...,
+    "build": "webpack"
+},
+```
+
+3. 以后打包时，就可以简化命令了
+```
+/* cmd，项目文件下 */
+npm run build
+
+/* 相当于 */
+webpack
+```
+
+**#局部安装webpack**  
+> 项目一般在（本地）局部安装 webpack，因为不同的项目依赖的版本不同。  
+
+```
+/* cmd，项目文件下 */
+npm install webpack@3.6.0 --save-dev
+```
+> `--save-dev`：开发时依赖，项目打包后不需要继续使用的东西。  
+
+**#webpack的全局使用与本地使用**  
+- 全局使用  
+  + 项目文件下使用 `webpack`  
+- 局部使用    
+  + 项目文件下使用先前配置好的脚本对应命令 `npm run build` ，优先在本地查找变量  
+  + 项目文件下的 node_modules/.bin/webpack 中使用相关命令  
+
+:snowflake: `package.json` 中的脚本在执行时，先寻找本地的 node_modules/.bin 路径中的命令，找不到就到全局环境找。  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
