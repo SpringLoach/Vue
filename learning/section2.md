@@ -133,7 +133,7 @@ objectA.show();
 **#webpack的模块化和打包**   
 
 - 模块化  
-  + 以往通过模块化开发的项目，还需要手动处理模块间的各种依赖（如导出导入）。  
+  + 以往通过模块化开发的项目，在模块间会产生各种依赖（如导出导入）。  
   + 而 webpack 其中一个核心就是让我们可能进行模块化开发，并且会帮助我们处理模块间的依赖关系。
 - 打包  
   + 打包就是将 webpack 中的各种资源模块进行打包合成一个或多个包。
@@ -164,6 +164,26 @@ objectA.show();
  查看 node 版本 | `node - v` | 如果没安装，到官网下载
  全局安装 webpack | `npm install webpack@3.6.0 -g` | 版本号是暂时指定的
  查看 webpack 版本 | `webpack - v` | /
+
+#### 使用webpack  
+
+- 项目文件
+  + src
+    - main.js
+    - mathUtils.js
+    - ...
+  + dist
+  + index.html
+
+ 文件 | 说明
+ :-: | :-: 
+ src文件夹 | 源码，进行开发的地方
+ dist文件夹 | 翻译为发布。最终会打包、发送到服务器
+ index.html | 最终也会添加到 `dist` 中
+ main.js | 源文件，也可以命名为 index.js
+ 
+
+
 
 
 
