@@ -317,7 +317,7 @@ npm install webpack@3.6.0 --save-dev
 ```
 > `--save-dev`：开发时依赖，项目打包后不需要继续使用的东西。  
 
-**#webpack的全局使用与本地使用**  
+#### #webpack的全局使用与本地使用
 - 全局使用  
   + 项目文件下使用 `webpack`  
 - 局部使用    
@@ -810,9 +810,61 @@ module.exports = {
 <script src="./dist/bundle.js"></script>
 ```
 
+**#UglifyjsWebpackPlugin的使用**  
+> 在项目发布前，需要对 js 等文件进行压缩处理 。  
 
+1. 安装plugin
+```
+/* 项目文件下 */
+npm install uglifyjs-webpack-plugin@1.1.1 --save-dev
+```
 
+2. 配置plugin
+```
+const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
 
+plugins: [
+    new UglifyjsWebpackPlugin()
+]
+```
+:star2: 将删除所有的注释，与 `横幅plugin` 相冲突。  
+
+**#Webpack-dev-server搭建本地服务器**  
+> Webpack 提供了一个可选的本地开发服务器，这个本地服务器基于 node.js 搭建，内部使用 express 框架，可以实现浏览器自动刷新，类似于 VScode 中的 `live-server` 的效果。
+
+这个服务器缓存到内存中，读取速度比磁盘快得多，在得到想要的结果、调试结束后，使用 `Ctrl` + `C` 终止命令，然后打包。
+
+1. 安装
+```
+/* 项目文件下 */
+npm install --save-dev webpack-dev-server@2.9.3
+```
+
+2. 配置
+
+ 配置选项 | 说明
+ :-: | :-: 
+ contentBase | 为哪一个文件夹提供本地服务，默认是根文件 
+ port | 端口
+ inline | 页面实时刷新
+ historyApiFallback | 在SPA页面中，依赖HTML5的history模式 
+
+```
+module.exports = {
+    ...,
+    devServer: {
+        contentBase: './dist',
+        inline: true
+    }
+}
+```
+
+3. 运行  
+> 这个命令涉及到webpack的[全局使用与本地使用](##webpack的全局使用与本地使用)  
+```
+ .\node_modules\.bin\webpack-dev-server --open
+```
+> 加上 `--open` 可以在运行命令时，自动打开窗口。  
 
 
 
