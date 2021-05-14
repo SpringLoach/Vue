@@ -534,7 +534,11 @@ new Vue({
 })
 ```
 
-#### 创建Vue时，template和el的关系  
+----
+
+#### Vue的抽离写法
+
+**#创建Vue时，template和el的关系**
 
 选项 `template` 中的内容会替换挂载元素。
 
@@ -559,6 +563,79 @@ new Vue({
 })
 ```
 :snowflake: 注意模版中需要有一个根元素。  
+
+
+**#Vue的抽离原理一**  
+
+可以将子组件当作根实例的模板使用。
+
+```
+/* 子组件cdiv */
+const cdiv = {
+  template:`
+  <div>
+        <button>weiwei</button>
+        <h2>{{message}}</h2>
+  </div>`,
+  data() {
+        return {
+            message: 'abc'
+        }  
+    }
+}
+
+/* Vue实例 */
+new Vue({
+    el: '#demo',
+    template: '<cdiv></cdiv>',
+    components: {
+      cdiv
+    }
+})
+```
+
+**#Vue的抽离原理二**  
+
+- src
+  + vue
+    - app.js
+
+```
+/* main.js */
+import Vue from 'vue'
+import cdiv from "./vue/app"
+
+new Vue({
+    el: '#demo',
+    template: '<cdiv></cdiv>',
+    components: {
+      cdiv
+    }
+})
+
+/* app.js */
+export default  {
+    template:`
+    <div>
+          <button>weiwei</button>
+          <h2>{{message}}</h2>
+    </div>`,
+    data() {
+          return {
+              message: 'abc'
+          }  
+      }
+  }
+```
+
+
+
+
+
+
+
+
+
 
 
 
