@@ -317,7 +317,7 @@ npm install webpack@3.6.0 --save-dev
 ```
 > `--save-dev`：开发时依赖，项目打包后不需要继续使用的东西。  
 
-#### #webpack的全局使用与本地使用
+#### webpack的全局使用与本地使用
 - 全局使用  
   + 项目文件下使用 `webpack`  
 - 局部使用    
@@ -860,13 +860,63 @@ module.exports = {
 ```
 
 3. 运行  
-> 这个命令涉及到webpack的[全局使用与本地使用](##webpack的全局使用与本地使用)  
+> 这个命令涉及到webpack的[全局使用与本地使用](#webpack的全局使用与本地使用)。  
 ```
  .\node_modules\.bin\webpack-dev-server --open
+ 
+ /* 另外的方法，在 package.json 的脚本中加入 */
+ "dev": "webpack-dev-server --open"
+ /* 然后就可以执行 */
+ npm run dev
 ```
-> 加上 `--open` 可以在运行命令时，自动打开窗口。  
+> 加上 `--open` 可以在运行命令时，自动打开窗口。   
 
+:herb: 以 `.` 开头的路径要使用反斜杠。
 
+**#Webpack-配置文件的分离**  
+
+- 项目文件
+  + build
+    - base.config.js
+    - prod.config.js
+    - dev.config.js
+
+ 文件 | 包含配置
+ :-: | :-:
+ base.config.js | 公共 
+ prod.config.js | 生产 
+ dev.config.js | 开发  
+ 
+实际使用时，将 `base.config.js` 的配置添加到生产/开发的配置中。  
+ 
+1. 安装
+```
+npm install webpack-merge@4.1.5 --save-dev
+```
+ 
+ 
+2. 合成配置（以生产为例） 
+- 在生产文件中导入 `webpack-merge` 和 `base.config` 文件  
+- 使用 `webpackMerge()` 方法合并 `base.config` 文件与生产配置 `module.exports` 
+ 
+```
+const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
+const webpackMerge = require('webpack-merge')
+const baseConfig = require('./base.config')
+
+module.exports = webpackMerge(baseConfig ,{
+    plugins: [
+      new UglifyjsWebpackPlugin()
+  ]
+})
+ ```
+
+3. 指定配置文件  
+```
+/* package.json 的脚本中 */
+"build": "webpack --config ./build/prod.config.js"
+"dev": "webpack-dev-server --open --config ./build/dev.config.js"
+```
 
 
 
