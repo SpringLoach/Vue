@@ -687,7 +687,7 @@ npm install
 
 :star2: 在 `VScode` 中创建文件后，输入 vue 可以快速创建模板（:grey_question: 要插件）。
 
-![vue用法](./img/vue用法.jpg)  
+![vue用法](./img/vue用法1.jpg)  
 
 举个栗子  
 > 在这里是可以不添加 `template` 选项滴。
@@ -738,7 +738,89 @@ components: {
 resolve:{
     extensions: ['.js', '.css', '.vue']
 }
+```
+
+----
+
+#### plugin的使用
+
+- `loader` 主要用于转换某些类型的模块，它是一个转换器。  
+- `plugin` 是插件，它是对 webpack 本身的扩展，是一个扩展器。
+
+使用过程  
+1. 通过 npm 安装（部分 `plugin` 已经在 webpack 中内置）。    
+2. 在 `webpack.config.js` 中配置插件。  
+
+**#横幅plugin的使用**  
+> 可用于在文件的头部添加版权信息等。  
 
 ```
+const webpack = require('webpack')
+
+module.explorts = {
+    ...
+    plugins: [
+        new webpack.BannerPlugin('最终版权归大自然所有')
+    ]
+}
+```
+> 首行的导入会自动到 `node_modules` 文件中去找。  
+
+**#HtmlWebpackplugin的使用**  
+> 将 `index.html` 打包到 `dist文件夹` 中（实际发布的项目内容）。
+
+1. 安装plugin
+```
+/* 项目文件下 */
+npm install html-webpack-plugin@3.2.0 --save-dev
+```
+
+2. 配置plugin
+```
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+plugins: [
+    new HtmlWebpackPlugin({
+        template: 'index.html'
+    })
+]
+```
+
+生成的 `index.html` 将自动引入 `bundle.js` ，即打包后的文件。  
+
+此时可以将先前添加的默认路径配置 `publicPath` 删除
+```
+module.exports = {
+    output: {
+        publicPath: 'dist/'
+    }
+}
+```
+
+但自动生成的 `index.html` 中没有引入根模板，故我们在配置中加入了 `index.html` 的模板。
+
+它将到 `webpack.config.js` 所在的目录下寻找 `index.html` 作为模板。
+
+此时还需要修改 `index.html` 模板的一些内容。
+```
+/* 保留 */
+<div id="demo"></div>
+
+/* 删除 */
+<script src="./dist/bundle.js"></script>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
