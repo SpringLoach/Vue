@@ -918,6 +918,68 @@ module.exports = webpackMerge(baseConfig ,{
 "dev": "webpack-dev-server --open --config ./build/dev.config.js"
 ```
 
+----
+
+#### vue-cli脚手架的介绍和安装  
+
+通过 Vue.js 开发大型项目时需要考虑代码目录结构、项目结构和部署、热加载、代码单元测试等事情。使用脚手架工具可以帮助我们更高效地完成这些事情。   
+
+使用 `vue-cli` 可以快速搭建 Vue 开发环境以及对应的 webpack 配置。  
+
+vue-cli使用前提   
+- Node  
+- Webpack  
+
+1. 安装  
+使用 `vue-cli` 写项目时一般不需要到本地安装，直接全局安装即可。
+```
+/* cmd 默认终端下 */
+npm install -g @vue/cli
+```
+
+2. 高版本中使用vue-cli2  
+> 脚手架3通过拉取模板也可以使用脚手架2  
+```
+/* cmd 默认终端下 */
+npm install -g @vue/cli-init -g
+```
+
+vue-cli2初始化项目   
+```
+vue init webpack my-project
+```
+
+vue-cli3初始化项目   
+```
+vue create my-project
+```
+
+初始化项目弹出选项  
+
+ 选项 | 说明 | 建议
+ :-: | :-: | :-:
+ Project name | 项目名称 | 回车（表示使用 `my-project`）
+ Project description | 项目描述 | /
+ Author | 个人信息 | liuxing <1007435098@qq.com\>
+ Vue build | ... | ...
+ Install vue-router? | 路由器 | n
+ Use ESLint to lint your code | 代码规范 | n
+ Set up unit tests | 单元测试 | n
+ Setup e2e tests with Nightwatch? | 测试相关 | n
+ Should we run `npm install` for you .. | 怎样管理包 | Yes，use NPM
+ 
+**淘宝 NPM 镜像**  
+> 使用 `cnpm` 代替 `npm`，在国内的下载速度更快。
+
+1. 安装 cnpm
+```
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+```
+2. 使用 cnpm 安装模块
+```
+cnpm install [name]
+```
+
 
 
 
