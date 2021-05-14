@@ -484,7 +484,81 @@ presets: ['es2015']
 ```
 :star: 其中的 `exclude` 属性表示排除哪些文件。  
 
+**#webpack中使用Vue**  
 
+1. 安装loader  
+```
+/* Vue*/
+npm install vue@2.5.21 --save
+```
+:star: vue在实际项目中也会用到，所以不仅是开发时依赖。   
+:herb: 安装后，vue 模块将默认从 `node_modules` 当中进行导出。
+
+2. 选择导出版本  
+> vue 有多个版本，大致上分为两大类。  
+
+ 版本 | 说明  
+ :-: | :-:   
+ runtime-only | 代码中，不可以有任何的 template（包括根模板）   
+ runtime-compiler | 代码中，可以编译 template  
+
+由于默认导出的版本为 `runtime-only`，所以需要更改它的配置。  
+
+```
+/* webpack.config.js */
+module.exports = {
+    ...
+    resolve: {
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js'
+        }
+    }
+}
+``` 
+
+3. 举个栗子
+```
+/* index.html */
+<div id="demo">
+    <h2>{{message}}</h2>
+</div>
+
+/* main.js */
+import Vue from 'vue'
+
+new Vue({
+   el: '#demo',
+   data: {
+       message: 'Hello aimeite!'
+   }
+})
+```
+
+#### 创建Vue时，template和el的关系  
+
+选项 `template` 中的内容会替换挂载元素。
+
+```
+/* index.html */
+<div id="demo"></div>
+
+/* main.js */
+import Vue from 'vue'
+
+new Vue({
+    el: '#demo',
+    template: `
+    <div>
+        <button>按钮</button>
+        <h2>{{message}}</h2>
+    <div/>
+    `,
+    data: {
+        message: 'abc'
+    }
+})
+```
+:snowflake: 注意模版中需要有一个根元素。  
 
 
 
