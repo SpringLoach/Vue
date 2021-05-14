@@ -488,7 +488,7 @@ presets: ['es2015']
 
 1. 安装loader  
 ```
-/* Vue*/
+/* 解析Vue */
 npm install vue@2.5.21 --save
 ```
 :star: vue在实际项目中也会用到，所以不仅是开发时依赖。   
@@ -596,6 +596,8 @@ new Vue({
 
 **#Vue的抽离原理二**  
 
+既然子组件被抽离成了一个对象，自然可以用模块化的方式将其从其它地方导入。  
+
 - src
   + vue
     - app.js
@@ -628,14 +630,115 @@ export default  {
   }
 ```
 
+**#Vue组件的抽离**   
 
+`.vue` 文件对应的其实就是一个组件，通过它可以实现组件的模板、Javascript 和样式分离。
 
+- src
+  + vue
+    - app.js
+    - App.js
 
+Tips: 后面有更具体的[Vue文件的用法](#Vue组件的抽离写法)。  
 
+在源文件中依赖 `vue` 文件
+```
+/* main.js */
+import Vue from 'vue'
+import cdiv from "./vue/App.vue"
 
+new Vue({
+    el: '#demo',
+    template: '<cdiv></cdiv>',
+    components: {
+      cdiv
+    }
+})
+```
 
+1. 安装loader 
+```
+/* vue-loader 和 vue-template-compiler */
+npm install --save-dev vue-loader@15.4.2 vue-template-compiler@2.5.21
+```
 
+2. 配置loader 
+```
+{
+  test: /\.vue$/,
+  use: ['vue-loader']
+}
+```
+> 在 `webpack.config.js`-`module.exports`-`module`中配置上面的代码。  
+> 
+> `use` 后使用中括号就不能添加更具体的配置了。
 
+此时可能会有版本冲突的问题，要作如下修改：
 
+```
+/* packge.json */
+"vue-loader": "^13.0.0",
+
+/* 项目文件下 */
+npm install
+```
+
+#### Vue组件的抽离写法
+
+:star2: 在 `VScode` 中创建文件后，输入 vue 可以快速创建模板（:grey_question: 要插件）。
+
+![vue用法](./img/vue用法.jpg)  
+
+举个栗子  
+> 在这里是可以不添加 `template` 选项滴。
+```
+<template>
+    <div><h2>{{message}}</h2></div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      message: 'abc'
+    }  
+  }
+}
+</script>
+
+<style>
+    body {color: green;}
+</style>
+```
+
+**#向组件中添加子组件**
+
+1. 在 `<script>` 标签内导入子组件
+> 没有[配置文件后缀](#配置文件后缀)前，不能缩写。
+```
+import Appc from "./Appc.vue"
+```
+
+2. 给 `export default` 对象添加组件选项（局部注册）
+```
+components: {
+    Appc
+}
+```
+
+3. 在 `<template>` 标签中使用子组件
+```
+<Appc/>
+```
+
+#### 配置文件后缀  
+
+在 `webpack.config.js` 文件中找到 `module.exports` - `resolve` 
+```
+resolve:{
+    extensions: ['.js', '.css', '.vue']
+}
+
+```
 
 
