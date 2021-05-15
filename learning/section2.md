@@ -931,7 +931,7 @@ vue-cli使用前提
 - Webpack  
 
 1. 安装  
-使用 `vue-cli` 写项目时一般不需要到本地安装，直接全局安装即可。
+> 使用 `vue-cli` 写项目时一般不需要到本地安装，直接全局安装即可。
 ```
 /* cmd 默认终端下 */
 npm install -g @vue/cli
@@ -943,6 +943,9 @@ npm install -g @vue/cli
 /* cmd 默认终端下 */
 npm install -g @vue/cli-init -g
 ```
+
+3. 初始化项目  
+> 将在当前文件夹下创建项目文件。  
 
 vue-cli2初始化项目   
 ```
@@ -967,6 +970,8 @@ vue create my-project
  Set up unit tests | 单元测试 | n
  Setup e2e tests with Nightwatch? | 测试相关 | n
  Should we run `npm install` for you .. | 怎样管理包 | Yes，use NPM
+ 
+:star2: 项目名称不要包含中文和大写。
  
 **淘宝 NPM 镜像**  
 > 使用 `cnpm` 代替 `npm`，在国内的下载速度更快。
