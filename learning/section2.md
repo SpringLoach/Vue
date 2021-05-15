@@ -1105,9 +1105,9 @@ new Vue({
 
 **#vue-cli3与vue-cli2的区别**  
   - vue-cli3基于 webpack 4 打造
-  - 移除了配置文件 `build` 和 `config`等
-  - 提供了 vue ui 命令
-  - 移除 `static`，新增 `public`，并将 `index.html` 移到了 `public` 内
+  - 移除了配置文件 `build` 和 `config`等。  
+  - 提供了 vue ui 命令，可以配置插件、依赖等。  
+  - 移除 `static`，新增 `public`，并将 `index.html` 移到了 `public` 内。  
 
 
 #### vuecli-3初始化项目弹出选项  
@@ -1136,10 +1136,10 @@ new Vue({
  E2E Testing | 端到端测试
 
 删除预设方式  
-> 我没找到噢...  
+> 实际上不一定在这个文件里，可以启用终端查看默认位置。  
 ```
 /* 删除这个文件里的预设对象 */
-c盘/Users/Administrator/.vuerc
+C:/Users/Administrator/.vuerc
 ```
 :star2: `rc` [run command\] 结尾的文件与 Linux、终端相关。
 
@@ -1194,14 +1194,29 @@ new Vue({
 }).$mount('#app')
 ```
 
+#### vuecli-3配置文件  
+> 在 vuecli-3 ，想要修改配置，有三种方案。    
 
+1. 启动配置服务器  
+```
+/* 项目文件下 */
+vue ui
+```
+> 选择 `导入`——（找到并进入项目文件）——`导入这个文件夹`——侧边栏可选插件、依赖、
 
+:herb: 运行依赖的 `vue` 和开发依赖的 `@vue/compiler-sfc` 版本必须一致，否则会报错。  
+:cyclone: `GUI`：用户界面
 
+2. 查找隐藏配置文件  
+> 在项目文件下，找到 `node_modules` - `@vue` - `cli-service` - `webpack.config.js`，其中又引用了当前文件夹下的 `lib` - `Service.js`。
 
+3. 在项目文件下创建配置文件。  
+> 名称固定为 `vue.config.js` ，它会自动与其它的隐藏配置文件进行合并处理。  
+```
+module.exports = {
 
-
-
-
+}
+```
 
 
 
