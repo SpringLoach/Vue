@@ -957,14 +957,14 @@ vue-cli3初始化项目
 vue create my-project
 ```
 
-初始化项目弹出选项  
+vue-cli2初始化项目弹出选项  
 
  选项 | 说明 | 建议
  :-: | :-: | :-:
  Project name | 项目名称 | 回车（表示使用 `my-project`）
  Project description | 项目描述 | /
  Author | 个人信息 | liuxing <1007435098@qq.com\>
- Vue build | ... | ...
+ Vue build | ... | [runtime-only](#runtime-complier和runtime-only)
  Install vue-router? | 路由器 | n
  Use ESLint to lint your code | 代码规范 | n
  Set up unit tests | 单元测试 | n
@@ -1031,7 +1031,7 @@ cnpm install [name]
  
 **#package.json**  
 1. 文件中的 `"script"`，指出了 `npm run build` 和 `npm run dev` 执行的具体内容。   
-2. 依赖文件，都放在 `node_modules` 中。
+2. 依赖文件，分为开发时依赖和运行时依赖，都放在 `node_modules` 中。
 3. 其中的 `babel-preset-env` 和 `babel-preset-stage-2` 与 `.babelrc` 文件相关。  
 4. `^` 表示后面两节可以更高，`~`表示最后一节可以更高，栗子`4.15.0`。  
 
@@ -1048,6 +1048,152 @@ cnpm install [name]
 > node 由 C++ 编写，使用的是 V8 引擎(编译为二进制代码)，而且能为 JavaScript 提供运行环境。
 
 指令 node 可以直接执行 `.js` 文件。
+
+**#eslint规范**  
+> 在安装了 `ESLint` 后取消该规范：在 `config` - `index.js` 中
+```
+useEslint: flase
+```
+
+#### runtime-complier和runtime-only
+
+![runtime](./img/runtime.jpg)
+
+ 文件 | 说明 | 对比 
+ :-: | :-: | :-: 
+ runtime-complier | template -> ast -> render -> vdom -> UI | /
+ runtime-only  | render -> vdom -> UI | 性能更高，代码量更少
+
+**#render函数**  
+> 用作组件的一个选项。传入的参数实际上为 createElement 方法，生成的内容将**替换挂载元素**。  
+
+1. 用法一
+
+ 参数 | 说明 
+ :-: | :-: 
+ 必选 | 标签 | /
+ 可选  | 对象，传入属性
+ 可选  | 数组，传入内容
+
+```
+render: function(createElement) {
+    return createElement('h2',
+        {class: 'box'},
+        ['Hey man!', createElement('button', ['按钮'])]
+);
+}
+```
+
+2. 用法二
+
+传入组件对象。  
+```
+new Vue({
+    el: '#app',
+    render: function(h) {
+        return h(App);
+    }
+})
+```
+
+**#runtime-only中的组件**
+> 使用 `runtime-only` 时，.vue 文件中的 template 是如何编译的？  
+
+是由默认安装的 loader `vue-template-complier`（开发时依赖）将 template 编译成了 render 函数。  
+
+----
+
+**#vue-cli3与vue-cli2的区别**  
+  - vue-cli3基于 webpack 4 打造
+  - 移除了配置文件 `build` 和 `config`等
+  - 提供了 vue ui 命令
+  - 移除 `static`，新增 `public`，并将 `index.html` 移到了 `public` 内
+
+
+#### vuecli-3初始化项目弹出选项  
+
+ 选项 | 说明 | 建议
+ :-: | :-: | :-:
+ Please pick a preset | 预设方式 | Manually select features
+ Check the feature... | 选择项目需要的特性 | /
+ Where do you prefer placing config... | 如何保存配置文件 | In dedicated config files（分别独立保存）
+ Save this as a preset for future projects? | 是否保存为预设方式 | /
+ Save preset as: | 保存预设方式的名称 | /
+ Pick the package manager to use... | 怎样管理包 | Use NPM
+ 
+特性
+ 
+ 选项 | 说明 
+ :-: | :-:
+ Babel | ES6转ES5
+ Typescript | /
+ Progressive Web App （PWA） Support | 先进版，新增了一些功能（如推送通知）
+ Rounter | 路由
+ Vuex | 状态管理
+ CSS Pre-processors | CSS预处理器
+ Linter / Formatter | 代码规范检测
+ Unit Testing | 单元测试
+ E2E Testing | 端到端测试
+
+删除预设方式  
+> 我没找到噢...  
+```
+/* 删除这个文件里的预设对象 */
+c盘/Users/Administrator/.vuerc
+```
+:star2: `rc` [run command\] 结尾的文件与 Linux、终端相关。
+
+#### vuecli-3的目录结构  
+
+- 项目文件
+  + node_modules
+  + public
+    - index.html
+  + src
+    - main.js
+  + .browerslistrc
+  + .gitignore
+  + babel.config.js
+  + package.json
+  + package-lock.json
+  + postcss.config.js
+  + README.md
+  
+ 文件 | 说明 
+ :-: | :-: 
+ public | 静态资源。相当于以前的 static`
+ src | 开发。写代码的地方 
+ static | 静态资源。将图片等资源复制到 `dist`，不会更改及重命名
+ .browerslistrc | 浏览器相关适配
+ babel.config.js | 对 babel 相关的配置
+ postcss.config.js | css转化相关
+
+**#package.json**  
+
+其中的 `@vue/cli-plugin-babel` 和 `@vue/cli-service` 帮助管理了很多配置。
+
+**#dev的新实现**
+```
+npm run serve
+
+/* 取代了 */
+    | |
+     v
+npm run dev
+```
+
+**#`main.js`的变化**  
+
+```
+/* 查看构建信息 */ 
+Vue.config.productionTip = false
+
+/* 等价的挂载方式 */
+new Vue({
+    render: h => h(App),
+}).$mount('#app')
+```
+
 
 
 
