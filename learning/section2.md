@@ -984,6 +984,92 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
 cnpm install [name]
 ```
+----
+
+#### vuecli-2 的目录结构
+
+- 项目文件
+  + build
+    - build.js
+    - webpack.base.conf.js
+    - ...
+  + config
+    - index.js
+  + node_modules
+  + src
+  + static
+    - .gitkeep
+  + .babelrc
+  + .editorconfig
+  + .eslintignore.js
+  + .eslintrc.js
+  + .gitignore
+  + .prostcssrc.js
+  + index.html
+  + package.json
+  + package-lock.json
+  + README.md
+  
+ 文件 | 说明 
+ :-: | :-: 
+ build 和 config | webpack 相关配置
+ build.js | 为 `npm run build` 的执行文件
+ index.js | 定义相关变量，分为 `dev` 和 `build` 两类
+ node_modules | 依赖 node 相关的模块
+ src | 开发。写代码的地方 
+ static | 静态资源。将图片等资源复制到 `dist`，不会更改及重命名
+ .gitkeep | git 相关的文档，指定是否将空文件上传服务器 
+ .babelrc | 把 ES6 转换为 ES5 所指定的配置文件 
+ .editorconfig | 统一代码风格 
+ .eslintignore.js | 忽略选择文件代码的 lint 检测 
+ .gitignore | git 相关的文档，忽略选择文件的上传
+ .eslintrc.js| 代码检测配置相关
+ .prostcssrc.js | css 转化相关配置
+ index.html | 模板
+ package.json | 管理 node 相关的包等
+ package-lock.json | 真实的 node 版本
+ 
+**#package.json**  
+1. 文件中的 `"script"`，指出了 `npm run build` 和 `npm run dev` 执行的具体内容。   
+2. 依赖文件，都放在 `node_modules` 中。
+3. 其中的 `babel-preset-env` 和 `babel-preset-stage-2` 与 `.babelrc` 文件相关。  
+4. `^` 表示后面两节可以更高，`~`表示最后一节可以更高，栗子`4.15.0`。  
+
+**#build.js**   
+1. `rm()` 移除原打包文件。  
+2. `webpack()` 使用第一个参数作为配置，执行相关的内容。  
+3. 第一个参数引入的是 `webpack.prod.conf.js` 文件，其中合并了基础配置。  
+
+**#.babelrc**  
+1. 根据条件决定需要转换的语法。 
+2. `"browsers"` 指定了市场份额大于 1%，最后的两个版本，不考虑 IE8 及以下。  
+
+**#node**  
+> node 由 C++ 编写，使用的是 V8 引擎(编译为二进制代码)，而且能为 JavaScript 提供运行环境。
+
+指令 node 可以直接执行 `.js` 文件。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
