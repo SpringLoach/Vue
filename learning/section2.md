@@ -1393,9 +1393,49 @@ const routes = [
 </template>
 ```  
 
+#### 路由的默认值和模式修改  
 
+1. 添加路由的默认映射  
+```
+/* router 下的 index.js */
+const routers = [
+  {
+    path: '/',
+    redirect: '/home'
+  },
+  ...
+]
+```
+:palm_tree: redirect：重定向
 
+2. 修改为 history 模式  
+> 默认使用哈希模式。  
+```
+/* router 下的 index.js */
+const router = new VueRouter({
+    ...,
+    mode: 'history'
+})
+```
 
+#### router-link标签的属性  
+
+ 属性 | 说明 | 默认值
+ :-: | :-: | :-:
+ to | 用于指定跳转的路径 | /，默认映射
+ tag | 指定组件被渲染成什么标签 | "a"
+ replace | 替换当前的 URL，替换该状态的历史记录 | 布尔属性
+ 内容 | 内容 | 内容
+ active-class | 修改标签活跃时的类名 | router-link-active  
+ 
+修改所有router-link标签活跃时的类名
+```
+/* router 下的 index.js */
+const router = new VueRouter({
+    ...,
+    linkActiveClass: '修改的类名'
+})
+```
 
 
 
