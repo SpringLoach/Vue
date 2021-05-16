@@ -1269,6 +1269,86 @@ module.exports = {
 
 :star2: 在 Vue 中，一个组件可能就对应一个页面。
 
+#### url的hash和HTML5的history  
+> 浏览器页均不会向服务器发送请求。  
+
+1. 修改hash  
+> 若更改 url 的 `hash` ，网页将不会刷新。在路由的映射关系中找到相应的组件后，取得组件并渲染到页面。  
+```
+/* js中或控制台 */
+location.hash = 'xxx'
+```
+
+2. BOM的history对象  
+
+方法 | 说明 | 参数 
+ :-: | :-: | :-: 
+ history.go() | 在历史记录中沿任何方向导航 | *num* 
+ history.forward() | 前进一页 | 无
+ history.back() | 后退一页 | 无
+ history.pushState({}, "", "xxx") | 进入新的 URL 并以入栈形式新建一条历史记录 | 栗子
+ history.replaceState({}, "", "xxx") | 替换当前的 URL，替换该状态的历史记录 | 栗子
+
+:herb: 对应红宝石书 BOM 一章的内容 P379
+
+#### vue-router的安装和配置方式  
+> 当然了，使用脚手架时可以自定义安装。  
+
+- `vue-router` 是 Vue.js 官方的路由插件，它和 vue.js 是深度集成的，适合用于构建单页面应用。  
+
+- `vue-router` 是基于路由和组件的。  
+
+  + 路由用于设定访问路径，将路径和组件映射起来。
+  
+  + 在 `vue-router` 的单页面应用中，页面路径的改变就是组件的切换。
+
+**#安装vue-router**
+```
+npm install vue-router --save
+```
+
+**#在vue-cli2模块化工程中使用vue-router**
+
+1. 安装并创建路由实例
+
++ 项目文件
+  - src
+    + router
+      - index.js
+    
+```
+/* 配置路由相关的信息 */
+import VueRouter from 'vue-router'
+import Vue from 'vue'
+
+// 通过Vue.use(插件)，安装插件
+Vue.use(VueRouter)
+
+// 路由映射配置
+const routes = [
+
+]
+
+// 创建路由实例
+const router = new VueRouter({
+    routes
+})
+
+export default router
+```
+
+2. 在 Vue 实例中**挂载**创建的路由实例  
+```
+/* main.js */
+import 'router' from './router'
+
+new Vue({
+    ...,
+    router
+})
+```
+:star2: 当路径为某个文件夹时，自动选择该文件夹下的 `index.js`。  
+:herb: 这里运用了 ES6 对象增强的写法。   
 
 
 
