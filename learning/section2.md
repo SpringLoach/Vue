@@ -1291,6 +1291,8 @@ location.hash = 'xxx'
 
 :herb: 对应红宝石书 BOM 一章的内容 P379
 
+----
+
 #### vue-router的安装和配置方式  
 > 当然了，使用脚手架时可以自定义安装。  
 
@@ -1350,10 +1352,46 @@ new Vue({
 :star2: 当路径为某个文件夹时，自动选择该文件夹下的 `index.js`。  
 :herb: 这里运用了 ES6 对象增强的写法。   
 
+#### 路由映射配置  
+
+1. 创建组件并添加一些内容
+
+- src
+  + components
+    - Home.vue
+    - About.vue
+
+2. 配置路由的映射关系  
+```
+/* router 下的 index.js */
+import Home from '../components/Home'
+import About from '../components/About'
 
 
+const routes = [
+  {
+    path: '/home',
+    component: Home
+  },
+  {
+    path: '/about',
+    component: About
+  },
+]
+```
 
-
+3. 添加到根组件  
+> `vue-router` 自动注册了两个全局组件。`router-link` 用于选择渲染的组件，默认渲染为 a 标签，`router-view>` 则决定了组件渲染时在 HTML 中出现的位置。  
+```
+/* src 下的 App.vue */
+<template>
+  <div id="app">
+    <router-link to="/home">首页</router-link>
+    <router-link to="/about">关于</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+```  
 
 
 
