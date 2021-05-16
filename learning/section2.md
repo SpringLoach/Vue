@@ -1422,10 +1422,9 @@ const router = new VueRouter({
 
  属性 | 说明 | 默认值
  :-: | :-: | :-:
- to | 用于指定跳转的路径 | /，默认映射
- tag | 指定组件被渲染成什么标签 | "a"
+ to | 用于指定跳转的路径 | /。跳转至默认映射地址
+ tag | 指定组件被渲染成什么标签 | a
  replace | 替换当前的 URL，替换该状态的历史记录 | 布尔属性
- 内容 | 内容 | 内容
  active-class | 修改标签活跃时的类名 | router-link-active  
  
 修改所有router-link标签活跃时的类名
@@ -1436,6 +1435,27 @@ const router = new VueRouter({
     linkActiveClass: '修改的类名'
 })
 ```
+
+#### 通过代码跳转路由  
+
+```
+/* src 下的 App.vue */
+<template>
+  <button @click="homeclick">主页</button>
+</template>
+
+/* 新增 option */ 
+methods: {
+  homeclick() {
+    this.$router.push('/home')
+  }
+}
+```
+> 不要试图通过 `history对象` 绕过路由进行修改。
+> 
+> 路由自动在所有组件中都添加了 `$router` 属性。
+> 
+> `$router.replace()`方法可以替换当前的 URL，替换该状态的历史记录。
 
 
 
