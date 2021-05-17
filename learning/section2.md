@@ -1746,5 +1746,24 @@ beforeRouteLeave(to, from, next) {
 :snowflake: `activated` 为进入已经缓存的页面时，触发的钩子函数。  
 :snowflake: 这里使用了组件内的守卫。
 
+**#keep-alive的属性**  
+
+ 属性 | 值 | 说明
+ :-: | :-: | :-:
+ include | 字符串或正则表达式 | 只有匹配的组件会被缓存
+ exclude | 字符串或正则表达式 | 匹配的组件不会被缓存
+
+```
+/* App.vue */
+<keep-alive exclude="Profile,User">
+  <router-view/>
+</keep-alive>
+```
+:snowflake: `exclude` 的值匹配对应组件的 name 选项的值。  
+:snowflake: `exclude` 的参数之间**不能加空格**。  
+:herb: 可以在子组件中使用生命周期钩子 `created` 进行验证。  
+
+
+
 
 
