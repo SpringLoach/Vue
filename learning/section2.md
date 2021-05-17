@@ -1603,4 +1603,67 @@ const routes = [
 </template>
 ```
 
+#### vue-router参数传递
+
+1. [动态路由的使用](#动态路由的使用)中的 `$route.params`
+
+2. 动态绑定 `query`
+
+  - 创建组件并配置映射关系后
+```
+/* Vue.vue */
+<template>
+  <router-link :to="{path: '/profile', query: {name: 'keluosi', age: 16, height: 1.52}}">
+</template>
+```
+:palm_tree: Profile：档案    
+:palm_tree: query：查询    
+
+  - 使用参数
+```
+/* Profile.vue */
+<p>{{$route.query.name}}<p>
+<p>{{$route.query.age}}<p>
+<p>{{$route.query.height}}<p>
+```
+
+**#[通过代码跳转路](#通过代码跳转路)由并进行参数传递**
+```
+/* Vue.vue */
+<button @click="profileclick">按钮</button>
+
+/* 添加 option */
+methods: {
+  profileclick() {
+    this.$router.push({
+      path: '/profile',
+      query: {
+        name: 'keluosi',
+        age: 16,
+        height: 152
+      }
+    })
+  }
+}
+```
+
+#### vue-router和vue-route的由来  
+
+当使用 Vue 安装插件时
+```
+Vue.use(Router)
+```
+
+实际上会调用该插件的 `install` 方法
+```
+Router.install(Vue)
+```
+
+在这个过程中全局注册了 `RouterView` 和 `RouterLink`，并在 Vue 类的原型上添加了 `$router` 和 `$route`。  
+:snowflake: 注册组件时，通常大写开头；使用组件时，则使用 `-` 连接，这样做更美观。
+
+
+
+
+
 
