@@ -1457,11 +1457,150 @@ methods: {
 > 
 > `$router.replace()`方法可以替换当前的 URL，替换该状态的历史记录。
 
+#### 动态路由的使用  
+> 某些情况下，一个页面的 path 路径可能是不确定的，比如 `/user/用户Id`。  
 
+1. 创建组件并添加到路由
+```
+/* router 下的 index.js */
+import User from '../components/User'
 
+const routes = [
+  ...,
+  {
+    path: '/user/:userId',
+    component: User
+  }
+]
+```
 
+2. 添加到根组件，并用动态属性绑定  
+```
+/* src 下的 App.vue */
+<template>
+  <router-link :to="'/user/' + userId">用户</router-link>
+</template>
 
+/* 新增 option */
+data() {
+  return {
+    userId: 'ash'
+  }
+}
+```
 
+3. 在组件中透出  
+```
+/* User.vue */
+<template>
+  <h2>{{$route.params.userId}}<h2>
+</template>
+```
+:snowflake: 路由自动在所有组件中都添加了属性，`$router` 表示路由实例， `$route` 表示当前当前活跃的路由。     
+:snowflake: 此处的 `userId` 对应的是路由映射中 `userId`。  
+:palm_tree: param：参数（缩写）   
 
+#### vue-router打包文件的解析  
+
+- 项目文件  
+  + dist
+    - static
+      + css
+      + js
+        - app.xxx
+        - mainifest.xxx
+        - vendor.xxx
+    - index.html
+
+ 文件 | 类型 | 说明 
+ :-: | :-: | :-: 
+ app | 业务代码 | 自己写的
+ mainifest | 底层支撑 | 如 ES6、commonJS 的导入导出等
+ vendor | 第三方代码 | vue、vue-router等  
+
+#### 路由懒加载
+
+- 如果打包构建应用时，Javascript的包会变的非常大，影响页面加载。  
+- 如果我们能把不同路由对应的组件分割成不同的代码块（js文件），然后当路由被访问的时候才加载对应组件，这样就更加高效了。
+
+ES6  
+```
+/* router 下的 index.js */
+// import Home from '../components/Home'
+
+const User = () => import('../components/User')
+
+const routes = [
+  ...,
+  {
+    path: '/user/:userId',
+    component: User
+  }
+]
+```
+:herb: 此时就不需要像以前那样去创建依赖关系了。    
+:herb: 此时 `dist` - `static` - `js` 就不止三个文件了。  
+
+**#路由懒加载的其它两种方式**  
+
+1. 结合 Vue 的异步组件和 Webpack 的代码分割  
+```
+const Home = resolve => { require.ensure(['../components/Home.vue'], () => 
+{ resolve(require('../components/Home.vue')) })}
+```
+
+2. AMD写法  
+```
+const About = resolve => require(['../components/Home.vue'], resolve);
+```
+
+#### 路由的嵌套使用  
+> 可以在路径下继续细分，细分后的路径可以对应不同的组件。  
+
+- components
+  + Home
+  + HomeMessage
+  + HomeNews
+  + ...
+
+1. 创建组件并配置路由的映射关系
+```
+/* router 下的 index.js */
+const HomeMessage = () => import('../components/HomeMessage')
+const HomeNews = () => import('../components/HomeNews')
+
+const routes = [
+  ...,
+  {
+    path: '/home',
+    component: Home,
+    children: [
+      {
+        path: '/',
+        redirect: 'message'
+      },
+      {
+        path: 'message',
+        component: HomeMessage
+      },
+      {
+        path: 'news',
+        component: HomeNews
+      }
+    ]
+  }
+]
+```
+:snowflake: 注意 `chilren` 中的对象的 `path` 和 `redirect`属性不需要加上 `/`。   
+
+2. 添加到父组件
+```
+/* Home.vue */
+<template>
+  <router-link to="/home/message">消息</router-link>
+  <router-link to="/home/news">新闻</router-link>
+  <router-view></router-view>
+</template>
+```
 
 
