@@ -1660,10 +1660,91 @@ Router.install(Vue)
 ```
 
 在这个过程中全局注册了 `RouterView` 和 `RouterLink`，并在 Vue 类的原型上添加了 `$router` 和 `$route`。  
+
 :snowflake: 注册组件时，通常大写开头；使用组件时，则使用 `-` 连接，这样做更美观。
 
+#### 全局导航守卫  
+
+#普通方法
+```
+/* About.vue */
+
+export default {
+  ...,
+  created() {
+    document.title = '关于'
+  }
+}
+```
+:cyclone: 这里利用了组件的生命周期钩子来改变文档标题，但要给每个组件都需要切换标题时，这样是不方便的。  
+
+这种情况下，我们可以使用全局导航守卫，然后给每个一级 `route` 添加元数据。 
+```
+/* router 下的 index.js */
+const routes = [
+  {
+    path: '/about',
+    component: About,
+    meta: {
+      title: '关于'
+    }
+  }
+]
+
+router.beforeEach((to, from, next) => {
+  document.title = to.matched[0].meta.title
+  next()
+})
+
+/* 可能是版本不同的原因，有部分默认代码要改一下取出 router 变量 */
+const router = new Router({
+  routes,
+  mode: 'history'
+})
+
+export default router
+```
+:cyclone: 实现该方法时，要调用 `next()`，否则不能正常跳转。  
+:snowflake: `matched[0]` 用于取出第一层嵌套的组件。  
+:snowflake: `from` 指向即将离开的路由，`to` 指向即将前往的路由。  
+
+**#全局守卫**  
+
+全局守卫 | 说明 | 补充
+ :-: | :-: | :-:
+ router.beforeEach((to, from, next) => {...}) | 前置守卫，需要调用 `next()` | 进入新的路由前调用
+ router.afterEach((to, from) => {...}) | 后置守卫 | 进入新的路由后调用
+
+:snowflake: 其中的 `router` 为一个引用了路由实例的变量。   
+:snowflake: 除了全局守卫以外，还有路由独享守卫、组件内的守卫等。  
 
 
+#### 路由中使用keep-alive  
+> 正常情况下，在路由之间跳转，会导致原组件的销毁，但被 `<keep-alive>` 标签包围后，组件将会缓存。
+
+```
+/* App.vue */
+<template>
+  <keep-alive>
+    <router-view/>
+  </keep-alive>
+</template>
+```
+:snowflake: keep-alive 是 Vue 内置的一个组件。
+
+离开首页时，在首页记录离开时的路径
+```
+/* Home.vue中添加option */
+activated() {
+  this.$router.push(this.path);
+},
+beforeRouteLeave(to, from, next) {
+  this.path = this.$route.path;
+  next()
+}
+```
+:snowflake: `activated` 为进入已经缓存的页面时，触发的钩子函数。  
+:snowflake: 这里使用了组件内的守卫。
 
 
 
