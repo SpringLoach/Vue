@@ -129,18 +129,111 @@ import TabBar from 'components/tabbar/TabBar'
 ----
 
 #### promise
+> 一般情况下有连续的异步操作时，使用 promise 对其进行封装，这样写更加优雅。  
 
+1. 实例化 `promise` 类时，需要传入一个函数，这个函数有两个可选的参数 `resolve` 和 `reject`，它们是第二步的前提。  
 ```
-new Promise((resolve,refuse) => {
-  setTimeout(() => {
-    console.log('Hello World!');
-    }, 2000);
-  }
+new Promise((resolve,reject) => {
+  
 )
 ```
 
 
+2. 在这个函数中调用 `resolve()` 或 `reject()` 表示期约的完成（解决或拒绝）。不调用的话，就是等待状态了。  
+3. 这里用 `setTimeout()` 模仿完成期约所需要的些许时间。  
+4. `then()` 方法将在期约完成时被调用，该方法最多可接受两个函数作为参数。  
+```
+new Promise((resolve,reject) => {
+  setTimeout(() => {
+    console.log('Hello World!');
+    resolve();
+    }, 2000);
+  }
+).then(()=>{
+    setTimeout(() => {
+    console.log('Hello Vue!');
+    }, 2000);
+})
+```
+4. 可以将获取的数据作为 `resolve()` 的参数，它将作为参数传递给 `then()`方法。  
+```
+new Promise((resolve,reject) => {
+  setTimeout(() => {
+    console.log('Hello World!');
+    resolve('Hello Vue!');
+    }, 2000);
+  }
+).then((data)=>{
+    setTimeout(() => {
+    console.log(data);
+    }, 2000);
+})
+```
+5. 链式传递，在 `Promise`的方法中获取数据；在 `then()` 中处理数据，有需要则再调用一次期约。  
+6. 之所以能对 `then()` 调用 `then()`，是因为它自身返回的也是一个期约的完成。  
+```
+new Promise((resolve, reject) => {
+  console.log('Hello World!');
+  setTimeout(() => {
+    resolve(1);
+    }, 2000);
 
+}).then((data)=>{
+  console.log(data);
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(data);
+    }, 2000);
+  })
+  
+}).then((data)=> {
+  console.log(data+1)
+})
+```
+7. `then()` 方法中使用 `return` 时，某些返回值相当于解决了期约。  
+```
+new Promise((resolve, reject) => {
+  console.log('Hello World!');
+  setTimeout(() => {
+    resolve(1);
+    }, 2000);
+
+}).then((data)=>{
+  console.log(data);
+  return data
+  
+}).then((data)=> {
+  console.log(data+1)
+})
+```
+8. 设置解决和拒绝处理程序的一个方法，`then()` 会将接受到的拒绝期约返回出去。  
+```
+new Promise((resolve, reject) => {
+  console.log('Hello World!');
+  reject('problem');
+  
+}).then((data)=>{
+  console.log(data);
+
+}).catch((err) => {
+    console.log(err);
+})
+```
+**#取得两个请求的结果后进行一些操作**
+> `Promise.all()`方法接受一个可迭代对象，其中可包括多个期约实例，待所有期约解决后，返回一个新期约，并将可迭代对象中期约的解决值作为数组参数传过去。  
+
+```
+Promise.all([
+    new Promise((solve) => {
+      solve(2);
+    }),
+    new Promise((solve) => {
+      solve(1);
+    })
+]).then((solves) => {
+    console.log(solves[0]+solves[1]);
+})
+```
 
 
 
