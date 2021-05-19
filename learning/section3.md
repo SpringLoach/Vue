@@ -1,6 +1,6 @@
 [tabber小项目](#tabber)  
 [promise简单用法](#promise)  
-[Vuex](#Vuex概念)  
+[Vuex](#Vuex概念)    
 
 #### tabber
 
@@ -260,7 +260,7 @@ Promise.all([
 :palm_tree: Dispatch：派遣  
 :palm_tree: Actions：执行一些异步操作（如发送网络请求）时，需要这一步    
 :palm_tree: Backend：后端    
-:palm_tree: Devtools：Vue 开发的一个浏览器插件。记录（同步的）修改，方便跟踪  
+:palm_tree: Devtools：Vue 开发的一个浏览器插件（需安装）。记录（同步的）修改，方便跟踪  
 :palm_tree: Mutate：改变    
 
 **安装并配置Vuex**
@@ -285,6 +285,7 @@ const store = new Vuex.Store({
 
 export default store
 ```
+:palm_tree: 单一状态树：将状态信息全部保存在一个 Store 对象中，便于后期的管理和维护。
 
 ```
 /* src 下的 main.js */
@@ -301,13 +302,12 @@ new Vue({
 /* store 下的 index.js */
 const store = new Vuex.Store({
   state: {},                // 保存的状态其它界面能共享
-  mutations: {},
-  actions: {},
-  getters: {},
+  mutations: {},           
+  actions: {},              // 异步操作
+  getters: {},              // 类似于计算属性
   modules: {}
 })
 ```
-
 
 **state属性**
 ```
@@ -316,11 +316,134 @@ state: {counter: 101},
 ...
 
 /* App.vue */
-<h2>{{$store.state.counter}}<h2>
+<h2>{{$store.state.counter}}</h2>
 ```
 :herb: 任何组件都可以读取该状态，但是不建议直接 `$store.state.counter++` 来修改状态，这样的修改没有记录。  
 
+**mutations属性**
+> 用于同步操作中更新 `state` 的状态，默认参数为 state 对象。
 
+```
+/* store 下的 index.js */
+mutations: {
+  increment(state){
+    state.counter++
+  },
+  addCount(state, count){
+    state.counter += count
+  }
+},
+...
+
+/* App.vue */
+<button @click="addition">+</button>
+<button @click="addCount(5)">+5</button>
+
+methods: {
+  addition(){
+    this.$store.commit('increment');
+  },
+  addCount(count){
+    this.$store.commit('addCount', count);
+  }
+}
+```
+:snowflake: 一般认为 `mutations` 中包括事件类型和回调函数两部分。  
+:snowflake: 在 `this.$store.commit()`中，第一个参数为事件类型，第二个参数为载荷。  
+:palm_tree: Payload：载荷，此处为传递的参数，当参数不止一个时，可以将 Payload 以对象的形式传递。  
+
+**mutations提交风格**  
+> 实际上，`this.$store.commit()` 还有其它的提交方式。  
+
+```
+mutations: {
+  addCount(state, count){
+    state.counter += count
+  },
+  addCount2(state, playload){
+    state.counter += playload.count
+  }
+},
+...
+
+/* App.vue */
+
+<button @click="addCount(5)">+5</button>
+<button @click="addCount2(5)">+5</button>
+
+methods: {
+  addCount(count){
+    this.$store.commit('addCount', count);
+  },
+  addCount2(count){
+    this.$store.commit({
+      type: 'addCount2',
+      count
+    })
+  }
+}
+```
+:snowflake: 以第二种风格提交的参数始终是一个对象。
+
+**getters属性**  
+> 多个页面需要获取处理后的状态时使用，第一个参数为 state 对象，第二个参数为 getters 对象。
+
+```
+/* store 下的 index.js */
+getters: {
+  powerCounter(state){
+    return state.counter * state.counter
+  },
+  powerCounteradd(state, getters){
+    return getters.powerCounter + 1
+  },
+  powerCounterAnyadd(state, getters){
+    return num => {
+      return getters.powerCounter + num
+    }
+  }
+},
+...
+
+/* App.vue */
+<h2>{{$store.getters.powerCounter}}</h2>
+<h2>{{$store.getters.powerCounteradd}}</h2>
+<h2>{{$store.getters.powerCounterAnyadd(666)}}</h2>
+```
+:snowflake: 当某些处理需要传参才能进行时，需要在定义的方法中返回一个函数，用这个函数去接受参数并进行处理。  
+
+#### Mutation相应规则   
+> 需要提前在 store 中初始化所需的属性。  
+
+```
+state: {
+  info: {
+    name: 'Kaerx',
+    age: 400
+  }
+},
+mutations: {
+  updateInfo(state){
+    /①/  state.info.age = 14
+    /②/ state.info['sex'] = 'girl'
+    /③/ Vue.set(state.info, 'sex', 'girl')
+    /④/ delete state.info.age
+    /⑤/ Vue.delete(state.info, 'age')
+  }
+}
+
+/* App.vue */
+<button @click="updateInfo">更新</button>
+
+methods: {
+  updateInfo() {
+    this.$store.commit('updateInfo');
+  }
+}
+```
+:snowflake: `state` 中定义的属性会被添加到响应式系统中，并对其进行监听，当属性变化时，会通知所有用到该属性的地方，让界面刷新。  
+:snowflake: `Vue.set()` 用于向对象（数组）添加或更改属性，接收三个参数：对象，索引值或键，修改后的值。  
+:snowflake: 若通过方法②和④来添加或删除对象的属性，是做不到**响应式**的。  
 
 
 
