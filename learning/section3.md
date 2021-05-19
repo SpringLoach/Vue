@@ -249,7 +249,76 @@ Promise.all([
 
 :herb: 将属性添加到对象原型上，实际上是共享的，但因为一些原因，无法做到响应式。  
 
+单界面的用户管理
 
+![单界面的用户管理](./img/单界面的用户管理.jpg)  
+
+多界面的用户管理
+
+![多界面的用户管理](./img/多界面的用户管理.png)  
+
+:palm_tree: Dispatch：派遣  
+:palm_tree: Actions：执行一些异步操作（如发送网络请求）时，需要这一步    
+:palm_tree: Backend：后端    
+:palm_tree: Devtools：Vue 开发的一个浏览器插件。记录（同步的）修改，方便跟踪  
+:palm_tree: Mutate：改变    
+
+**安装并配置Vuex**
+```
+npm install vuex --save
+```
+
+- src
+  + store
+    - index.js 
+
+```
+/* store 下的 index.js */
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  
+})
+
+export default store
+```
+
+```
+/* src 下的 main.js */
+import store from './store'
+
+new Vue({
+  ..,
+  store
+})
+```
+:palm_tree: 在 Vue 的原型上添加了 `$store`。
+
+```
+/* store 下的 index.js */
+const store = new Vuex.Store({
+  state: {},                // 保存的状态其它界面能共享
+  mutations: {},
+  actions: {},
+  getters: {},
+  modules: {}
+})
+```
+
+
+**state属性**
+```
+/* store 下的 index.js */
+state: {counter: 101}, 
+...
+
+/* App.vue */
+<h2>{{$store.state.counter}}<h2>
+```
+:herb: 任何组件都可以读取该状态，但是不建议直接 `$store.state.counter++` 来修改状态，这样的修改没有记录。  
 
 
 
