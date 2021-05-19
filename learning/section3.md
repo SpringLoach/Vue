@@ -536,4 +536,170 @@ actions: {
 :snowflake: 一般认为 `context.commit()` 执行后表示修改成功。  
 :snowflake: actions 属性也接受一个 payload。  
 
+#### modules属性  
+> 当需要管理的状态太多时，内容会显得臃肿，其实使用 `modules` 属性可以实现状态的分离。    
+
+```
+/* store 下的 index.js */
+const moduleA = {
+  state: {...},
+  mutations: {...},
+  actions: {...},
+  getters: {...}
+}
+
+const moduleB = {
+  state: {...},
+  mutations: {...},
+  actions: {...},
+  getters: {...}
+}
+
+const store = new Vuex.Store({
+  ...
+  modules: {
+    a: moduleA,
+    b: moduleB
+  }
+})
+```
+:snowflake: 实际上也可以在模块内继续使用 `modules`，但这样仿佛就太乱了。  
+
+**#modules属性中的state**
+> 定义时一致；使用时，先取出模块（被放到了根 `state` 中），再从模块中取出。
+```
+const moduleA = {
+  state: {
+    name: 'black'
+  },
+  ...
+}
+
+/* Vue.js */
+<h2>{{$store.state.a.name}}</h2>
+```
+
+**#modules属性中的mutations**  
+> 定义和使用方式与原先一致。  
+```
+const moduleA = {
+  mutations: {
+    ChangeName(state, payload) {
+      state.name = payload
+    }
+  },
+  ...
+}
+
+/* Vue.js */
+<button @click="ChangeName">更名</button>
+
+methods: {
+  ChangeName() {
+    this.$store.commit('ChangeName', 'red')
+  }
+}
+```
+
+**#modules属性中的getters**  
+> 定义和使用方式与原先一致。  
+```
+const moduleA = {
+  getters: {
+    fullname(state) {
+      return state.name + 'sir'
+    },
+    fullname2(state, getters, rootState) {
+      return getters.fullname + rootState.counter
+    }
+  },
+  ...
+}
+
+/* Vue.js */
+<h2>{{$store.getters.fullname}}</h2>
+<h2>{{$store.getters.fullname2}}</h2>
+```
+:snowflake: 它接受的第二个参数为自身的 getters 对象，第三个参数为根部的 state 对象。  
+
+**#modules属性中的actions**  
+> 定义和使用方式与原先一致。  
+```
+const moduleA = {
+  actions: {
+    aChangeName(context) {
+      setTimeout(() => {
+        context.commit('ChangeName', 'ash')
+      }, 2000)
+    }
+  },
+  ...
+}
+
+/* Vue.js */
+<button @click="aChangeName">更名</button>
+
+methods: {
+  aChangeName() {
+    this.$store.dispatch('aChangeName')
+  }
+}
+```
+:snowflake: 模块中的 `context` 仅能 commit 自身模块中的 `mutations`。  
+:snowflake: 模块中的 `context` 对象中还有些属性能获取根的 state 等。   
+
+**#context的对象结构赋值**  
+> 这是 ES6 的简写语法。  
+
+```
+actions: {
+    aChangeName({ state, commit, rootState }) {
+      setTimeout(() => {
+        commit('ChangeName', 'ash')
+      }, 2000)
+    }
+  }
+```
+:snowflake: 相当于抽取同名属性并赋值。  
+
+#### vue-store目录组织  
+> 官网推荐。  
+
+- src
+  + store
+    - index.js
+    - actions.js
+    - mutations.js
+    - modules
+      + mutationA.js
+      + mutationB.js
+
+```
+/* index.js */
+import mutations from './mutations'
+import actions from './actions'
+import moduleA from './modules/moduleA'
+
+const state = {...}
+const getters = {...}
+
+
+const store = new Vuex.Store({
+  state,
+  mutations,
+  actions,
+  getters,
+  modules: {
+    a: moduleA
+  }
+})
+
+/* mutations.js */
+export default {...}
+```
+
+
+
+
+
 
