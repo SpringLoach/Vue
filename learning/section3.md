@@ -698,6 +698,29 @@ const store = new Vuex.Store({
 export default {...}
 ```
 
+----
+
+#### 网络请求模块（框架）的选择  
+> 一般在使用第三方框架前，会对其进行封装，这样即使框架出 bug 或不维护了，后期维护和更换也更方便。  
+
+1. XMLHttpRequest(XHR)
+    - 配置和调用方式较混乱
+ 
+2. jQuery-Ajax
+    - 在 Vue 的整个开发中都不需要使用 jQuery  
+    - 没必要为了网络请求就使用这个重量级的框架  
+
+3. Vue-resource
+    - 官方推出的，但不维护了，对以后项目的开发和维护都存在很大的隐患
+
+4. axios  
+    - 推荐使用，功能如下：
+      + 在浏览器中发送 XMLHttpRequests 请求
+      + 在 node.js 中发送 http 请求
+      + 支持 Promise API
+      + 拦截请求和响应
+      + 转换请求和响应数据
+      + ...
 
 
 
