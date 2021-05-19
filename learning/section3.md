@@ -445,8 +445,95 @@ methods: {
 :snowflake: `Vue.set()` 用于向对象（数组）添加或更改属性，接收三个参数：对象，索引值或键，修改后的值。  
 :snowflake: 若通过方法②和④来添加或删除对象的属性，是做不到**响应式**的。  
 
+#### Mutations的类型常量  
+> 将 `mutations` 事件类型改为常量表示，也许可以减少一些情况下敲错字符的机会，但感觉更繁琐了，看情况决定要不要用吧。  
+
+- store
+  + mutations-types.js
+
+```
+/* mutations-types.jc */
+export const INCREMENT = 'increment'  
 
 
+/* Vue.js */
+import {
+  INCREMENT
+} from './store/mutations-types'
 
+methods: {
+  addition() {
+    this.$store.commit(INCREMENT)
+  }
+}
+
+/* store 下的 index.js */
+import {
+  INCREMENT
+} from './mutations-types'
+
+mutations: {
+  [INCREMENT](state) {
+    state.counter++
+  }
+}
+```
+
+#### actions属性
+> 在进行一些**异步操作**时，不能在 `mutations` 属性中进行，这会导致无法及时观察状态的变化。此时，应该使用 `actions` 属性。  
+
+```
+/* Vue.js */
+<button @click="increment2">异步+</button>
+
+methods: {
+  increment2() {
+    this.$store.dispatch('aincrement')
+  }
+}
+
+/* store 下的 index.js */
+actions: {
+  aincrement(context) {
+    setTimeout(() => {
+      context.commit('increment')  // 参数为定义在 mutations 中的方法
+    }, 2000)
+  }
+}
+```
+:snowflake: `actions` 中的方法接受一个 `context` 参数，在这里代表 `store` 对象
+:palm_tree: 上下文
+
+**#actions属性的传参及完成**  
+> 可以通过返回期约的方式，告诉调用操作的地方异步操作的完成。  
+
+```
+/* Vue.js */
+methods: {
+  increment2() {
+    this.$store.dispatch('aincrement', 'finish')
+    .then((message) => 
+      setTimeout(() => {
+        console.log(message);
+      }, 2000))
+    }
+}
+
+/* store 下的 index.js */
+actions: {
+  aincrement(context, payload) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        context.commit('increment');
+        console.log(payload);
+        
+        resolve('eat dinner');
+      }, 2000)
+    })
+  }
+}
+```
+:snowflake: 一般认为 `context.commit()` 执行后表示修改成功。  
+:snowflake: actions 属性也接受一个 payload。  
 
 
