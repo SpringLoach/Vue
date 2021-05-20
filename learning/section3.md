@@ -877,7 +877,7 @@ created() {
 ```
 import axios from 'axios'
 
-export function(config) {
+export function request(config) {
   const instance = axios.create({
       baseURL: 'xxx',
       timeout: 5000
@@ -892,7 +892,7 @@ import {request} from "./network/request";
 /* 添加 option */
 created() {
   request({
-    url: 'xxx'
+    url: '/home/multidata'
   }).then(() => {
     ...
   }).catch(() => {
@@ -900,12 +900,13 @@ created() {
   })
 }
 ```
+:snowflake: 这里不使用 `export default` 导出是因为有可能不止一个实例。  
  
 当新框架不支持 promise API 时，只需要将异步操作用期约包围即可。
 ```
 import axios from 'axios'
 
-export function(config) {
+export function request(config) {
   return new Promise((resolve, reject) => {
     
     const instance = axios.create({
@@ -925,9 +926,22 @@ export function(config) {
 }
 ```
  
+**#回调函数简单栗子**  
+
+```
+function makeData(x) {
+  let a = 3;
+  /* 调用函数x */
+  x(a);
+}
+
+/* 传入一个函数作为参数x */
+makeData((num) => {
+  console.log(num)}
+)
+```
  
- 
- 
+#### 拦截器
  
  
  
