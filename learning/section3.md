@@ -942,9 +942,42 @@ makeData((num) => {
 ```
  
 #### 拦截器
+> axios 提供了拦截器，用于我们在发送每次请求或者得到响应后，进行某些处理。   
  
+#请求拦截  
+> `instance.interceptors.request.use()`，其中 instance 为设置好了的 axios 实例。
+
+ 参数 | 要求 | 说明
+ :-: | :-: | :-:
+ 第一个函数 | 接受 config 作为参数，需要返回处理后的 config | 可配置信息；请求时界面显示图标；验证登录信息    
+ 第二个函数 | 接受 err 作为参数，一般要返回 | 若请求成功发送，则不执行第二个函数 
  
+#响应拦截  
+> `instance.interceptors.response.use()`
  
+ 参数 | 要求 | 说明
+ :-: | :-: | :-:
+ 第一个函数 | 接受 response 作为参数，需要返回处理后的 response | /
+ 第二个函数 | 接受 err 作为参数，一般要返回 | 若响应成功，则不执行第二个函数 
  
- 
- 
+筛选响应信息  
+```
+/* 建立 instance 实例后 */
+instance.interceptors.response.use(res => {
+  return res.data;
+}, err => {
+  return err;
+})  
+```
+:palm_tree:interceptors：拦截器  
+:snowflake: 需要全局配置时，引入 `axios` 并对其配置。  
+
+
+
+
+
+
+
+
+
+
