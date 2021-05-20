@@ -722,7 +722,118 @@ export default {...}
       + 转换请求和响应数据
       + ...
 
+#### axios框架的基本使用  
 
+安装
+```
+/* 项目文件下 */
+npm install axios --save
+```
 
+配置
+```
+/* main.js */
+import axios from 'axios'
+```
 
+使用
+```
+/* main.js */
+axios({
+  url: 'http://123.207.32.32:8000/home/multidata'
+}).then((res) => {
+  console.log(res);
+})
+```
+:snowflake: 这个方法的返回值就是一个期约，可以直接用 `then()` 添加处理程序。  
+:snowflake: 返回的对象中，实际网站返回的只有 data，其它内容是框架附带的。  
+:palm_tree: 这个网站可以做很多网络请求的模拟：https://httpbin.org/
 
+更改请求方式
+```
+axios({
+  url: 'http://123.207.32.32:8000/home/multidata',
+  method: 'post'
+})
+```
+
+ 请求方式 | 参数 | 说明
+ :-: | :-: | :-:
+ axios(config) | 对象 | 默认为 GET 请求
+ axios.get(url, [config\]) | / | /
+ axios.post(url, [data,[config\]]) | / | /
+ ... | / | /
+
+**#错误接口**  
+:bug: 错误接口 123.207.32.32:8000/home/data?type=pop&page=1  
+```
+axios({
+  url: 'http://123.207.32.32:8000/home/data?type=pop&page=1'
+})
+
+/* 等价于 */
+axios({
+  url: 'http://123.207.32.32:8000/home/data',
+  params: {
+      type: 'pop',
+      page: 1
+  }
+})
+```
+:palm_tree: params：参数。针对 GET 请求的参数拼接。  
+
+#### axios发送并发请求后处理  
+
+```
+axios.all([axios(), axios()])
+  .then(results => {
+  ...
+})
+```
+:snowflake: 拿到的结果将是一个数组。  
+
+直接取得对应的期约结果
+```
+axios.all([axios(), axios()])
+  .then(axios.spread((res1, res2) => {
+  ...
+}))
+```
+
+#### axios的配置相关信息  
+
+```
+axios.default.baseURL = 'xxxxx'
+axios.default.timeout = 5000
+
+axios({
+  url: '/home/multidata'
+}).then((res) => {
+  console.log(res);
+})
+```
+:snowflake: 配置将自动应用到相关的 axios 方法中。  
+
+**#常见的配置选项**  
+
+ 配置 | 方式/栗子 | 说明
+ :-: | :-: | :-:
+ 请求地址 | url: '/user' | /
+ 请求类型 | method: 'get' | /
+ 根路径 | baseURL: 'http://www.mt.com/api' | /
+ 请求前数据处理 | transfromRequest: [function(data){}\] | 对数据处理后再发送请求
+ 请求后数据处理 | transfromResponse: [function(data){}\] | /
+ 自定义的请求头 | header:{'x-Requested-With':'XMLHttpRequest'} | /
+ URL查询对象 | params:{id: 12} | 对应 get 请求类型
+ request body | data: {key: 'aa'} | 对应 post 请求类型
+ 超时设置 | timeout: 1000 | /
+ ... | / | /
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
