@@ -1,6 +1,7 @@
 [tabber小项目](#tabber)  
 [promise简单用法](#promise)  
 [Vuex](#Vuex概念)    
+[axios框架](#axios框架的基本使用) 
 
 #### tabber
 
@@ -803,8 +804,8 @@ axios.all([axios(), axios()])
 #### axios的配置相关信息  
 
 ```
-axios.default.baseURL = 'xxxxx'
-axios.default.timeout = 5000
+axios.defaults.baseURL = 'xxxxx'
+axios.defaults.timeout = 5000
 
 axios({
   url: '/home/multidata'
@@ -828,6 +829,102 @@ axios({
  request body | data: {key: 'aa'} | 对应 post 请求类型
  超时设置 | timeout: 1000 | /
  ... | / | /
+ 
+#### axios的实例  
+> 全局配置会默认应用到所有 axios 请求中，但在后续开发中，有可能需要的配置会不一样，这时候就可以新建实例并传入属于该实例的默认信息。  
+
+```
+/* 创建 axios 实例 */
+const instance1 = axios.create({
+  baseURL: 'xxx',
+  timeout: 5000
+})
+
+
+/* 调用实例发送请求 */
+instance1({
+  url: '/home/multidata'
+}).then(...)
+
+instance1({
+  ...
+}).then(...)
+```
+
+#### 模块封装  
+> 将第三方框架使用到多个模块是一件非常危险的事情，一旦框架不再维护，想要更替框架，工作量会非常大。  
+
+```
+/* Vue.js */
+import axios from 'axios'
+
+/* 添加 option */
+created() {
+  axios({
+    url: 'xxx'
+  }).then(...)
+}
+```
+ 
+实现模块封装
+> 可以将框架相关的处理放到一个文件里，用这个文件对应多个模块。当需要更换框架时，处理这个文件就可以了。  
+
+- src
+  + network
+    - request.js
+
+终极方案 
+```
+import axios from 'axios'
+
+export function(config) {
+  const instance = axios.create({
+      baseURL: 'xxx',
+      timeout: 5000
+  })
+    
+  return instance(config)
+}
+
+/* Vue.js */
+import {request} from "./network/request";
+
+/* 添加 option */
+created() {
+  request({
+    url: 'xxx'
+  }).then(() => {
+    ...
+  }).catch(() => {
+    ...
+  })
+}
+```
+ 
+当新框架不支持 promise API 时，只需要将异步操作用期约包围即可。
+```
+import axios from 'axios'
+
+export function(config) {
+  return new Promise((resolve, reject) => {
+    
+    const instance = axios.create({
+      baseURL: 'xxx',
+      timeout: 5000
+    })
+    
+    /* 请求成功，则调用resolve(res) */
+    instance(config)
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+```
+ 
  
  
  
