@@ -86,11 +86,48 @@ where git
  utils.js | 公共方法 
  mixin.js | 混入
  
+#### css文件的引入  
+
+- css
+  + normalize.css
+  + base.css
  
+1\. 添加 `normalize.css`
+> 一个常用的对 css 进行规范的文件，可以对标签风格进行统一。  
+
+在[github](https://github.com/necolas/normalize.css)的 `Download` 上右键链接另存为。
  
- 
- 
- 
- 
+2\. 拷贝 `base.css`  
+> 就直接从项目那拿过来了，它已经引用了 `normalize.css`。  
+
+```
+/* App.vue */
+@import "./assets/css/base.css";
+```
+
+#### 别名及代码风格规范  
+
+- 项目文件
+  - vue.config.js  
+  - .editorconfig
+
+`vue.config.js` 可以将配置整合到默认配置上。
+```
+module.exports = {
+  configureWebpack: {
+    resolve: {
+      alias: {
+        'assets': '@/assets',
+        'commom': '@/commom',
+        'components': '@/components',
+        'network': '@/network',
+        'router': '@/router',
+      }
+    }
+  }
+}
+```
+
+在高版本脚手架中，没有 `.editorconfig` 这个文件，从项目拷贝。
  
  
