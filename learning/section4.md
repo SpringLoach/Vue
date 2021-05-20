@@ -127,7 +127,51 @@ module.exports = {
   }
 }
 ```
+:snowflake: 在 HTML 中，使用别名时加 `~` 前缀；在 export 时则不用加。  
 
 在高版本脚手架中，没有 `.editorconfig` 这个文件，从项目拷贝。
  
- 
+#### tabbar的引入  
+
+将之前做的小项目 `tabbar` 中的两个文件夹引进。由于 `MainTabBar.vue` 中用于将图片和文字插入组件，将其归属为不可复用的业务组件；而 `tabber` 不关系嵌入的内容，属于真正封装的组件。   
+
+- components
+  + commom
+    - tabber
+      + TabBar.vue
+      + TabBarItem.vue
+  + content  
+    - mainTabbar
+      + MainTabBar.vue
+
+```
+npm install vue-router --save
+```
+
+
+将 `MainTabBar.vue` 注册到 `App.vue` 并使用。   router-view？  
+修改 `MainTabBar.vue` 中图片和引用的路径。  
+
+
+将图片，router 下的 `index.js`，views 拿过来。  
+
+
+
+
+
+```
+Error: Cannot find module ‘vue-template-compiler’
+```
+
+```
+npm install vue-template-compiler
+```
+
+
+
+```
+npm install @vue/cli-plugin-babel/preset --save-dev 
+Cannot find module '@vue/cli-plugin-babel/preset'
+```
+
+
