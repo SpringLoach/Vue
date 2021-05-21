@@ -291,6 +291,24 @@ props: {
 ```
 :snowflake: 给所有弹性项目加上 `flex: 1` 可以做到在一行内均等分布。  
 
+#### 特性类别的展示 
+
+- views
+  + home
+    - childComps
+      + FeatureView.vue
+
+```
+<div class="feature">
+  <a href="https://act.mogujie.com/zzlx67">
+    <img src="~assets/img/home/recommend_bg.jpg" alt="">
+  </a>
+</div>
+```
+
+然后把置顶和置底的导航栏的固定以及遮蔽问题解决 `positon: sticky`。  
+
+
 
 
 
