@@ -158,6 +158,7 @@ npm install vue-router --save
 
 :palm_tree: `public` 下的 `index.html` 中使用了 `<%= BASE_URL %>` ，这是 jsp 的语法，用于动态获取路径，表示当前文件夹下。
 
+## 首页
 
 #### 首页导航栏的封装和使用  
 > 需要搭建的项目中，每个页面都有顶部导航栏，有的只有文字，有的两侧有图片，甚至有动态属性，选项卡。此时封装需要考虑到拓展性，要预留插槽。  
@@ -221,14 +222,74 @@ created() {
 }
 ```
 
+#### 轮播图的展示  
 
+将项目中的 `swiper` 拉过来。  
 
+- components
+  + commom
+    - swiper
+      - index.js
+      - Swiper.vue
+      - SwiperItem.vue
 
+其中的 `index.js` 将另外两个组件统一导出，这样在其它组件中使用时就不用导入两次了。  
 
+由于 `Home.vue` 只需关心功能的集结，轮播图的功能实现我们可以新建一个组件来完成，此时需要[从父组件获取数据](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#父子组件通信)。
 
+- views
+  + home
+    - childComps
+      + HomeSwiper
 
+使用方法为 `sweiper` （预留了插槽）包围 `swiper-item` 。由于有多个轮播图，可以直接[遍历](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#v-for遍历数组和对象)数组。轮播图可以实现链接的功能，所以用 `<a>` 包围 `<img>`。  
 
+```
+<swiper>
+  <swiper-item v-for="item in banners :key="item.title">
+    <a :href="item.link">
+      <img :src="item.image" alt="" />
+    </a>
+  </swiper-item>
+</swiper>
 
+/* 新增 option */
+props: {
+  banners: {
+    type: Array,
+    default() {
+      return []
+    }
+  }
+}
+```
+
+最后注册到父组件并在使用时传递数据就可以了。  
+
+:bug: 有时候轮播图是在轮播，但是没有图片，一片空白，只有第一张图。有小伙伴认为是异步操作导致的。：banners的动态绑定，发现所需的数据是经过异步请求传过来的。我们也知道，异步请求的结果是在回调函数中，所以先渲染的模板可能会出现空数据的情况，即还没有拿到返回的数据，后来拿到了数据，但模板已经渲染完了，并没有响应式的刷新。  
+:bug: 但我发现这个现象仅发生在使用 `F12` 之后的第一次刷新。  
+:herb: 之后尝试用状态管理调整一下。  
+
+#### 推荐信息的展示  
+
+- views
+  + home
+    - childComps
+      + RecommendView.vue
+
+导入 `home.vue` 并从父组件请求数据；
+
+```
+<div class="recommond">
+  <div v-for="item in recommends">
+    <a :href="item.link">
+      <img :src="item.image" alt="">
+      <div>{{item.title}}</div>
+    </a>
+  </div>
+</div>
+```
+:snowflake: 给所有弹性项目加上 `flex: 1` 可以做到在一行内均等分布。  
 
 
 
