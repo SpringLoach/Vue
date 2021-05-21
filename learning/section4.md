@@ -185,7 +185,7 @@ CSS
 
 将先前封装好的 `network` 中的 `request.js` 拉过来。  
 
-安装axios
+安装[axios](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#axios框架的基本使用)  
 
 为了减少耦合度，以及方便以后的管理，建立一个新的文件用于管理首页 `Home.vue` 的请求，这样就可以直接在 `Home.vue` 中添加异步处理了。  
 
@@ -205,9 +205,11 @@ export function getHomeMulidata() {
 将文件导入到 `Home.vue` 中。在首页组件创建好后请求数据，并将请求的数据保存到 `data` 中。
 
 ```
+import {getHomeMulidata} from "network/home"
+
 data() {
   return {
-    banner: [],
+    banners: [],
     recommends: []
   }
 },
