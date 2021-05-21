@@ -4,6 +4,7 @@
 ```
 vue create linshi
 ```
+:bug: 这里不要选择版本，vue3 以上的版本在[安装路由](https://blog.csdn.net/m0_46442996/article/details/108961492)等方面都与原先完全不同。
 
 2. 在 GitHub 上创建一个仓库
 > 可以选择一个 `MIT license`，先不创建 `README` 文件了，会和脚手架自带的冲突。
@@ -13,7 +14,7 @@ vue create linshi
 git clone https://github.com/SpringLoach/mail.git
 ```
 
-4. 手动将 `linshi` 中的 `.git` 和 `node_modules` 以外的文件复制到 `mail`
+4. 手动将 `linshi` 中的 `.git` 以外的文件复制到 `mail`
 
 5. 进入到 `mail` 中，可以查看文件状态  
 ```
@@ -31,12 +32,7 @@ git commit -m '初始化项目'
 ```
 git push
 ```
-9. 安装相关依赖  
-> 谁让把 `node_modules` 给删除了呢。  
-```
-npm install
-```
-10. 那么 `linshi` 这个文件夹就可以删除了  
+9. 那么 `linshi` 这个文件夹就可以删除了  
 
 ----
 
@@ -148,30 +144,13 @@ module.exports = {
 npm install vue-router --save
 ```
 
+1. 将 `MainTabBar.vue` 注册到 `App.vue` 并使用，注意**路径**。 
 
-将 `MainTabBar.vue` 注册到 `App.vue` 并使用。   router-view？  
-修改 `MainTabBar.vue` 中图片和引用的路径。  
+2. 修改 `MainTabBar.vue` 中图片和引用的**路径**。  
 
+3. 将图片，router 下的 `index.js`，views 拿过来。  
 
-将图片，router 下的 `index.js`，views 拿过来。  
+:bug: 经测试，vue-cli 在 4.5 版本中使用 `<keep-alive>` 和 `<router-view/>` 来[缓存组件](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#路由中使用keep-alive)是没问题的。  
 
-
-
-
-
-```
-Error: Cannot find module ‘vue-template-compiler’
-```
-
-```
-npm install vue-template-compiler
-```
-
-
-
-```
-npm install @vue/cli-plugin-babel/preset --save-dev 
-Cannot find module '@vue/cli-plugin-babel/preset'
-```
 
 
