@@ -152,5 +152,82 @@ npm install vue-router --save
 
 :bug: 经测试，vue-cli 在 4.5 版本中使用 `<keep-alive>` 和 `<router-view/>` 来[缓存组件](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#路由中使用keep-alive)是没问题的。  
 
+#### 改图标  
+
+将项目文件中 `public` 下的 `favicon.ico` 更替为自己需要的图片。 
+
+:palm_tree: `public` 下的 `index.html` 中使用了 `<%= BASE_URL %>` ，这是 jsp 的语法，用于动态获取路径，表示当前文件夹下。
+
+
+#### 首页导航栏的封装和使用  
+> 需要搭建的项目中，每个页面都有顶部导航栏，有的只有文字，有的两侧有图片，甚至有动态属性，选项卡。此时封装需要考虑到拓展性，要预留插槽。  
+
+- commom
+  + navbar
+    - NavBar.vue  
+
+HTML   
+> 使用左中右三个具名插槽，分别定义样式。
+
+CSS
+> 在该组件中添加公共的样式。
+
+采用 flex 布局，左右两个插槽固定宽度，中间插槽占据全部剩余宽度（`flex: 1`）；对整体设置水平居中并添加阴影效果。
+
+- 顶部导航高度一般为 44 px，加上状态栏则为 64 px
+
+- 对于块级元素，设置行高并添加了内容时，可以不加高度（等于行高），这样做可以垂直居中。  
+
+导入 `Home.vue` 中，并对该模块设置字体和背景颜色。  
+
+
+#### 请求首页的多个数据  
+
+将先前封装好的 `network` 中的 `request.js` 拉过来。  
+
+安装axios
+
+为了减少耦合度，以及方便以后的管理，建立一个新的文件用于管理首页 `Home.vue` 的请求，这样就可以直接在 `Home.vue` 中添加异步处理了。  
+
+- network
+  + home.js
+
+```
+import {request} from "./request";
+
+export function getHomeMulidata() {
+  return request({
+    url: '/home/multidata'
+  })
+}
+```
+
+将文件导入到 `Home.vue` 中。在首页组件创建好后请求数据，并将请求的数据保存到 `data` 中。
+
+```
+data() {
+  return {
+    banner: [],
+    recommends: []
+  }
+},
+created() {
+  getHomeMulidata().then(res => {
+    this.banners = res.data.banner.list;
+    this.recommends = res.data.recommend.list;
+  })
+}
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
