@@ -344,4 +344,90 @@ methods: {
 
 :snowflake: 在向页面导入其它组件时，可以按私有组件、公用组件、插入数据的顺序进行排序。  
 
+#### 保存商品的数据结构  
+> 考虑到切换表格时还有进行加载会给用户带来不好的体验，先将不同表格的前面一部分直接请求下来，只有下拉加载更多时，才会继续请求数据。  
+
+goods：（流行/新款/精选）  
+
+其中 `page` 用于记录当前的页数，`list` 用于记录已经加载的数据。
+```
+goods: {
+  'pop': {page: 5, list: [150]},
+  'new': {page: 2, list: [60]},
+  'sell': {page: 1, list: [30]}
+}
+```
+
+初始化  
+```
+/* Home.vue */
+data() {
+  return {
+    goods: {
+      'pop': {page: 0, list: []},
+      'new': {page: 0, list: []},
+      'sell': {page: 0, list: []}
+    }
+  }
+}
+```
+
+#### 商品数据的请求和保存  
+
+封装请求并在 `Home.vue` 导出，只要传入特定的 `type` 和 `page` 就可以请求到对应的数据了。
+```
+/* Home.js */
+export function getHomeGoods(type, page) {
+  return request({
+    url: '/home/data',
+    params: {
+      type,
+      page
+    }
+  })
+} 
+```
+
+请求的时机应该是组件创建好之后 `created`，这里把这里的方法封装到了 `methods` 选项中。
+
+- 由于接口的设计，请求下一页只需要在当前请求页的基础上加一即可。  
+- 进行数组合并将请求的数据添加到之前的数据中。  
+- 请求结束后当前请求页 +1。  
+
+```
+created() {
+  this.getHomeMultidata();
+  this.getHomeGoods('pop');
+  this.getHomeGoods('new');
+  this.getHomeGoods('sell');
+},
+methods: {
+  getHomeMultidata() {
+    getHomeMultidata().then(res => {
+      this.banners = res.data.banner.list;
+      this.recommends = res.data.recommend.list;
+    })
+  },
+  getHomeGoods(type) {
+    const page = this.goods[type].page + 1;
+    getHomeGoods(type, page).then(res => {
+      this.goods[type].list.push(...res.data.list);
+      this.goods[type].page += 1;
+    })
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
