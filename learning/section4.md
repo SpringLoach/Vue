@@ -308,7 +308,40 @@ props: {
 
 然后把置顶和置底的导航栏的固定以及遮蔽问题解决 `positon: sticky`。  
 
+#### 表格切换控制的封装  
 
+- components
+  + content
+    - tabControl
+      + TabControl.vue
 
+由于这个组件在不同页面使用时，仅文字不同。不包含图片、ul、不同布局。建议不用插槽，而是可以直接从父组件获取数据，使用 `v-for` 根据数量创建。  
+
+需要动态添加一个激活的类样式  
+
+```
+<div class="tab-control">
+  <div v-for="(item, index) in titles"
+      class="tab-control-item"
+      :class="{active: index=== currentIndex}" @click="itemClick(index)" >
+    <span>{{item}}</span>
+  </div>
+</div>
+
+data() {
+  return {
+    currentIndex: 0;
+  }
+},
+methods: {
+  itemClick(index) {
+    this.currentIndex = index;
+  }
+}
+```
+
+由于并非所有页面中都有粘连顶部的功能，所以将这个样式设置到 `home.vue` 中。
+
+:snowflake: 在向页面导入其它组件时，可以按私有组件、公用组件、插入数据的顺序进行排序。  
 
 
