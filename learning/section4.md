@@ -418,6 +418,17 @@ methods: {
 }
 ```
 
+#### 商品数据的展示  
+> `GoodsList.vue` 从父组件获取 `list` 数据；`GoodsListItem.vue` 则从父组件获取 list 中每一个具体的 `对象`。  
+
+- components
+  + content
+    - goods
+      + GoodsList.vue
+      + GoodsListItem.vue
+
+:snowflake: 仅当需要复用的组件结构不同时，采用插槽。仅数据不同时，不必使用。  
+
 
 
 
