@@ -447,9 +447,46 @@ methods: {
 }
 ```
 
+#### TabControl切换商品  
+> 当点击不同的分类时，切换对应的展示数据。  
 
+将点击的索引值[传给父组件](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#父子组件通信)，并判断具体需要展示的数据，再通过计算属性 `showGoods` 保存需要展示的数据。  
+```
+/* TabControl.vue */
+methods: {
+  itemClick(index) {
+    this.$emit('tabClick', index)
+  }
+}
+```
 
+#### 实现手机端浏览  
+使手机和电脑连接在同一个 wifi 下，通过电脑的 [IPv4](https://jingyan.baidu.com/article/6079ad0e58c8c369ff86db9c.html) 地址加上 `:8080/home` 即 `localhost` 后面的那段即可连接。  
 
+#### Better-scoll的安装和使用  
+> 这个框架提供给了移动端更顺滑的滚动能力（减少了卡顿，拖拽增强，提供了弹簧效果）。  
+
+安装  
+```
+/* 项目文件下 */
+npm install --save better-scroll@1.13.2  
+```
+
+使用测试
+/* Category.vue */
+```
+import BScroll from 'better-scroll'
+
+data() {
+  return {
+    scroll: null
+  }
+},
+mounted() {
+  this.scroll = new BScroll(document.querySelector('.wrapper'), {})
+}
+```
+:bug: 不能在 `created` 的处理程序中获取元素，此时尚未渲染。  
 
 
 
