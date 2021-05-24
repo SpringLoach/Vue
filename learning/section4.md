@@ -471,6 +471,7 @@ methods: {
 /* 项目文件下 */
 npm install --save better-scroll@1.13.2  
 ```
+:bug: 如果出现找不到声明文件的错误，尝试卸载重装最新版本并重新打开 `VS Code`。  
 
 使用测试
 /* Category.vue */
@@ -485,12 +486,49 @@ data() {
 mounted() {
   this.scroll = new BScroll(document.querySelector('.wrapper'), {})
 }
+
+/* CSS */
+.wrapper {
+  background-color: skyblue;
+  height: 200px;
+  overflow: hidden;
+}
 ```
 :bug: 不能在 `created` 的处理程序中获取元素，此时尚未渲染。  
+:snowflake: 必须对挂载元素设置一个高度。  
 
+#### Better-scroll的基本使用
+> BScroll 实例至少需要接受一个元素作为容器元素，在旧版本中这个容器内的第一个元素会被添加上相应的功能，新版本中添加了[更多功能](https://better-scroll.gitee.io/docs/zh-CN/guide/base-scroll-options.html)。  
 
+第二个参数为一个对象，可以在其中配置一些 option
 
+ 选项 | 说明
+ :-: | :-: 
+ probeType | 设置位置侦测，值为 3 时侦测所有滚动   
+ click | 设置为 true 时，开启浏览器的原生 click 事件
+ pullUpLoad | 设置为 true 时，监听 `pullingUp` 事件，滚动到底部时发生
 
+```
+/* 引入文件后 */
+const bscroll = BetterScroll.createBScroll(document.querySelector('.wrapper'), {
+  probeType: 3,
+  click: true,
+  pullUpLoad: true
+})
+
+bscroll.on('scroll', (position) => {
+  console.log(position);
+})
+
+bscroll.on('pullingUp', () => {
+  console.log("加载更多");
+  setTimeout(() => {
+    bscroll.finishPullUp()
+  }, 2000)
+})
+```
+:snowflake: 该实例的 `on` 方法接受一个事件和处理程序。  
+:snowflake: 默认情况下，滚动到底部的处理程序只会执行一次，除非调用了该实例的 `finishPullUp()` 的方法，该方法通常在新的数据展示完成后调用。  
 
 
 
