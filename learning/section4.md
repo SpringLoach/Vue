@@ -530,6 +530,52 @@ bscroll.on('pullingUp', () => {
 :snowflake: 该实例的 `on` 方法接受一个事件和处理程序。  
 :snowflake: 默认情况下，滚动到底部的处理程序只会执行一次，除非调用了该实例的 `finishPullUp()` 的方法，该方法通常在新的数据展示完成后调用。  
 
+#### Better-scroll的封装和使用  
 
+- commom
+  + scroll
+    - Scroll.vue
+
+```
+<div class="wrapper" ref="wrapper">
+  <div class="content">
+    <slot></slot>
+  </div>
+</div>
+
+import BScroll from 'better-scroll'
+
+data() {
+  return {
+    scroll: null
+  }
+},
+mounted() {
+  this.scroll = new BScroll(this.$refs.wrapper, {
+    observeDOM: true,
+    click: true
+  })
+}
+```
+:snowflake: `ref` 绑定在组件中时，`this.$refs.refname` 获取到的是一个[组件对象](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#父访问子)； `ref` 绑定在元素中时，获取到的则是当前组件中的该元素。  
+
+
+导入并使用该组件，并根据需求设置高度  
+```
+/* Home.vue */
+<scroll class="content">
+  // 顶部导航栏和底部导航栏以外的内容
+</scroll>
+```
+
+定义的样式仅在当前组件中起作用
+```
+<style scoped>
+.content {
+  height: calc(100vh - 44px - 49px);
+}
+</style>
+```
+:snowflake: `calc()` 为 CSS3 中新增的计算值，`vh` 表示视口高度。  
 
 
