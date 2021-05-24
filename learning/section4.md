@@ -429,7 +429,23 @@ methods: {
 
 :snowflake: 仅当需要复用的组件结构不同时，采用插槽。仅数据不同时，不必使用。  
 
+#样式  
+1. 采用弹性布局时，要保证元素之前是直接的父子关系，所有 `v-for` 要直接用到组件上。  
+2. 设置[文本溢出](https://www.w3school.com.cn/tiy/t.asp?f=css3_text-overflow)效果。   
+3. 设置图片[固定宽高比](https://blog.csdn.net/qq_26173001/article/details/102770651)。  
+4. 利用弹性布局设计两栏效果。  
 
+```
+.goods-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 3px;
+}
+.list-item {
+  width: 48%;
+}
+```
 
 
 
