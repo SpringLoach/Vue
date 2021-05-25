@@ -784,25 +784,71 @@ function(...args) {
 }()
 ```
 
-#### 获取TabControl的offsetTop  
-> 元素到 offsetParent 顶部的距离 P473
+#### TabControl的吸顶效果  
+> 由于使用了 `better-scroll` 进行管理，本质上是对 content 改变了 `transfrom`，会导致其内部元素的 `fixed` 定位失效。  
 
+:herb: 由于轮播图每次的加载都较慢，所以直接监听它的加载...  
 ```
-<table-control ref="tabControl"/>
+/* HomeSwiper.vue */
+<img :src="item.image" @load="imageLoad">
+
+data() {
+  return {
+    isLoad: false
+  }
+},
+methods: {
+  imageLoad() {
+    if(!this.isLoad) {
+      this.$emit('swiperImageLoad');
+      this.isLoad = true;
+    }
+  }
+}
+
 /* Home.vue */
+<home-swiper @swiperImageLoad="swiperImageLoad"/> 
+<table-control ref="tabControl"/>
+
 data() {
   return {
     tabOffsetTop: 0
   }
 },
-mounted() {
-  console.log(this.$refs.tabControl.$el.offsetTop)
+methods: {
+  swiperImageLoad() {
+    this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop;
+  }
 }
 ```
-:snowflake: 组件都有一个 `$el` 属性，用于获取组件中的元素。  
+:herb: 通过控制，使自定义事件只发出一次，这是一种节流方式。  
+:snowflake: 组件都有一个 `$el` 属性，用于获取组件中的元素。    
 :snowflake: 在挂载后，图片未必完成加载，也就是说在 `mounted` 中获取的 offsetTop 不一定准确。  
+:palm_tree: offsetTop： 元素到 offsetParent 顶部的距离 P473  
 
+监听滚动，动态地改变 TabControl 的样式 
+```
+/* Home.vue */
+data() {
+  return {
+    isTabFixed: false
+  }
+},
+methods: {
+  contentScroll(position) {
+    this.isTabFixed = (-position.y) > (this.tabOffsetTop - 44)
+  }
+}
+```
+1. 将 `<table-control>` 拷贝到 `<scroll>` 以外。  
+2. 给新拷贝组件加上上边距 / 去除顶部导航栏的 `fixed` 定位来回到标准流也行，此时它已经不会跟随滚动。  
+3. 给新拷贝组件加上 `class="tab-control2"`，并给类设置 `position: relative; width: 100%;`   
+4. 给新拷贝组件加上 `v-show="isTabFixed"`  
+5. 改新拷贝组件 `ref="tabControl1"`，改原组件 `ref="tabControl2"`。  
+6. 同样要把先前方法 `swiperImageLoad()` 中的 `tabControl` 改为 `tabControl2`。  
+7. 在方法 `tabClick()` 中加上 `this.$refs.tabControl1.currentIndex = index; this.$refs.tabControl2.currentIndex = index;`
 
+[另一个思路](https://github.com/ustbhuangyi/better-scroll/issues/1030)
 
 
 
