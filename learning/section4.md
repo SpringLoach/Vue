@@ -675,6 +675,7 @@ methods: {
   }
 }
 ```
+:herb: 在 `mounted` 中使用 `if` 语句时，不能在前后加上 `,`
 
 当数据加载完成后，需要调用实例的 `finishPullUp()` 方法**重新监听下拉事件**。  
 ```
@@ -701,7 +702,7 @@ mounted() {
 ```
 :palm_tree: 该插件[新增](https://better-scroll.gitee.io/docs/zh-CN/plugins/observe-image.html#%E4%BB%8B%E7%BB%8D)于 2.1 版本。  
 
-#也可以手动刷新  
+**#也可以手动刷新**  
 > 由于需要传递和接受事件的两个组件之间的关系比较远，可以在原型上添加事件总线。   
 ```
 /* main.js */
@@ -727,31 +728,38 @@ mounted() {
 :snowflake: `.$bus.$emit()` 也可以传入第二个参数进行传递。  
 
 #### 防抖函数的处理  
-> 为了避免多次执行 `BetterScroll` 的 refresh 方法而影响性能，在这里可以建立一个防抖函数。  
+> 为了避免多次执行 `BetterScroll` 的 refresh 方法而影响性能，在这里可以建立一个防抖函数。这里针对的是上一节中手动刷新的补充。    
+
+- common
+  + utils.js
 
 ```
-mounted() {
-  const refresh = this.debounce(this.$refs.scroll.refresh, 200)
-  this.$bus.$on('itemImageLoad', () => {
-    refresh()
-  })
-},
-methods: {
-  debounce(func, delay) {
-    let timer = null;
-    return function(...args) {
-      if(timer) clearTimeout(timer);
-      timer = setTimeout(() => {
-        func.apply(this, args);
-      }, delay)
-    }
+export function debounce(func, delay) {
+  let timer = null;
+  return function(...args) {
+    if(timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(this, args);
+    }, delay)
   }
 }
 ```
-:herb: `func.apply(this, args)` ，每次都在当前函数中使用 func 方法。  
+
+```
+/* Home.vue */
+import {debounce} from "common/utils"
+
+mounted() {
+  const refresh = debounce(this.$refs.scroll.refresh, 200)
+  this.$bus.$on('itemImageLoad', () => {
+    refresh()
+  })
+}
+```
+:herb: `func.apply(this, args)` ，在[当前函数](https://blog.csdn.net/business122/article/details/8000676)中使用 func 方法。  
 :snowflake: `clearTimeout()` 的作用是取消定时函数的执行。  
 
-#作用机理推测
+**#作用机理推测**
 
 - 因为有引用关系，故父作用域中的 `timer` 不会被销毁，而且每次都能被赋值为上一个定时函数并保留。  
 - 而每次调用方法中的 `timer` ，应该是从上一级作用域中获取到的。  
@@ -776,7 +784,23 @@ function(...args) {
 }()
 ```
 
+#### 获取TabControl的offsetTop  
+> 元素到 offsetParent 顶部的距离 P473
 
+```
+<table-control ref="tabControl"/>
+/* Home.vue */
+data() {
+  return {
+    tabOffsetTop: 0
+  }
+},
+mounted() {
+  console.log(this.$refs.tabControl.$el.offsetTop)
+}
+```
+:snowflake: 组件都有一个 `$el` 属性，用于获取组件中的元素。  
+:snowflake: 在挂载后，图片未必完成加载，也就是说在 `mounted` 中获取的 offsetTop 不一定准确。  
 
 
 
