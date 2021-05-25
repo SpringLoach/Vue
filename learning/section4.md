@@ -646,6 +646,148 @@ methods: {
 ```
 :cyclone: 自定义属性前要加上的 `:`，否则默认传入类型为字符串。  
 
+#### 下拉加载更多  
+> 由父组件决定是否监听上拉事件。  
+
+```
+/* Scroll.vue */
+props: {
+  pullUpLoad: {
+    type: Boolean,
+    default: false
+  }
+},
+mounted() {
+  this.scroll = new BScroll(this.$refs.wrapper, {
+    pullUpLoad: this.pullUpLoad
+  }),
+  this.scroll.on('pullingUp', () => {
+    this.$emit('pullingUp')
+  })
+}
+
+/* Home.vue */
+<scroll :pull-up-load="true" @pullingUp="loadMore">
+
+methods: {
+  loadMore() {
+    this.getHomeGoods(this.currentType)
+  }
+}
+```
+
+当数据加载完成后，需要调用实例的 `finishPullUp()` 方法**重新监听下拉事件**。  
+```
+getHomeGoods(type) {
+  ....then(res => {
+    ... 
+    this.$refs.scroll.scroll.finishPullUp()
+  )}
+}
+```
+
+#### 滚动高度的重新计算  
+> 由于图片等资源是异步加载的，`BetterScroll` 在计算滚动高度时，可能会不足实际高度，导致一些不良体验。这时可以在图片加载后，调用 `BetterScroll` 的 refresh 方法来重新计算可滚动的宽度或者高度。  
+
+启用observeImg
+```
+/* Scroll.vue */
+mounted() {
+    this.scroll = new BScroll(this.$refs.wrapper, {
+        observeDOM: true,
+        observeImg: true,
+    }),
+}
+```
+:palm_tree: 该插件[新增](https://better-scroll.gitee.io/docs/zh-CN/plugins/observe-image.html#%E4%BB%8B%E7%BB%8D)于 2.1 版本。  
+
+#也可以手动刷新  
+> 由于需要传递和接受事件的两个组件之间的关系比较远，可以在原型上添加事件总线。   
+```
+/* main.js */
+Vue.prototype.$bus = new Vue()
+
+/* GoodsListItem.vue */
+<img :src="goodsItem.show.img"  @load="imageLoad">
+
+methods: {
+  imageLoad() {
+    this.$bus.$emit('itemImageLoad')
+  }
+}
+
+/* Home.vue */
+mounted() {
+  this.$bus.$on('itemImageLoad', () => {
+    this.$refs.scroll.scroll.refresh();
+  })
+}
+```
+:herb: `this.$refs` 不能写到 `created` 中。    
+:snowflake: `.$bus.$emit()` 也可以传入第二个参数进行传递。  
+
+#### 防抖函数的处理  
+> 为了避免多次执行 `BetterScroll` 的 refresh 方法而影响性能，在这里可以建立一个防抖函数。  
+
+```
+mounted() {
+  const refresh = this.debounce(this.$refs.scroll.refresh, 200)
+  this.$bus.$on('itemImageLoad', () => {
+    refresh()
+  })
+},
+methods: {
+  debounce(func, delay) {
+    let timer = null;
+    return function(...args) {
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, delay)
+    }
+  }
+}
+```
+:herb: `func.apply(this, args)` ，每次都在当前函数中使用 func 方法。  
+:snowflake: `clearTimeout()` 的作用是取消定时函数的执行。  
+
+#作用机理推测
+
+- 因为有引用关系，故父作用域中的 `timer` 不会被销毁，而且每次都能被赋值为上一个定时函数并保留。  
+- 而每次调用方法中的 `timer` ，应该是从上一级作用域中获取到的。  
+
+```
+/* 首次 */
+function(...args) {
+  /* 父作用域 timer = null  */
+  if(timer) clearTimeout(timer);
+  timer = setTimeout(() => {
+    func.apply(this, args);
+  }, 200)
+}()
+    
+/* 第二次 */    
+function(...args) {
+  /* 父作用域 timer = 上一个定时函数  */
+  if(timer) clearTimeout(timer);
+  timer = setTimeout(() => {
+    func.apply(this, args);
+  }, 200)
+}()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
