@@ -505,7 +505,7 @@ mounted() {
  选项 | 说明
  :-: | :-: 
  probeType | 设置位置侦测，值为 3 时侦测所有滚动   
- click | 设置为 true 时，开启浏览器的原生 click 事件
+ click | 设置为 true 时，除了 button 元素外，还监听浏览器的原生 `click` 事件
  pullUpLoad | 设置为 true 时，监听 `pullingUp` 事件，滚动到底部时发生
 
 ```
@@ -577,5 +577,75 @@ mounted() {
 </style>
 ```
 :snowflake: `calc()` 为 CSS3 中新增的计算值，`vh` 表示视口高度。  
+:snowflake: 此时，滚动距离不能正常计算，`stricky` 失去作用。  
+
+
+#### 回到顶部  
+> 在页面上展现一个固定于视口的按钮，拥有返回顶部的功能。  
+
+- content
+  + backTop
+    - BackTop
+
+```
+<div class="back-top">
+  <img src="~assets/img/common/top.png" alt=""> 
+</div>
+```
+
+当发生点击事件时，要调用 `scroll` 组件中 `scroll` 属性的 `scrollTo()` 方法。  
+```
+/* Home.vue */
+<scroll ref="scroll">
+...
+<srcoll>
+<back-top @click.native="backClick"/>
+
+backClick() {
+  this.$refs.scroll.scroll.scrollTo(0, 0, 300)
+}
+```
+:palm_tree: 修饰符 `native`：监听组件根元素的原生事件。  
+:snowflake: 方法相当于访问子组件的 scroll 属性，并调用它的 `scrollTo()` 方法进行滚动。  
+:bug: 调试时不要用鼠标滚轮，会出现奇怪的现象。  
+
+#### 回到顶部的显示和隐藏  
+> 回到顶部的组件，我们希望它在滑动一定距离后才显示，这时候我们希望在 `Home.vue` 能实时监听滚动的位置。  
+
+由于使用了 `better-scroll` 管理这部分组件，所以在它的实例中获取滚动位置。并由使用它的组件决定是否监听滚动。   
+```
+/* Scroll.vue */
+props: {
+  probeType: {
+    type: Number,
+    default: 0
+  }
+},
+mounted() {
+  this.scroll = new BScroll(this.$refs.wrapper, {
+    probeType: this.probeType
+  }),
+  this.scroll.on('scroll', (position) => {
+    this.$emit('scroll', position)
+  })
+}
+
+
+/* Home.vue */
+<scroll :probe-type="3" @scroll="contentScroll">
+<back-top v-show="isShowBackTop">
+
+data() {
+  return {isShowBackTop: false}
+}
+methods: {
+  contentScroll(position) {
+    this.isShowBackTop = (-position.y) > 1000
+  }
+}
+```
+:cyclone: 自定义属性前要加上的 `:`，否则默认传入类型为字符串。  
+
+
 
 
