@@ -922,5 +922,53 @@ created() {
 2. 中间的插槽的使用：将数据以数组形式记录到 `data` 中并在 HTML 中遍历，然后动态添加 `active` 类。  
 3. 左边插槽将图片[居中](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#tabber)后，添加回退的功能。  
 
+#### 数据请求以及轮播图的展示  
+> 先请求数据，将请求到的数据筛选保存在 `Detail.vue`，然后创建一个详情页的轮播图组件获取数据并展示，然后导出到 `Detail.vue` 中，最后到 `APP.vue` 的缓存组件中[排除](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#路由中使用keep-alive)详情页组件。    
+
+- network
+  + detail.js
+
+```
+import {request} from "./request";
+
+export function getDetail(iid) {
+  return request({
+    url: '/detail',
+    params: {
+      iid
+    }
+  })
+}
+```
+
+```
+/* Detail.vue */
+data() {
+  return {
+    topImages: []
+  } 
+}
+created() {
+  getDetail(this.iid).then(res => {
+    this.topImages = res.result.itemInfo.topImages
+  })
+}
+```
+
+- detail
+  + childComps
+    - DetailSwiper.vue
+
+从父组件[获取数据](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#父子组件通信)后进行展示  
+```
+<swiper class="detail-swiper">
+  <swiper-item v-for="item in topImages">
+    <img :src="item">
+  </swiper-item >
+</swiper>
+```
+:bug: 由于轮播图组件封装时的一些操作，导致其它组件中类名不能用 `swiper`。  
+:snowflake: 由于请求到的图片地址数量参差不齐，且都保存在数组中，故可以配合已经封装好的组件直接 `v-for` 遍历。  
+
 
 
