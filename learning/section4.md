@@ -846,18 +846,81 @@ methods: {
 4. 给新拷贝组件加上 `v-show="isTabFixed"`  
 5. 改新拷贝组件 `ref="tabControl1"`，改原组件 `ref="tabControl2"`。  
 6. 同样要把先前方法 `swiperImageLoad()` 中的 `tabControl` 改为 `tabControl2`。  
-7. 在方法 `tabClick()` 中加上 `this.$refs.tabControl1.currentIndex = index; this.$refs.tabControl2.currentIndex = index;`
+7. 在方法 `tabClick()` 中加上 `this.$refs.tabControl1.currentIndex = index; this.$refs.tabControl2.currentIndex = index;`，实现同步状态。  
 
 [另一个思路](https://github.com/ustbhuangyi/better-scroll/issues/1030)
 
+#### Home离开时记录状态和位置  
 
+```
+/* App.vue */
+<keep-alive>
+  <router-view/>
+</keep-alive>
+```
 
+但偶尔会有丢失位置的问题，下面的方法可以减少这种情况，但再加载时切换跳转，可能还是会回到顶部..
+```
+/* Home.vue */
+data() {
+  return {
+    saveY: 0
+  }
+},
+activated() {
+  this.$refs.scroll.scroll.refresh();
+  this.$refs.scroll.scroll.scrollTo(0,this.saveY,0);
+},
+deactivated() {
+  this.saveY = this.$refs.scroll.scroll.y
+}
+```
 
+----
 
+#### 跳转到详情页  
+> 可以把详情页看作一个单独的视图，点击时通过路由跳转。  
 
+- views
+  + detail
+    - Detail.vue
 
+由于商品存在不同的 ID，可以使用[动态路由](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#动态路由的使用)并将 ID [传入](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#vue-router参数传递
+)详情页组件中。  
 
+```
+/* GoodsListItem.vue */
+<div class="list-item" @click="itemClick">
 
+methods: {
+  itemClick() {
+    this.$router.push('/detail/' + this.good.iid);
+  }
+}
+
+/*  Detail.vue */
+data() {
+  return {
+    iid: null
+  }
+},
+created() {
+  this.iid = this.$route.params.iid
+}
+```
+:cyclone: 因为是切换组件而不是单纯的切链接嘛，采用的是[通过代码跳转路由](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#通过代码跳转路由)的方式。  
+:bug: 由于缓存了路由，`created` 内只记录第一次传入的 iid 。  
+
+#### 导航栏的封装  
+> 由于详情页的导航栏有些设计，故对这块创建一个组件，然后引入到 `Detail.vue` 中。  
+
+- detail
+  + childComps
+    - DetailNavBar.vue
+
+1. 将 `NavBar.vue` 引入到 `DetailNavBar.vue` 中。  
+2. 中间的插槽的使用：将数据以数组形式记录到 `data` 中并在 HTML 中遍历，然后动态添加 `active` 类。  
+3. 左边插槽将图片[居中](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#tabber)后，添加回退的功能。  
 
 
 
