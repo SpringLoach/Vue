@@ -970,5 +970,67 @@ created() {
 :bug: 由于轮播图组件封装时的一些操作，导致其它组件中类名不能用 `swiper`。  
 :snowflake: 由于请求到的图片地址数量参差不齐，且都保存在数组中，故可以配合已经封装好的组件直接 `v-for` 遍历。  
 
+#### 商品基本信息的展示  
+
+需要从父组件请求多个数据，且数据结构较为复杂时，可以先创建一个类，先把数据筛选一下，最终使用该类把数据都保存到实例对象中。  
+
+1. 在下面文件中创建一个 Goods 类，用于筛选数据。  
+
+- network
+  + detail.js
+
+
+2. 进行初筛并获取数据。  
+```
+/*  Detail.vue */
+import {Goods} from 'network/detail'
+
+data() {
+  return {
+    goods: {}
+  }
+},
+created() {
+  getDetail(this.iid).then(res => {
+      ...
+      const data = res.result;
+      this.goods = new Goods(data.itemInfo, data.columns, data.shopInfo.services)
+    })
+}
+```
+
+3. 创建子组件展示商品的基本信息。  
+
+- detail
+  + childComps
+    - DetailBaseInfo.vue
+
+```
+/* 部分解释 */
+
+/* 仅当获取到数据后展示 */  
+<div v-if="Object.keys(goods).length !== 0">
+
+/* 遍历数组的第一项外的所有项 */
+computed: {
+  reservices() {
+    return this.goods.services.slice(1);
+  }
+}
+```
+
+- 创建行内贴边对齐效果，对容器设置 `display: flex` 和 `justify-content: space-between` 即可，若对弹性项目设置 `flex: 1` 会导致冲突。  
+- 偏移行内图片，只需要对图片相对定位后稍移动即可。
+  
+  
+
+
+
+
+
+
+
+
+
 
 
