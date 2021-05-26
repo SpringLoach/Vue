@@ -1022,12 +1022,21 @@ computed: {
 - 创建行内贴边对齐效果，对容器设置 `display: flex` 和 `justify-content: space-between` 即可，若对弹性项目设置 `flex: 1` 会导致冲突。  
 - 偏移行内图片，只需要对图片相对定位后稍移动即可。
   
-  
+#### 店铺信息的展示  
 
+1. 先在 `detail.js` 中建立一个类，用于创建的对象中包括店铺信息组件需要的数据。  
 
+2. 将数据请求并保存到详情页组件中。
 
+3. 创建店铺信息组件，并从详情页组件（父组件）获取相应数据并展示。  
 
+- detail
+  + childComps
+    - DetailShopInfo.vue
 
+- 使弹性项目在垂直方向沿中心对齐：父 `display: flex`、`text-align: center`、`align-items: center` 子 `flex: 1`。  
+
+- 使弹性项目两边间距相对：使用 `justify-content: space-evently`，但是这个新属性值的兼容性较差。  
 
 
 
