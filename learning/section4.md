@@ -859,7 +859,7 @@ methods: {
 </keep-alive>
 ```
 
-但偶尔会有丢失位置的问题，下面的方法可以减少这种情况，但再加载时切换跳转，可能还是会回到顶部..
+但偶尔会有丢失位置的问题，下面的方法可以减少这种情况，但再加载时切换跳转，可能还是会回到顶部..某些版本的 better-scroll 这个问题更严重。  
 ```
 /* Home.vue */
 data() {
@@ -1087,8 +1087,31 @@ computed: {
   + childComps
     - DetailParamInfo.vue
 
+#### 商品评论信息的展示  
 
+1. 在 `Detail.vue` 中获取并保存商品评论信息数据。  
+    - 这里可以先判断评论信息是否为空，来决定是否将其保存到变量中。  
+2. 创建一个组件获取这些数据并展示。  
 
+- detail
+  + childComps
+    - DetailCommentInfo.vue
 
+3. 注意从服务器返回的时间戳，要将其转化格式，有一个很常用的组件。  
+
+- src
+  + common
+    - utils.js
+
+```
+/* DetailCommentInfo.vue */
+computed: {
+  commentCreate() {
+    let date = new Date(this.commentInfo.created*1000);
+    return formatDate(date, 'yyyy-MM-dd');
+  }
+}
+```
+:palm_tree: 可以在第二个参数即字符串中加入需要的格式。   
 
 
