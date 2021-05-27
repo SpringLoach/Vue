@@ -1114,4 +1114,45 @@ computed: {
 ```
 :palm_tree: 可以在第二个参数即字符串中加入需要的格式。   
 
+#### 商品推荐数据的展示  
+
+1. 在相应的请求文件 `detail.js` 中新增请求方法，并将其导入到 `Detail.vue` 中。
+
+```
+export function getRecommend() {
+  return request({
+    url: '/recommend'
+  })
+}
+```
+
+2. 在 `created` 钩子处调用请求并保存数据。  
+
+```
+/* Detail.vue */
+getRecommend().then(res => {
+  this.recommends = res.data.list
+})
+```
+
+3. 调用之前封装好的 `GoodsList.vue` 组件，并将数据传入。  
+
+4. 由于获取图片的路径跟首页的不一样，需要在 `GoodsListItem.vue` 中稍作修改。  
+
+```
+computed: {
+  showImage() {
+    return this.product.image || this.product.show.img
+    /* return (this.good.show && this.good.show.img) || this.good.image */
+  }
+}
+```
+:bug: 这里不能直接调转两个值的位置，据说是不能判断一个没有的东西里有没有另一个东西。  
+:bug: 用变量保存请求的数据时，不要设置成 `null` 或 `undefine` 的初始值，初始值类型设置错了与自定义属性的期望类型不一致也会报错。  
+
+
+
+
+
+
 
