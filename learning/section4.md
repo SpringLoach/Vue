@@ -750,7 +750,7 @@ export function debounce(func, delay) {
 import {debounce} from "common/utils"
 
 mounted() {
-  const refresh = debounce(this.$refs.scroll.refresh, 200)
+  const refresh = debounce(this.$refs.scroll.scroll.refresh, 200)
   this.$bus.$on('itemImageLoad', () => {
     refresh()
   })
@@ -1058,6 +1058,34 @@ computed: {
 :herb: 此时 BS 会报错，`pullingUp` 事件未定义（就使用了），可以在 `Detail.vue` 传值启用该事件。不过更正确的做法应该是用 `if` 将该事件的发射包围，仅当启用时发射，注意前后不能加 `,`    
 
 3. 给详情页的导航栏设置层级关系，使其靠近用户。  
+
+#### 商品详情数据的展示  
+
+1. 在 `Detail.vue` 中获取并保存商品的详情数据到 `detailGoodsInfo`。  
+
+2. 创建一个组件获取这些数据并展示。  
+
+- detail
+  + childComps
+    - DetailGoodsInfo.vue
+
+3. 图片的加载会导致滚动高度计算错误，利用[新版本的better-scroll](#滚动高度的重新计算)可以解决这个问题，但可能性能达不到最佳。  
+
+#CSS 
+
+- 特殊样式的设计：向 `::before` 加上绝对定位，给它基于的元素加上相对定位可以微调位置。  
+
+#### 商品参数信息的展示  
+
+1. 先在 `detail.js` 中建立一个类，用于创建的对象中包括商品参数信息组件需要的数据。  
+
+2. 将数据请求并保存到详情页组件中。
+
+3. 创建商品参数信息组件，并从详情页组件（父组件）获取相应数据并展示。  
+
+- detail
+  + childComps
+    - DetailParamInfo.vue
 
 
 
