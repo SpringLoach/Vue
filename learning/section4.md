@@ -1038,6 +1038,25 @@ computed: {
 
 - 使弹性项目两边间距相对：使用 `justify-content: space-evently`，但是这个新属性值的兼容性较差。  
 
+#### 加入滚动的效果  
+
+1. 改变层级关系，使 tabbar 被覆盖。  
+```
+#detail {
+  position: relative;
+  z-index: 9;
+  background-color: #fff;
+}
+```
+
+2. 利用 [betterscroll](#Better-scroll的封装和使用) 添加滚动。    
+
+  - 注册 Scroll 组件并使用到 `detail`  
+  - 将需要滚动的内容放入 `<scroll>` 标签中  
+  - 给 `<scroll>` 标签一个固定的高度  
+
+3. 给详情页的导航栏设置层级关系，使其靠近用户。  
+
 
 
 
