@@ -1051,9 +1051,11 @@ computed: {
 
 2. 利用 [betterscroll](#Better-scroll的封装和使用) 添加滚动。    
 
-  - 注册 Scroll 组件并使用到 `detail`  
+  - 注册 Scroll 组件并使用到 `Detail.vue`  
   - 将需要滚动的内容放入 `<scroll>` 标签中  
   - 给 `<scroll>` 标签一个固定的高度  
+
+:herb: 此时 BS 会报错，`pullingUp` 事件未定义（就使用了），可以在 `Detail.vue` 传值启用该事件。不过更正确的做法应该是用 `if` 将该事件的发射包围，仅当启用时发射，注意前后不能加 `,`    
 
 3. 给详情页的导航栏设置层级关系，使其靠近用户。  
 
