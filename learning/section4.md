@@ -1150,9 +1150,55 @@ computed: {
 :bug: 这里不能直接调转两个值的位置，据说是不能判断一个没有的东西里有没有另一个东西。  
 :bug: 用变量保存请求的数据时，不要设置成 `null` 或 `undefine` 的初始值，初始值类型设置错了与自定义属性的期望类型不一致也会报错。  
 
+#### 解决共用组件导致的首页频繁监听事件  
+> 这里针对的是由于在详情页复用了 `GoodsListItem.vue` 组件，会意外触发首页通过[手动刷新](#滚动高度的重新计算)解决滚动高度的重新计算的问题。  
 
+- 方法一：发送自定义事件的控制。    
+```
+/* 需要修改发送事件的名称，同时针对详情页的图片加载问题 */
+methods: {
+  imgLoad() {
+    if (this.$route.path.indexOf('/home') > -1){
+      this.$bus.$emit('homeItemImgLoad')
+    } else if (this.$route.path.indexOf('/detail') > -1) {
+      this.$bus.$emit('detailItemImgLoad')
+    }
+  }
+}
+/* 然后在详情页接受第二个事件来决定什么时候重新计算滚动高度 */
+```
 
+- 方法二：事件处理程序的注销。  
 
+  + 选择在 `Home.vue` 的 `deactivated` 的回调中，执行注销，有点像 DOM 的事件处理程序。    
+```
+this.$bus.$off('ItemImgLoad', 要注销的函数)
+```
+
+#### 混入的简单使用  
+> 当在不同组件中需要用到一部分相同的组件选项时（包括钩子的回调），就可以用混入的方法，它会将选项中的操作合并。  
+
+- src
+  + common
+    - mixin.js
+
+```
+export const itemListenerMixin = {
+  mounted() {
+    console.log("Hey,man");
+    this.color = "blue";
+  }
+}
+```
+:herb: 在 `mixin.js` 中，可以用尚未在该文件定义的 `data`，但不能用尚未引入该文件的方法。  
+
+在需要混入的组件中，导入混入对象并将其添加到 `mixin` 选项。  
+```
+import {itemListenerMixin} from 'common/mixin'
+
+data() {return{color: 'some'}},
+mixin: [itemListenerMixin],
+```
 
 
 
