@@ -1200,5 +1200,77 @@ data() {return{color: 'some'}},
 mixin: [itemListenerMixin],
 ```
 
+#### 详情页的主题跳转  
+
+1. 点击顶部导航栏时，向父组件传事件及参数。  
+```
+/* DetailNavBar.vue */
+titleClick(index) {
+  ...
+  this.$emit('titleClick', index)
+}
+```
+
+2. 在父组件监听事件添加跳转程序并标记需要定位的组件。  
+```
+/* Detail.vue */
+<detail-nav-bar @titleClick="titleClick">
+<scroll ref="scroll">
+<detail-params-info ref="params">
+<detail-comment-info ref="comment">
+<goods-list ref="recommend">
+
+data() {
+  return { themeTopTs: [] }
+},
+methods: {
+  titleClick(index) {
+    this.$refs.scroll.scroll.scrollTo(0, -this.themeTopTs[index], 100)
+  }
+}
+```
+
+3. 获取滚动高度  
+
+a) 通过 better-scroll 的 `scrollToElement` 方法进行实现。  
+```
+data() {
+  return { themeTopTs: ['swiper', 'params', 'comment', 'recommend'] }
+},
+methods: {
+  titleClick(index) {
+    this.$refs.scroll.scroll.scrollToElement(this.$refs[this.themeTopTs[index]].$el, 200);
+  }
+}
+```
+:bug: 当进入商品详情页的时候，马上点击主题，会因为瞬间加载好的图片导致定位失效。  
+
+b) 设置防抖功能，并在图片刷新时重新计算主题高度，这个事件是之前手动刷新滚动高度时设置的，我这儿没设置。  
+```
+data() {
+  return { getThemeTopY: null }
+},
+created() {
+  this.getThemeTopY = debounce(() => {
+    this.themeTopTs = [];
+    this.themeTopTs.push(0);
+    this.themeTopTs.push(this.$refs.params.$el.offsetTop);
+    this.themeTopTs.push(this.$refs.comment.$el.offsetTop);
+    this.themeTopTs.push(this.$refs.recommend.$el.offsetTop);
+  }, 100)
+},
+methods: {
+  detailImageLoad() {
+    this.getThemeTopY()
+  }
+}
+```
+
+c) 其它不能使用的方案  
+  - 在 `created` 中不能获取，此时不能获取到元素。
+  - 在 `mounted` 中不能获取，此时可能还没请求到数据。  
+  - 可以在 `updated` 的钩子中获取滚动高度，由于存在多次获取的可能，需要先重置数组，但此时图片可能没完全加载。  
+  - 在获取数据的 `then` 处理程序中添加 `this.$nextTick()` ，并向其添加获取滚动的函数，它将在 DOM 渲染后进行回调，但此时图片可能没完全加载。  
+
 
 
