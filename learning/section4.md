@@ -1281,5 +1281,8 @@ c) 其它不能使用的方案
 <scroll :probeType="3" @scroll="contentScroll">
 ```
 
+2. 将 `DetailNavBar.vue` 中的 currentIndex 改为自定义属性，以便从 `Detail.vue` 中传值
+
+3. xx
 
 
