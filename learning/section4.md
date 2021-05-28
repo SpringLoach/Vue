@@ -1281,8 +1281,36 @@ c) 其它不能使用的方案
 <scroll :probeType="3" @scroll="contentScroll">
 ```
 
-2. 将 `DetailNavBar.vue` 中的 currentIndex 改为自定义属性，以便从 `Detail.vue` 中传值
+2. 将 `DetailNavBar.vue` 中的 currentIndex 改为自定义属性，以便从 `Detail.vue` 中传值  
 
-3. xx
+```
+/* Detail.vue */
+<detail-nav-bar :currentIndex="currentIndex">
+data() {
+  return { currentIndex: 0 }
+}
+```
+
+3. 根据逻辑改变 `currentIndex` 的值。
+```
+/* Detail.vue */
+methods: {
+  contentScroll(position) {
+    let length = this.themeTopTs.length;
+    let positionY =-position.y;
+    for (let i = 0; i < length; i++) {
+      if (this.currentIndex !== i && i < length-1 && this.$refs[this.themeTopTs[i]].$el.offsetTop <= positionY && positionY < this.$refs[this.themeTopTs[i+1]].$el.offsetTop) {
+        this.currentIndex = i;
+      } else if (this.currentIndex !== i && this.$refs[this.themeTopTs[i]].$el.offsetTop <= positionY) {
+        this.currentIndex = i;
+      }
+    }
+  }
+}
+```
+:herb: 其中的 `this.currentIndex !== i` 用于减少多余的判断和赋值。  
+:herb: 也可以将各主题的滚动值推入数组，并在数组尾部推入一个最大值，简化逻辑。    
+:bug: 此时会导致一个问题，自定义属性 `currentIndex` 将会被子组件和父组件同时改变。状态管理，传递事件，原型
+
 
 
