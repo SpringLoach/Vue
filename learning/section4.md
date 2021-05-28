@@ -876,6 +876,9 @@ deactivated() {
 }
 ```
 
+#### 拖动底部导航栏丢失位置的问题  
+> 在 `App.vue` 给 `#app` 加上 `overflow: hidden` 。  
+
 ----
 
 #### 跳转到详情页  
@@ -1317,5 +1320,53 @@ methods: {
 - 由于此时 `DetailNavBar.vue ` 中已经发送了自定义事件 `titleClick`，并由父组件接受。  
 
 - 将 `this.currentIndex = index;` 移动到自定义事件处理程序中即可，此时相当于只能由父组件改变自定义属性的值。
+
+#### 详情页底部工具栏的展示  
+> 这个组件不需要请求数据，但是要注意将其放在 `<scroll>` 标签之后，并减少 `<scroll>` 对应组件的高度，否则该组件会被挤出视窗。    
+
+- detail
+  + childComps
+    - DetailBottomBar.vue
+
+#### 详情页回到顶部  
+> 这个参考主页的[回到顶部](#回到顶部)，复用之前的 `Scroll.vue` 组件，也可以选择将相应的代码[混入](#混入的简单使用)。  
+
+#### 将商品添加到购物车  
+> 感觉这里将 iid 传给购物车组件，然后让它请求相应的数据去展示会合理吧..  
+
+1. 点击时发出事件并传到详情页组件，将需要展示到购物车的商品数据保存到变量中。  
+```
+/* DetailBottomBar.vue */
+<span @click="addToCart">加入购物车</span>
+
+methods: {
+  addToCart(){
+    this.$emit('addCart');
+  }
+}
+
+
+/* Detail.vue */
+<detail-bottom-bar @addCart="addToCart"/>
+
+methods: {
+  addToCart(){
+    const product = {};
+    product.image = this.topImages[0];
+    product.title = this.goods.title;
+    product.desc = this.goods.desc;
+    product.price = this.goods.nowPrice;
+    product.iid = this.iid;
+  }
+}
+```
+
+2. 补充请求时 `detail.js` 中相应类获取到的数据，这里之前扒了。    
+
+
+
+
+
+
 
 
