@@ -1,3 +1,5 @@
+[回到顶部](#回到顶部)  
+
 #### 项目创建和GitHub托管的不唯一方法  
 
 1. 使用 vue-cli-3 创建
@@ -1363,10 +1365,36 @@ methods: {
 
 2. 补充请求时 `detail.js` 中相应类获取到的数据，这里之前扒了。    
 
+#### Vuex保存架构数据  
+> 首先得安装配置Vuex。  
 
+```
+/* 在 index.js 中添加状态及改变状态的方法 */
+state: {
+  cartList: []
+},
+mutations: {
+  addCart(state, Payload) {
+    let oldProduct = state.cartList.find(item => item.iid === Payload.iid)
 
+    if (oldProduct){
+      oldProduct.count += 1;
+    } else {
+      Payload.count = 1;
+      state.cartList.push(Payload);  
+    }
+  }
+}
+```
 
-
-
-
+在提交方法中改变状态  
+```
+/* Detail.vue */
+methods: {
+  addToCart(){
+    ...
+    this.$store.commit('addCart', product)
+  }
+}
+```
 
