@@ -1505,6 +1505,35 @@ computed: {
   + childcomps
     - CartListItem.vue  
 
+#### 购物车列表的展示  
+
+在 `CartList.vue` 中进行商品的布局展示，并在其注册一个子组件用于展示选择按钮。  
+
+- components
+  + content
+    - checkButton
+      + CheckButton.vue  
+
+#### 购物车刷新滚动高度  
+> 由于对购物车组件添加了缓存，故每次进入该页面时需重新计算滚动高度。  
+```
+/* Cart.vue */
+<scroll ref="scroll">
+
+activated() {
+  this.$refs.scroll.scroll.refresh();
+}
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
