@@ -1491,15 +1491,15 @@ computed: {
 
 #### 获取购物车列表数据及滚动管理  
 
-1. 通过 mapGetters 引入需要的数据，并导入到父组件。  
+1. 通过 mapGetters 在 `CartList.vue` 中引入需要的数据，并将其展示到购物车组件。  
 
 - cart
-  + childcomps
+  + childComps
     - CartList.vue  
 
 2. 通过 [better-scroll](#Better-scroll的封装和使用) 控制该组件的滚动。  
 
-3. 创建新的组件用于展示每个商品的数据，并导入到 `CartList.vue` 中    
+3. 创建新的组件用于从 `CartList.vue` 中获取并展示每个商品的数据。     
 
 - cart
   + childcomps
