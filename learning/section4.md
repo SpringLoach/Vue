@@ -1399,26 +1399,26 @@ methods: {
 ```
 
 #### Vuex代码的重构  
-> 根据官方的建议，逻辑判断相关的代码放在[actions属性](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#actions属性)中，真正的执行代码放到 `mutations` 中。  
+> 根据官方的建议，逻辑判断相关的代码可以放在[actions属性](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#actions属性)中，真正的执行代码放到 `mutations` 中，但不这么做其实也没什么问题。    
 
 ```
 mutations: {
   addCounter(state, payload) {
-    payload.count++;
+    payload.count += 1;
   },
   addToCart(state, payload) {
-    payload.count += 1;
+    payload.count = 1;
     state.cartList.push(payload);
   }
 },
 actions: {
   addCart(context, payload) {
-    let oldProduct = context.state.cartList.find(item => item.iid === Payload.iid);
+    let oldProduct = context.state.cartList.find(item => item.iid === payload.iid);
     
     if (oldProduct){
       context.commit('addCounter', oldProduct)
     } else {
-      context.commit('addToCart', oldProduct)  
+      context.commit('addToCart', payload)  
     }
   }
 }
@@ -1435,13 +1435,75 @@ methods: {
 }
 ```
 
-然后可以进行[结构的重构](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#vue-store目录组织)。  
+然后可以进行[结构的重构](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#vue-store目录组织)。 
+
+----
+
+#### 购物车导航栏的实现  
+> 在 Cart.vue 中添加 NavBar.vue 组件，并填充相应的插槽。  
+
+```
+<nav-bar>
+  <div slot="center">购物车({{$store.state.cartList.length}})</div>
+</nav-bar>
+```
+
+**#另外的方法—— `mapGetters` 辅助函数**
+> 因为购物数量这个数据较复杂且多处使用，可以使用 `getters` 属性。而 mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性。  
+
+定义 getters 属性并导入到 `index.js` 中  
+
+- store  
+  + getters.js  
+
+```
+export default {
+  cartLength(state) {
+    return state.cartList.length;
+  },
+  cartList(state) {
+    return state.cartList
+  }
+}
+```
 
 
+使用
+```
+/* Cart.vue */
+import { mapGetters } from 'vuex'
 
+/* 使用对象展开运算符将 getter 混入 computed 对象中 */
+computed: {
+  ...mapGetters([
+    'cartLength',
+    'cartList'
+  ])
+}
 
+/* 如果需要将 getter 属性另取一个名字，使用对象形式 */
+computed: {
+  ...mapGetters({
+  cartLength: 'Length'
+  })
+}
+```
 
+#### 获取购物车列表数据及滚动管理  
 
+1. 通过 mapGetters 引入需要的数据，并导入到父组件。  
+
+- cart
+  + childcomps
+    - CartList.vue  
+
+2. 通过 [better-scroll](#Better-scroll的封装和使用) 控制该组件的滚动。  
+
+3. 创建新的组件用于展示每个商品的数据，并导入到 `CartList.vue` 中    
+
+- cart
+  + childcomps
+    - CartListItem.vue  
 
 
 
