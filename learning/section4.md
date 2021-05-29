@@ -1366,7 +1366,7 @@ methods: {
 2. 补充请求时 `detail.js` 中相应类获取到的数据，这里之前扒了。    
 
 #### Vuex保存架构数据  
-> 首先得安装配置Vuex。  
+> 首先得[安装](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#安装并配置Vuex)配置Vuex。  
 
 ```
 /* 在 index.js 中添加状态及改变状态的方法 */
@@ -1397,4 +1397,54 @@ methods: {
   }
 }
 ```
+
+#### Vuex代码的重构  
+> 根据官方的建议，逻辑判断相关的代码放在[actions属性](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#actions属性)中，真正的执行代码放到 `mutations` 中。  
+
+```
+mutations: {
+  addCounter(state, payload) {
+    payload.count++;
+  },
+  addToCart(state, payload) {
+    payload.count += 1;
+    state.cartList.push(payload);
+  }
+},
+actions: {
+  addCart(context, payload) {
+    let oldProduct = context.state.cartList.find(item => item.iid === Payload.iid);
+    
+    if (oldProduct){
+      context.commit('addCounter', oldProduct)
+    } else {
+      context.commit('addToCart', oldProduct)  
+    }
+  }
+}
+```
+
+届时要把之前的调用方式改一下。  
+```
+/* Detail.vue */
+methods: {
+  addToCart(){
+    ...
+    this.$store.dispatch('addCart', product)
+  }
+}
+```
+
+然后可以进行[结构的重构](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#vue-store目录组织)。  
+
+
+
+
+
+
+
+
+
+
+
 
