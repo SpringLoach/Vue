@@ -671,7 +671,8 @@ actions: {
     - index.js
     - actions.js
     - mutations.js
-    - modules
+    - [mutation-types.js](https://vuex.vuejs.org/zh/guide/mutations.html#使用常量替代-mutation-事件类型)  
+    - modules  
       + mutationA.js
       + mutationB.js
 
