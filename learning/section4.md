@@ -1507,7 +1507,7 @@ computed: {
 
 #### 购物车列表的展示  
 
-在 `CartList.vue` 中进行商品的布局展示，并在其注册一个子组件用于展示选择按钮。  
+在 `CartList.vue` 中进行商品的布局展示，并在其注册一个子组件用于展示选择按钮，并通过自定义属性 `isChecked` 决定选择按钮的哪种样式。  
 
 - components
   + content
@@ -1525,7 +1525,25 @@ activated() {
 }
 ```
 
+#### 购物车按钮的状态改变  
+> 开发中，这种情况不能直接改变状态，而是应该先改变对象模型，再由模型改变状态。  
 
+```
+/* mutations.js */
+addToCart(state, payload) {
+    payload.checked = false;
+    ...
+}
+
+/* CartListItem.vue */
+<check-button :is-checked="product.checked" @click.native="checkClick">
+
+methods: {
+  checkClick() {
+    this.product.checked = !this.product.checked;
+  }
+}
+```
 
 
 
