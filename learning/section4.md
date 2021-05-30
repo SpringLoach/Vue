@@ -1721,6 +1721,27 @@ Vue.use(VueLazyLoad, {
 })
 ```
 
+#### px2vw转化插件  
+
+安装
+```
+/* 项目文件下 */
+npm install postcss-px-to-viewport --save-dev
+```
+
+在相关的配置文件下，添加配置  
+```
+/* postcss.config.js */
+```
+一般以 iPhone6(750\*1334) 的标准作为设计稿（viewportWidth：375；viewportHeight：667）
+
+将 ignore 添加到xxx方便管理需要忽视样式的元素。
+
+选择的类名包括 scrope 的 <script>
+
+
+
+
 
 
 
