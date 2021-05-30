@@ -1618,7 +1618,7 @@ obj.install = function (Vue){
   document.body.appendChild(toast.$el)
   
   // 5. ...添加到原型
-  Vue.prototype.$toast = Toast;
+  Vue.prototype.$toast = toast;
 }
 
 export default obj
@@ -1627,7 +1627,7 @@ export default obj
 > 
 > 组件对象将替换挂载元素。  
 
-安装 toast 插件，它会自动调用它的 `install` 方法
+安装 toast 插件，它会自动调用它的 `install` 方法并传入 Vue 作为参数。  
 ```
 /* main.js */
 import toast from 'components/commom/toast'
@@ -1643,14 +1643,14 @@ data() {
     message: '',
     isShow: false
   }
-}
+},
 methods: {
   show(message, duration=1200) {
-    this.show = true;
+    this.isShow = true;
     this.message = message;
     
     setTimeout(() => {
-      this.show = false;
+      this.isShow = false;
       this.message = '';
     }, duration)
   }
@@ -1670,6 +1670,61 @@ this.$store.dispatch('addCart', product).then(res => {
   this.$toast.show(res)
 })
 ```
+
+#### 解决移动端300ms延迟——fastclick  
+> 移动端为了检测双击，会在点击后有一段延迟时间，可以使用该插件解决这个问题，高版本的 Chrome 不需要该插件。  
+
+安装
+```
+/* 项目文件下 */
+npm install fastclick --save
+```
+
+配置
+```
+/* main.js */
+import FastClick from 'fastclick'
+
+FastClick.attach(document.body);
+```
+
+#### 图片懒加载——vue-lazyload框架  
+> 用于在应用程序中延迟加载图像的 Vue 模块。  
+
+安装
+```
+/* 项目文件下 */
+npm install vue-lazyload --save
+```
+
+配置
+```
+/* main.js */
+import VueLazyLoad from 'vue-lazyload'
+
+Vue.use(VueLazyLoad)
+```
+
+使用  
+```
+<img :src="xx">
+    | |
+     V
+<img v-lazy="xx">
+```
+
+#使用占位图  
+> 在配置时加上[选项](https://github.com/hilongjw/vue-lazyload#constructor-options)。  
+```
+Vue.use(VueLazyLoad, {
+  loading: require('./assets/img/common/placeholder.png')
+})
+```
+
+
+
+
+
 
 
 
