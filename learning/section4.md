@@ -1722,6 +1722,7 @@ Vue.use(VueLazyLoad, {
 ```
 
 #### px2vw转化插件  
+> PostCSS 的一个[插件](https://github.com/evrone/postcss-px-to-viewport)，它从像素单位生成视口单位。  
 
 安装
 ```
@@ -1733,11 +1734,51 @@ npm install postcss-px-to-viewport --save-dev
 ```
 /* postcss.config.js */
 ```
-一般以 iPhone6(750\*1334) 的标准作为设计稿（viewportWidth：375；viewportHeight：667）
 
-将 ignore 添加到xxx方便管理需要忽视样式的元素。
+- 一般以 iPhone6(750\*1334) 的标准作为设计稿（viewportWidth：375；viewportHeight：667）
 
-选择的类名包括 scrope 的 <script>
+- 将 ignore 添加到 `selectorBlackList` 选项方便管理需要忽视样式的元素。
+
+- 选择类名的范围也包括添加了 `scrope` 属性的 <script>
+
+#### 项目在window下的部署  
+> 一般项目完成后，会有测试，然后就是打包，最后部署到服务器。  
+
+**服务器**通常就是一台没有显示器的电脑，24小时开机，能为用户提供服务，中小型公司一般没有自己的服务主机。  
+
+主机需要相应的操作系统，大多数使用 `Linux`，也有部分公司使用 `Windows`。
+
+一般会在电脑上安装对应的服务软件（也被称作服务器）:`tomcat` 或 `nginx`。  
+
+#调试  
+在官网下载后，解压（注意路径最好不要有中文），双击 `nginx.exe`，并在浏览器输入 `localhost` 进行测试（是否展示 nginx 欢迎界面）。
+
+:snowflake: 如果是学习的话，信息服务管理器可能会占用端口，停止即可。   
+
+#部署项目
+> 可以有两种方式来部署项目。  
+
+a）
+1. 将 `html` 文件夹下的文件删除，再将项目的打包文件拷贝到该文件夹下，并将打包项目下的文件再拷贝到 `html` 文件夹下。  
+
+2. 此时在浏览器输入 `localhost` 部署的就是项目了。  
+
+
+b）  
+1. 打开解压后文件夹下的 `nginx.conf` 并进行配置。    
+
+```
+location / {
+    root    dist;
+    index    index.html  index.htm;
+}
+```
+2. 打开任务管理器结束 `nginx` 的进程。  
+> 这里也可以使用命令行，进入到解压后文件夹下使用命令。  
+> `nginx -s stop` 停止nginx
+> `nginx -s reload` 重启nginx
+
+3. 双击 `nginx.exe`，并在浏览器输入 `localhost` 部署的就是项目了。   
 
 
 
