@@ -1564,12 +1564,112 @@ methods: {
 
 数组方法 `forEach` 用于遍历数组元素并进行修改。  
 
+#### 加购消息的基本逻辑  
+> 正常情况下，应该是等到商品成功添加到状态后，再向用户反馈加购的消息。  
 
+可以将 action 中的 `addCart` 方法用[期约包装并返回](https://github.com/SpringLoach/Vue/blob/main/learning/section3.md#actions属性)，这样 `Detail.vue` 中调用该方法就能得到一个期约，并再其后添加需要的处理程序。
 
+#### Toast的普通封装  
+> Toast 指的是冒出来后又很快消失的消息，就如上面的加购消息。  
 
+- components
+  + commom
+    - toast
+      + Toast.vue
 
+使用自定义属性来传入需要展示的信息并决定 Toast 是否展示，由 `addCart` 的处理程序来控制展示。  
+```
+/* Detail.vue */
+...
+this.$store.dispatch('addCart', product).then(res => {
+  this.message = res;
+  this.showToast = true;
+  setTimeout(() => {
+    this.message = '';
+    this.showToast = false;
+  }, 1200)
+})
+```
 
+#### Toast的插件封装  
 
+- components
+  + commom
+    - toast
+      + index.js
+
+```
+/* index.js */
+import Toast from './Toast'
+
+const obj = {}
+
+obj.install = function (Vue){
+  // 1. 创建组件构造器
+  const toastConstructor = Vue.extend(Toast)
+  
+  // 2. 根据组件构造器创建一个组件对象
+  const toast = new toastConstructor()
+  
+  // 3. 将组件对象，手动挂载到新建 div 元素上
+  toast.$mount(document.createElement('div'))
+  
+  // 4. 将刚建的 div 元素添加到文档
+  document.body.appendChild(toast.$el)
+  
+  // 5. ...添加到原型
+  Vue.prototype.$toast = Toast;
+}
+
+export default obj
+```
+> [创建组件构造器](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#组件基本步骤)需要传入一个对象。  
+> 
+> 组件对象将替换挂载元素。  
+
+安装 toast 插件，它会自动调用它的 `install` 方法
+```
+/* main.js */
+import toast from 'components/commom/toast'
+
+Vue.use(toast)
+```
+
+此时不需要在 `toast.vue` 中使用自定义属性，而是可以给它创建一个方法。  
+```
+/* toast.vue */
+data() {
+  return {
+    message: '',
+    isShow: false
+  }
+}
+methods: {
+  show(message, duration=1200) {
+    this.show = true;
+    this.message = message;
+    
+    setTimeout(() => {
+      this.show = false;
+      this.message = '';
+    }, duration)
+  }
+}
+
+/* CSS */
+.toast {
+  z-index: 22;
+}
+```
+
+调用方法如下
+```
+/* Detail.vue */
+...
+this.$store.dispatch('addCart', product).then(res => {
+  this.$toast.show(res)
+})
+```
 
 
 
