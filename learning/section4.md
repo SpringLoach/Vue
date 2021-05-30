@@ -1751,9 +1751,16 @@ npm install postcss-px-to-viewport --save-dev
 一般会在电脑上安装对应的服务软件（也被称作服务器）:`tomcat` 或 `nginx`。  
 
 #调试  
-在官网下载后，解压（注意路径最好不要有中文），双击 `nginx.exe`，并在浏览器输入 `localhost` 进行测试（是否展示 nginx 欢迎界面）。
+1. 在[官网](https://nginx.org/)下载 nginx/Windows 的稳定版。  
 
-:snowflake: 如果是学习的话，信息服务管理器可能会占用端口，停止即可。   
+ nginx版本 | 说明
+ :-: | :-: 
+ Mainline version | 开发版
+ Stable version | 最新稳定版
+ Legacy versions | 历史稳定版
+
+2. 解压（注意路径最好不要有中文），双击 `nginx.exe`，并在浏览器输入 `localhost` 进行测试（是否展示 nginx 欢迎界面）。  
+> 如果是学习的话，信息服务管理器可能会占用端口，停止即可。   
 
 #部署项目
 > 可以有两种方式来部署项目。  
@@ -1762,7 +1769,6 @@ a）
 1. 将 `html` 文件夹下的文件删除，再将项目的打包文件拷贝到该文件夹下，并将打包项目下的文件再拷贝到 `html` 文件夹下。  
 
 2. 此时在浏览器输入 `localhost` 部署的就是项目了。  
-
 
 b）  
 1. 打开解压后文件夹下的 `nginx.conf` 并进行配置。    
@@ -1775,8 +1781,12 @@ location / {
 ```
 2. 打开任务管理器结束 `nginx` 的进程。  
 > 这里也可以使用命令行，进入到解压后文件夹下使用命令。  
-> `nginx -s stop` 停止nginx
-> `nginx -s reload` 重启nginx
+
+ 作用 | 命令
+ :-: | :-: 
+ 启动 | `nginx`
+ 停止 | `nginx -s stop`
+ 重启 | `nginx -s reload`
 
 3. 双击 `nginx.exe`，并在浏览器输入 `localhost` 部署的就是项目了。   
 
