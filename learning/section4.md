@@ -1819,17 +1819,17 @@ location / {
 
 1. 当 app.message 的值被修改时，Vue 内部是如何监听到该变化的。 
 
-  - Object.defineProperty -> 监听对象属性的改变 
+    - Object.defineProperty -> 监听劫持对象属性的改变 
  
 2. 当值被修改时，Vue 是怎么知道哪些地方需要变化，且让它们在界面刷新的。 
 
-  - 发布订阅者模式  
+    - 发布订阅者模式  
 
 **#通过Object.defineProperty监听对象属性的改变**  
 > 这一小节的部分先忽视 `/* */` 中的内容。  
 ```
 <script>
-  // 1. 定义到 Vue 中的属性会它内部的一个对象获取
+  // 1. 定义到 Vue 中的所有属性会被它内部的一个 Observer 对象获取
   const obj = {
     message: '静夜思',
     name: '李白'
@@ -1908,6 +1908,8 @@ const dep = new Dep()
 ```
 :palm_tree: dependency：依赖  
 :palm_tree: subscribe：订阅
+
+![响应式原理](./img/响应式原理.jpg)  
 
 
 
