@@ -1839,6 +1839,9 @@ location / {
   Object.keys(obj).forEach(key => {
     let value = obj[key];
     
+    /* 创建一个 Dep 实例 */
+    /* const dep = new Dep() */
+    
   // 3. 通过下面方法重新定义 obj 对象中的属性，来达到监听的目的。  
     Object.defineProperty(obj, key, {
       set(newValue) {
@@ -1902,9 +1905,6 @@ class Watch {
      console.log(this.name + '进行updata');
   }
 }
-
-// 创建一个对象实例  
-const dep = new Dep()
 ```
 :palm_tree: dependency：依赖  
 :palm_tree: subscribe：订阅
