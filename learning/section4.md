@@ -1911,6 +1911,18 @@ class Watch {
 
 ![响应式原理](./img/响应式原理.jpg)  
 
+#### 其它补充  
+
+在详情页通过路由跳转详情页，默认不会刷新页面，此时可以改变[缓存策略](https://www.jianshu.com/p/e68e31598a0b)。  
+
+```
+/* APP.vue */
+<keep-alive exclude="Detail">
+  <router-view :key="route.fullPath"/>
+</keep-alive>
+```
+
+尝试使用[vue-lazyload](#图片懒加载——vue-lazyload框架)配合占位图解决详情页商品图加载导致无法快速精准定位对应主题的问题，但仍有缺陷。  
 
 
 
