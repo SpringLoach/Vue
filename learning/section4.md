@@ -1790,6 +1790,129 @@ location / {
 
 3. 双击 `nginx.exe`，并在浏览器输入 `localhost` 部署的就是项目了。   
 
+#### 项目在远程Linux下的部署  
+> 使用的是 `nginx` 的软件，可以借助软件 `SecureCRT` 和 `WinSCP` 通过命令行和文件[连接服务器](https://www.bilibili.com/video/BV15741177Eh?p=229)。   
+
+学习 Linux 通常使用的操作系统：`ubuntu`，将 Linux 作为服务器时通常使用的操作系统：`centos`。  
+
+#### 响应式原理的相关技术  
+
+```
+<div id="app">
+  {{message}}
+  {{name}}
+  {{message}}
+  {{name}}
+</div>
+
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '静夜思',
+      name: '李白'
+    }
+  })
+</script>
+```
+
+1. 当 app.message 的值被修改时，Vue 内部是如何监听到该变化的。 
+
+  - Object.defineProperty -> 监听对象属性的改变 
+ 
+2. 当值被修改时，Vue 是怎么知道哪些地方需要变化，且让它们在界面刷新的。 
+
+  - 发布订阅者模式  
+
+**#通过Object.defineProperty监听对象属性的改变**  
+> 这一小节的部分先忽视 `/* */` 中的内容。  
+```
+<script>
+  // 1. 定义到 Vue 中的属性会它内部的一个对象获取
+  const obj = {
+    message: '静夜思',
+    name: '李白'
+  }
+  
+  // 2. 取出该对象的所有键值对  
+  Object.keys(obj).forEach(key => {
+    let value = obj[key];
+    
+  // 3. 通过下面方法重新定义 obj 对象中的属性，来达到监听的目的。  
+    Object.defineProperty(obj, key, {
+      set(newValue) {
+        console.log('监听到' + key + '对应值的改变');
+        value = newValue;
+        /* dep.notify(); */
+      },
+      get() {
+        console.log('获取了' + key + '对应的值');
+        /* 监听到调用者并用其创建新的 Watch 对象 */
+        /* const w1 = new Watch('调用者 A') */
+        /* 然后将其作为订阅者添加到 dep */
+        /* dep.addSub(w1) */
+        return value;
+      }
+    })
+  })
+  
+  // 4. 当改变属性值时，会调用 `set()`
+  obj.name = "杜甫";
+  
+  // 5. 当获取属性值时，会调用 `get()`
+  obj.name;
+</script>
+```
+
+```
+<div id="app">
+  // 这些地方调用 obj 对象的值，会调用 `get()`
+  {{message}}  
+  {{name}}
+  {{message}}
+  {{name}}
+</div>
+```
+
+**#发布订阅者**
+> 调用者会被 `get()` 收集，并订阅属性的 `set()` 方法 
+```
+// 发布者  
+class Dep {
+  constructor() {
+    this.sub = []
+  }
+  addSub(watch) {
+    this.subs.push(watch)
+  },
+  notify() {
+    this.subs.forEach(item => {
+      item.update();
+    })
+  }
+}
+
+// 订阅者  
+class Watch {
+  constructor(name) {
+    this.name = name;
+  }
+  update() {
+     console.log(this.name + '进行updata');
+  }
+}
+
+// 创建一个对象实例  
+const dep = new Dep()
+```
+:palm_tree: dependency：依赖  
+:palm_tree: subscribe：订阅
+
+
+
+
+
 
 
 
