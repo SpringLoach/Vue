@@ -702,7 +702,7 @@ mounted() {
     }),
 }
 ```
-:palm_tree: 该插件[新增](https://better-scroll.gitee.io/docs/zh-CN/plugins/observe-image.html#%E4%BB%8B%E7%BB%8D)于 2.1 版本。  
+:palm_tree: 该插件[新增](https://better-scroll.gitee.io/docs/zh-CN/plugins/observe-image.html#%E4%BB%8B%E7%BB%8D)于 2.1 版本，但也有[失灵](https://better-scroll.gitee.io/docs/zh-CN/FAQ/diagnosis.html)的可能。  
 
 **#也可以手动刷新**  
 > 由于需要传递和接受事件的两个组件之间的关系比较远，可以在原型上添加事件总线。   
