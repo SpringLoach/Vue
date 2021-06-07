@@ -1924,9 +1924,21 @@ class Watch {
 
 尝试使用[vue-lazyload](#图片懒加载——vue-lazyload框架)配合占位图解决详情页商品图加载导致无法快速精准定位对应主题的问题，但仍有缺陷。  
 
+#### 其它组件及薄弱补充  
 
+1. 通过[iconfont](https://www.iconfont.cn/)搜索图片资源  
 
+2. 在组件中引用[本地](https://blog.csdn.net/danby2/article/details/104427473)图片  
+```
+<img src="require('../../xx.jpg')">
+```
 
+3. 需要获取模板中 `v-for` 遍历出来的 item 或 index 进行计算时，可以在 `methods` 选项中定义方法接受参数，并返回相应的值。 
+
+4. 组件间传值的其它方法：  
+    - 使用 $refs `this.$refs.xxx.xxx = 赋值`
+    - 使用时间总线 `$bus` 传自定义事件  
+    - 使用 vuex 状态管理。
 
 
 
