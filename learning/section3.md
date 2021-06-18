@@ -823,10 +823,10 @@ axios({
  请求地址 | url: '/user' | /
  请求类型 | method: 'get' | /
  根路径 | baseURL: 'http://www.mt.com/api' | /
- 请求前数据处理 | transfromRequest: [function(data){}\] | 对数据处理后再发送请求
- 请求后数据处理 | transfromResponse: [function(data){}\] | /
+ 请求前数据处理 | transfromRequest: \[function(data){}\] | 对数据处理后再发送请求
+ 请求后数据处理 | transfromResponse: \[function(data){}\] | /
  自定义的请求头 | header:{'x-Requested-With':'XMLHttpRequest'} | /
- URL查询对象 | params:{id: 12} | 对应 get 请求类型
+ URL查询对象 | params:{id: 12} | 对应 get 请求类型(?post?)
  request body | data: {key: 'aa'} | 对应 post 请求类型
  超时设置 | timeout: 1000 | /
  ... | / | /
