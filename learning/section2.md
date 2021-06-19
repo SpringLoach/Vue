@@ -1592,6 +1592,7 @@ const routes = [
 ]
 ```
 :snowflake: 注意 `chilren` 中的对象的 `path` 和 `redirect`属性不需要加上 `/`。   
+:snowflake: 可以将子路径和重定向改为 `/home/message` 来将路径延申。  
 
 2. 添加到父组件
 ```
