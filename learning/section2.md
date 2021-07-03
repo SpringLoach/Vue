@@ -320,7 +320,7 @@ npm install webpack@3.6.0 --save-dev
 #### webpack的全局使用与本地使用
 - 全局使用  
   + 项目文件下使用 `webpack`  
-- 局部使用    
+- 局部使用   
   + 项目文件下使用先前配置好的脚本对应命令 `npm run build` ，优先在本地查找变量  
   + 项目文件下的 node_modules/.bin/webpack 中使用相关命令  
 
@@ -757,7 +757,7 @@ resolve:{
 ```
 const webpack = require('webpack')
 
-module.explorts = {
+module.exports = {
     ...
     plugins: [
         new webpack.BannerPlugin('最终版权归大自然所有')
