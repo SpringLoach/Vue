@@ -82,11 +82,28 @@ Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
 
 ----
 
+#### Layout布局  
+> 在行标签内镶嵌列标签，列标签占据的**最大**列数总合为24。  
 
+```
+<el-row>
+  <el-col :span="3"><div>abc</div></el-col>
+  <el-col :span="2"><div>def</div></el-col>
+</el-row>
+```
 
+Row属性 | 说明 | 类型 | 默认值
+:-: | :-: | :-: | :-:
+:gutter | 栅格间隔 | num | 0
+type | 布局模式，可选 flex | str | /
+justify | flex-[水平排列方式](https://element.eleme.cn/#/zh-CN/component/layout) | str | start
+align | flex-垂直排列方式 | str | /
 
-
-
+Col属性 | 说明 | 类型 | 默认值
+:-: | :-: | :-: | :-:
+:span | 栅格占据的列数 | num | 24
+:offset | 栅格左侧的间隔格数 | num | 0
+:push | 栅格向右移动格数（相对定位） | num | 0
 
 
 
