@@ -189,7 +189,7 @@ circle | 圆形按钮  | boo | false | /
 v-model | 绑定值	 | str/num/boo | / | /
 label | 单选框的值 | str/num/boo | / | /
 disabled | 禁用 | boo | false | /
-border | 禁用 | boo | false | /
+border | 边框 | boo | false | /
 size | 尺寸，需要 `border` 为真 | str | medium / small / mini | /
 name | 原生-name | str | / | /
 
@@ -226,6 +226,53 @@ change | 绑定值变化时触发的事件	| 选中项的 label 值
 按钮属性  
 > label、disabled、name。  
 
+### Checkbox多选框  
+> 单独使用可以表示两种状态之间的切换。  
+> 
+> 标签中的内容为按钮后的介绍。  
+
+```
+<el-checkbox v-model="isChecked">大西瓜</el-checkbox>
+```
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值	 | str/num/boo | / | /
+label | 需要组标签，选中项的值 | str/num/boo | / | /
+checked | 设为勾选 | boo | false | /
+disabled | 禁用 | boo | false | /
+border | 边框 | boo | false | /
+size | 尺寸，需要 `border` 为真 | str | medium / small / mini | /
+name | 原生-name | str | / | /
+
+#### 多选框组  
+```
+<el-checkbox-group v-model="fruitList">
+  <el-checkbox label="apple"></el-checkbox>
+  <el-checkbox label="peach"></el-checkbox>
+  <el-checkbox label="orange"></el-checkbox>
+</el-checkbox-group>
+```
+
+组属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值	 | arr | / | /
+disabled | 禁用 | boo | false | /
+min | 可被勾选最小数量 | num | / | /
+max | 可被勾选最大数量 | num | / | /
+size | 尺寸，需要有边框/按钮形式 | str | medium / small / mini | /
+text-color | 按钮形式，激活文本颜色 | str | #ffffff | /
+fill | 按钮形式，激活填充色 | str | #409EFF | /
+
+项/组事件 | 说明 | 回调参数
+:-: | :-: | :-:
+change | 绑定值变化时触发的事件	| 更新后的值
+
+#### 按钮样式2  
+> 只需要把项元素替换为 `el-checkbox-button` [即可](#按钮样式)。  
+
+按钮属性  
+> label、disabled、name、checked...。  
 
 
 
