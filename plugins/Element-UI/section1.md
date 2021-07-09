@@ -150,6 +150,7 @@ box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
 ```
 
 ### Button按钮
+> 可以不添加文本节点来制作图标按钮。  
 
 属性 | 说明 | 类型 | 默认值 | 可选值
 :-: | :-: | :-: | :-: | :-:
@@ -273,6 +274,128 @@ change | 绑定值变化时触发的事件	| 更新后的值
 
 按钮属性  
 > label、disabled、name、checked...。  
+
+### Input输入框  
+> 需要绑定值才能正常使用。  
+> 
+> 不支持 `v-model`修饰符。  
+
+```
+<el-input v-model="variable" placeholder="请输入"></el-input>
+```
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+type | 类型 | str | text | textarea（文本域） / 原生-type
+v-model | 绑定值	 | str/num | / | /
+placeholder | 占位文本 | str | / | /
+disabled | 禁用 | boo | false | /
+clearable | 清空 | boo | false | /
+show-password | 切换密码状态 | boo | false | /
+autosize | （需文本域类型）自适应内容高度 | boo/obj | false | /
+size | 输入框尺寸 | str | / | large / small / mini
+maxlength | 原生-最大输入长度 | num | / | /
+minlength | 原生-最小输入长度 | num | / | /
+show-word-limit | 显示输入字数统计 | boo | false | /
+
+#### 复合元素使用  
+> 可以添加按钮、[图标](#Icon图标)、使用插槽添加文本，添加一到多个元素。  
+```
+// 文本
+<el-input>
+  <template slot="append">.com</template>
+</el-input>
+// 图标按钮
+<el-input>
+  <el-button slot="append" icon="el-icon-search"></el-button>
+</el-input>
+```
+
+slot值 | 说明 
+:-: | :-: 
+prefix | 头部内容 
+suffix | 尾部内容
+prepend | 前置内容 
+append | 后置内容 
+
+#### 带建议的输入框  
+> 在元素渲染完毕后，将请求到的数据保存到本地。  
+> 
+> 建议方法的回调参数为输入字符串、接收筛选后建议列表数组的回调。  
+> 
+> 筛选数组的每个项的 `value` 值会被输出成建议。  
+> 
+> 也可以[复合元素使用](#复合元素使用)。  
+
+```
+<el-autocomplete v-model="selectRes" :fetch-suggestions="querySearch"></el-autocomplete>
+
+data() {
+  return {
+    restaurants: [],
+    selectRes: ''
+  };
+},
+methods: {
+  querySearch(queryString, cb) {
+    let restaurants = this.restaurants;
+    let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+    // 调用建议列表的数据
+    cb(results);
+  },
+  createFilter(queryString) {
+    return (restaurant) => {
+      return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+    };
+  },
+  loadAll() {
+    return [
+      { value: "三全鲜食（北新泾店）" },
+      { value: "Hot honey 首尔炸鸡（仙霞路）" }
+    ];
+  }
+},
+mounted() {
+  this.restaurants = this.loadAll();
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值	 | str/num | / | /
+:fetch-suggestions | 返回输入建议的方法	 | F(queryString, callback) | / | /
+placeholder | 占位文本 | str | / | /
+:trigger-on-focus | 激活即列出输入建议 | boo | true | /
+:popper-append-to-body | 将下拉列表插入 body，可能**影响定位** | boo | true | /
+disabled | 禁用 | boo | false | /
+:debounce | 获取输入建议的去抖延时 | num | 300 | /
+
+#### 自定义模板  
+> 可以改变建议模板，而不是只能选择 `value` 作为输出。  
+> 
+> 模板标签的 `slot-scope` 属性指向每一条建议。  
+
+```
+<el-autocomplete v-model="selectRes" :fetch-suggestions="querySearch">
+  <template slot-scope="{ item }">
+    <div class="name">{{ item.value }}</div>
+    <span class="addr">{{ item.address }}</span>
+  </template>
+</el-autocomplete>
+```
+
+#### 输入长度建议  
+> 需要配合限制长度属性使用。  
+
+```
+<el-input v-model="any" :maxlength="12" show-word-limit></el-input>
+```
+
+
+
+
+
+
 
 
 
