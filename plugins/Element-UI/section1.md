@@ -176,10 +176,55 @@ href | 原生-链接 | str | / | /
 round | 圆角按钮  | boo | false | /
 circle | 圆形按钮  | boo | false | /
 
-a
+### Radio单选框   
+> 选中时，将相应的 `label` 的值赋值给绑定值。  
 
+```
+<el-radio v-model="selectFruit" label="apple">苹果</el-radio>
+<el-radio v-model="selectFruit" label="peach">桃子</el-radio>
+```
 
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值	 | str/num/boo | / | /
+label | 单选框的值 | str/num/boo | / | /
+disabled | 禁用 | boo | false | /
+border | 禁用 | boo | false | /
+size | 尺寸，需要 `border` 为真 | str | medium / small / mini | /
+name | 原生-name | str | / | /
 
+#### 单选框组
+> 适用于在多个互斥的选项中选择的场景，无需给项绑定变量。  
+```
+<el-radio-group  v-model="selectFruit">
+  <el-radio label="apple">苹果</el-radio>
+  <el-radio label="peach">桃子</el-radio>
+</el-radio-group>
+```
+
+组属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值	 | str/num/boo | / | /
+disabled | 禁用 | boo | false | /
+size | 尺寸，需要 `border` 为真/按钮形式 | str | medium / small / mini | /
+text-color | 按钮形式，激活文本颜色 | str | #ffffff | /
+fill | 按钮形式，激活填充色 | str | #409EFF | /
+
+项/组事件 | 说明 | 回调参数
+:-: | :-: | :-:
+change | 绑定值变化时触发的事件	| 选中项的 label 值
+
+#### 按钮样式  
+> 只需替换项元素即可。  
+```
+<el-radio-group  v-model="selectFruit">
+  <el-radio-button label="apple">苹果</el-radio-button>
+  <el-radio-button label="peach">桃子</el-radio-button>
+</el-radio-group>
+```
+
+按钮属性  
+> label、disabled、name。  
 
 
 
