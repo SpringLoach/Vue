@@ -1092,9 +1092,30 @@ type | 类型 | str | / | primary / success / warning / danger / info
 :max | （显示数值的）最大值，超出该值显示 `'{max}+'` | num | / | /  
 hidden | 隐藏标记 | boo | false | / 
 
+### Avatar头像
 
+```
+<el-avatar size="large" :src="circleUrl"></el-avatar>
 
+data() {
+  return {
+    circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+  }
+}
+```
 
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+size | 头像的大小 | num / str | large | medium / small / *num*
+:src | 图片类型地址 | str | / | /  
+icon | 图标类型 | str | / | /  
+文本节点 | 文字类型 | / | / | / 
+shape | 头像的形状 | str | circle | square  
+fit	| 图片类型时，适应容器方式 | str | cover | fill / contain / none / scale-down 
+
+事件 | 说明 | 回调参数 
+:-: | :-: | :-:
+error | 图片类头像加载失败的回调，返回 false 会关闭组件 | /
 
 
 
