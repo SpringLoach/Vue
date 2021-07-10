@@ -527,5 +527,84 @@ disabled | 禁用该分组 | boo | false | /
 #### 创建条目_Select  
 > 需开启 `allow-create` 和 `filterable`，容器绑定对象类型时，使用 `item.value` 作为 key 值。  
 
+### Cascader级联选择器  
+
+```
+<el-cascader v-model="value" :options="options" 
+  :props="casProps" ></el-cascader>
+
+data() {
+  return {
+    value: '',
+    casProps: { expandTrigger: 'hover' },
+    options: [{
+      value: 'zhinan',
+      label: '指南',
+      children: [{
+        value: 'shejiyuanze',
+        label: '设计原则',
+        children: [{
+          value: 'yizhi',
+          label: '一致'
+        }, {
+          value: 'fankui',
+          label: '反馈'
+        }]
+      }, {
+        value: 'daohang',
+        label: '导航',
+        children: [{
+          value: 'cexiangdaohang',
+          label: '侧向导航'
+        }]
+      }]
+    }]
+  };
+}
+```
+
+属性 | 说明 | 类型 | 默认值 / 回调参 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值 | / | / | /
+options | 选项数据源 | arr | / | /
+props | [配置选项](#Props配置选项_Cascader) | obj | / | /
+clearable | 提供清空按钮 | boo | false | /
+placeholder | 占位符 | str | 请选择 | /
+:show-all-levels | 显示选中值的完整路径 | boo | true | /
+filterable | 可搜索选项 | boo | / | /
+filter-method | 自定义搜索逻辑 | func(node, keyword) | 节点，搜索关键词 | /
+
+#### Props配置选项_Cascader
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+expandTrigger | 次级菜单的展开方式 | str | 'click' | 'hover'
+value | 以选项对象的某属性作为**选项值** | str | 'value' | /
+label | 以选项对象的某属性作为**选项展示值** | str | 'label' | /
+children | 以选项对象的某属性作为**子选项** | str | 'children' | /
+disabled | 以选项对象的某属性作为**禁用** | str | 'disabled' | /
+checkStrictly | 可选非叶子节点 | boo | false | /
+:emitPath | 选中项改变时，返回各级节点值的数组 | boo | true | /
+multiple | 开启多选 | boo | false | /
+
+#### 可搜索_Cascader  
+> 将 `filterable` 设为真即可。默认匹配所有节点的 `label`。  
+> 
+> 未开启 `show-all-levels` 时，匹配父节点的 `label`。  
+> 
+> 可以传入 `filter-method` 来自定义搜索逻辑，通过返回布尔值表示是否通过筛选。  
+
+#### 自定义节点展示内容_Cascader  
+> 传入的两个对象分别表示当前节点对象和数据。  
+```
+<el-cascader :options="options">
+  <template slot-scope="{ node, data }">
+    <span>{{ data.label }}</span>
+    <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+  </template>
+</el-cascader>
+```
+
+
 
 
