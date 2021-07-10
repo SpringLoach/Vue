@@ -1137,7 +1137,7 @@ animated | 使用动画 | boo | false | /
 :-: | :-: | :-: | :-: | :-:
 variant | 占位元素的样式 | str | text | image / p /button / circle [等](https://element.eleme.cn/#/zh-CN/component/skeleton)
 
-#### 渲染状态    
+#### 切换渲染状态    
 ```
 <el-skeleton style="width: 240px" :loading="loading">
   // 占位DOM
