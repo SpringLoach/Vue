@@ -939,6 +939,162 @@ show-overflow-tooltip | 内容过多时，取消折行，以提示显示	| boo |
 </el-table-column>
 ```
 
+### Tag标签  
+
+```
+<el-tag>标签一</el-tag>
+<el-tag type="success">标签二</el-tag>
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+type | 类型 | str | / | success/info/warning/danger
+closable | 可关闭 | boo | false | /
+size | 尺寸 | str | / | medium / small / mini
+effect | 主题 | str | light | dark / plain
+
+事件 | 说明 
+:-: | :-:
+click | 点击触发 
+close | 关闭触发 
+
+#### 动态编辑标签  
+> 通过 `v-for` 数据源生成标签，动态添加和删除数组元素。  
+> 
+> 给输入表单项和添加标签的添加 `v-if`、`v-else` 实现动态添加效果。  
+
+### Tree树形控件  
+
+```
+<el-tree :data="data" :props="defaultProps"></el-tree>  
+
+ data() {
+  return {
+    data: [{
+      label: '一级 1',
+      children: [{
+        label: '二级 1-1',
+        children: [{
+          label: '三级 1-1-1'
+        }]
+      }]
+    }, {
+      label: '一级 2',
+      children: [{
+        label: '二级 2-1',
+      }]
+    }],
+    defaultProps: {
+      children: 'children',
+      label: 'label'
+    }
+  }
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:data | 数据源 | arr | / | /
+:props | [配置选项](#配置选项_Tree) | obj | / | /
+show-checkbox | 复选框 | boo | false | /
+default-expand-all | 默认展开所有节点 | boo | false | /
+:default-checked-keys | 包含默认勾选节点的 key 的数组，需 `node-key` | arr | / | /  
+node-key | 树节点的唯一标识 | str | / | /
+
+方法 | 说明 | 参数 
+:-: | :-: | :-:
+getCheckedNodes | 返回目前被选中的节点所组成的数组 | 是否只是叶子节点，是否包含半选节点。默认都为 false
+setCheckedNodes | 设置目前勾选的节点，需 `node-key` | 勾选节点数据的数组
+getCheckedKeys | 返回目前被选中的节点的 key 所组成的数组 | 是否仅返回被选中的叶子节点的 keys。默认为 false
+setCheckedKeys | 设置目前勾选的节点，需 `node-key` | 勾选节点的 key 的数组，是否仅设置叶子节点的选中状态。默认为 false
+
+#### 配置选项_Tree
+
+值 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+label | 以节点对象的某个属性值作为**节点标签** | str / func(data, node) | / | /  
+children | 以节点对象的某个属性值作为**子树** | str | / | /  
+disabled | 以节点对象的某个属性值作为**禁用** | boo / func(data, node) | / | /  
+
+#### 禁用状态_Tree  
+> 给节点对象添加 `disabled` 属性并设置为 `true`。  
+
+### Select选择器
+
+```
+<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+  :current-page="queryInfo.page" :page-sizes="[5, 8, 10]" :total="total"
+  :page-size="queryInfo.size" layout="total, sizes, prev, pager, next, jumper">
+</el-pagination>
+
+data() {
+  return {
+    queryInfo: {
+      size: 5,
+      page: 1
+    },
+    // 将请求到的数据保存
+    total: 0,
+    getData: []
+  }
+},
+methods: {
+  handleSizeChange(newSize) {/* 改变条数后发送请求 */},
+  handleCurrentChange(newPage) {/* 改变页码后发送请求 */},
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+layout | [选用组件](#选用组件)，以逗号分隔 | str | / | sizes, prev, pager, next, jumper, ->, total, slot 
+:total | 总条目数 | num | / | /  
+:page-size | 每页显示条目个数 | num | 10 | /  
+:page-sizes | 每页显示条目个数预设 | arr | \[10, 20\] | /  
+:current-page | 当前页数 | num | 1 | /  
+:pager-count | 页码按钮的最大数量，超出时折叠 | num | 7 | 5-21间的奇数 
+background | 为分页按钮添加背景色 | boo | false | /  
+small | 使用小型分页 | boo | false | /  
+hide-on-single-page | 只有一页时隐藏 | boo | false | /  
+
+事件 | 说明 | 回调参数 
+:-: | :-: | :-:
+size-change | 页条数改变时会触发 | 每页条数
+current-change | 当前页改变时会触发 | 当前页
+prev-click | 点击上一页按后触发 | 当前页
+next-click | 点击下一页按后触发 | 当前页
+
+#### 选用组件
+
+组件 | 说明 
+:-: | :-:
+prev | 上一页
+next | 下一页
+pager | 页码列表
+jumper | 跳页元素
+total | 总条目数
+size | 设置每页显示的页码数量
+-> | 其后的元素会靠右显示
+
+### Badge标记  
+> 出现在按钮、图标右上角的数字或状态标记
+
+```
+<el-badge :value="3">
+  <el-button size="small">回复</el-button>
+</el-badge>
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:value | 显示值 | str / num | / | /
+is-dot | 显示小圆点 | boo | false | /  
+type | 类型 | str | / | primary / success / warning / danger / info
+:max | （显示数值的）最大值，超出该值显示 `'{max}+'` | num | / | /  
+hidden | 隐藏标记 | boo | false | / 
+
+
+
+
 
 
 
