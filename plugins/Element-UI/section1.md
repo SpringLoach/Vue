@@ -709,5 +709,56 @@ selectableRange | 限制可选时间范围 | str / arr | 栗 `'18:30:00 - 20:30:
 #### 固定时间范围
 > 设置两个[固定时间](#固定或任意时间点)，将开始时间的绑定值设置为结束时间的禁用最小时间即可。  
 
+### Upload上传  
+> 通过点击或者拖拽上传文件。  
+
+#### 点击上传  
+
+```
+<el-upload action="https://jsonplaceholder.typicode.com/posts/"
+  multiple :file-list="fileList">
+  <el-button size="small" type="primary">点击上传</el-button>
+  // 可选的提示语句
+  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+</el-upload>
+  
+data() {
+  return {
+    fileList: [
+      {name: 'a.jpeg', url: '...'}, 
+      {name: 'b.jpeg', url: '...'}
+    ]
+  };
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:action | **必选**，上传的地址 | str | / | / 
+:headers | 设置上传的请求头部 | obj | / | /
+multiple | 支持多选文件 | boo | / | /
+:on-preview | 预览钩子 | func(file) | / | /
+:before-remove | 移除前钩子，返回 `false` 则停止删除 | func(file, fileList) | / | /
+:on-remove | 移除时钩子 | func(file, fileList) | / | /
+:limit | 最大允许上传个数 | num | / | /
+:on-exceed | 文件超出个数限制时的钩子 | func(files, fileList) | / | /
+:file-list | 上传的文件列表 | arr | \[\] | 每一项都为有 `name` 和 `url` 的对象  
+:show-file-list | 显示已上传文件列表 | boo | true | /
+before-upload | 上传前钩子，返回 `false` 则停止上传 | func(file) | / | /
+list-type | 文件列表的[类型](#文件列表类型) | str | text | picture / picture-card
+drag | 支持拖拽上传 | boo | false | /
+
+#### 文件列表类型  
+> 即 `list-type` 属性。  
+
+值 | 说明 
+:-: | :-: 
+'fileList' | 默认
+'picture-card' | 图片列表缩略图 
+'picture-card' | 照片墙 
+
+
+
+
 
 
