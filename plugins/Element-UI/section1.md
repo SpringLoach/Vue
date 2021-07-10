@@ -267,7 +267,7 @@ fill | 按钮形式，激活填充色 | str | #409EFF | /
 
 项/组事件 | 说明 | 回调参数
 :-: | :-: | :-:
-change | 绑定值变化时触发的事件	| 更新后的值
+change | 绑定值变化时触发	| 更新后的值
 
 #### 按钮样式2  
 > 只需要把项元素替换为 `el-checkbox-button` [即可](#按钮样式)。  
@@ -391,8 +391,30 @@ disabled | 禁用 | boo | false | /
 <el-input v-model="any" :maxlength="12" show-word-limit></el-input>
 ```
 
+### InputNumber计数器  
+> 可手动或通过控制器改变数值。只需绑定值即可。    
 
+```
+<el-input-number v-model="num" :min="1" :max="3"></el-input-number>
+```
 
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值 | num | 0 | /
+:min | 允许的最小值 | num | -Infinity | /
+:max | 允许的最大值	| num | Infinity | /  
+step | 计数器步长 | num | 1 | /  
+step-strictly | 强制转换输入为步长倍数 | boo | false | / 
+disabled | 禁用计数器 | boo | false | /  
+precision | 数值精度 | num | / | /
+size | 尺寸 | str | / | medium / small / mini
+:controls | 使用控制器 | boo | true | /
+controls-position | 控制按钮位置 | str | / | right
+name | 原生 | str | / | /
+
+事件 | 说明 | 回调参数
+:-: | :-: | :-:
+change | 绑定值变化时触发	| 新值，旧值
 
 
 
