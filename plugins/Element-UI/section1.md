@@ -1192,6 +1192,65 @@ close-text | 关闭按钮自定义文本 | str | / | /
 center | 文字居中 | boo | true | /
 description | 辅助性文字 | str | / | /
 
+### Loading加载  
+> 加载数据时显示动效。  
+
+#### 区域加载  
+> 在表格等容器中加载数据时显示。
+> 
+> 默认状况下，Loading 遮罩会插入到绑定元素的子节点。  
+```
+<p v-loading="loading">anything</p>
+
+// 全屏，锁定屏幕，会添加到 body 上
+<p v-loading.fullscreen.lock="loading">anything</p>
+
+data() {
+  return {
+    loading: true
+  }
+}
+```
+
+#### 自定义_Loading
+> 添加到存在 `v-loading` 的元素上。  
+```
+<p v-loading="loading"
+  element-loading-text="拼命加载中"
+  element-loading-spinner="el-icon-loading"
+  element-loading-background="rgba(0, 0, 0, 0.8)"
+>anything</p>
+```
+
+额外属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+element-loading-text | 自定义加载文案 | str | / | /
+element-loading-spinner | 自定义加载图标类名 | str | / | /
+element-loading-background | 遮罩背景色 | str | / | /
+
+#### 以服务调用  
+> [局部引入](https://element.eleme.cn/#/zh-CN/component/loading)和全局引入使用方式不同。  
+> 
+> 默认全屏。 
+```
+const loading = this.$loading({
+  lock: true,
+  text: 'Loading',
+  spinner: 'el-icon-loading',
+  background: 'rgba(0, 0, 0, 0.7)'
+});
+setTimeout(() => {
+  // 关闭遮罩
+  loading.close();
+}, 2000);
+```
+
+配置属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+lock | 锁定屏幕 | boo | false | /
+text | 自定义加载文案 | str | / | /
+spinner | 自定义加载图标类名 | str | / | /
+background | 遮罩背景色 | str | / | /
 
 
 
