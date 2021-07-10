@@ -800,6 +800,76 @@ data() {
 }
 ```
 
+### Form表单  
+> 表单由一到多个表单域，表单域中可以放置各种类型的表单控件。  
+> 
+> 如输入框、选择器、开关、单选框、多选框等。  
+
+```
+<el-form ref="form" :model="form" label-width="80px">
+  <el-form-item label="活动名称">
+    <el-input v-model="form.name"></el-input>
+  </el-form-item>
+</el-form>
+
+data() {
+  return {
+    form: {
+      name: ''
+    }
+  }
+}
+```
+
+容器属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:model | 表单数据 | obj | / | / 
+:rules | 表单[验证规则](#验证规则) | obj | / | / 
+ref | 指向该节点 | str | / | / 
+inline | 行内表单模式，使表单元素集中到一行 | boo | false | / 
+label-position | 表单域标签的位置 | str | right | right/left/top
+label-width | 表单域标签的宽度（需单位） | str | / | / 
+size | 控制该表单内组件的尺寸 | str | / | medium / small / mini 
+
+容器节点方法 | 说明 | 类型 | 回调参数 
+:-: | :-: | :-: | :-: 
+validate | 对整个表单进行校验，参数为回调函数 | F(F(boo, obj)) | 是否校验成功， 未通过校验的字段 | / 
+resetFields | 对整个表单重置：将所有字段值重置为初始值并移除校验结果 | / | /
+clearValidate | 移除表单项的校验结果 | / | /
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:label | 标签文本 | str | / | / 
+:prop | 校验的字段名，与 `label` 的叶属性一致 | str | / | / 
+label-width | 表单域标签的宽度（需单位） | str | / | / 
+size | 控制该表单域下组件的尺寸 | str | / | medium / small / mini 
+
+#### 验证规则
+```
+// 验证规则可以有多个。  
+// require：必填  message：错误信息  trigger：验证时机  min：最小字符数  max：最大字符数
+
+rules: {
+  name: [
+    { required: true, message: '请输入活动名称', trigger: 'blur' },
+    { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+  ],
+  region: [
+    { required: true, message: '请选择活动区域', trigger: 'change' }
+  ]
+}
+```  
+
+#### 自定义校验规则  
+> 通过自定义校验规则，可以完成密码的二次验证。  
+
+#### 动态增减表单项  
+> 通过对数据数组使用 `v-for` 进行渲染 DOM，通过操作数据数组动态改变 DOM。  
+> 
+> 可以用 `Date.now()` 来创建 `key`，防止重复。  
+
+#### 限制输入为数字类型
+> 给对应的 `v-model` 加上 `.number` 修饰符即可。但无法输入小数点。  
 
 
 
