@@ -1153,11 +1153,44 @@ data() {
 }
 ```
 
+### Empty空状态
 
+```
+<el-empty></el-empty>
+```
 
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+description | 替代文本描述 | str | 暂无数据 | /
+image | 替代图片地址 | str | / | /  
+image-size | 图片大小（宽） | num | / | /  
 
+#### 底部添加内容  
+> 使用默认插槽。    
 
+```
+<el-empty>
+  <p>(●ˇ∀ˇ●)</p>
+</el-empty>
+```
 
+### Alert警告  
+
+```
+<el-alert title="请求数据成功" type="success">
+</el-alert>
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+title | 标题 | str | / | /
+type | 类型 | str | info | success/warning/error 
+effect | 主题 | str | light | dark
+show-icon | 显示图标 | boo | false | /
+:closable | 可关闭 | boo | true | /
+close-text | 关闭按钮自定义文本 | str | / | /
+center | 文字居中 | boo | true | /
+description | 辅助性文字 | str | / | /
 
 
 
