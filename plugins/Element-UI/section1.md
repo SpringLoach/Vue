@@ -737,16 +737,16 @@ data() {
 :action | **必选**，上传的地址 | str | / | / 
 :headers | 设置上传的请求头部 | obj | / | /
 multiple | 支持多选文件 | boo | / | /
+:limit | 最大允许上传个数 | num | / | /
+:file-list | 上传的文件列表 | arr | \[\] | 每一项都为有 `name` 和 `url` 的对象  
+:show-file-list | 显示已上传文件列表 | boo | true | /
+list-type | 文件列表的[类型](#文件列表类型) | str | text | picture / picture-card
+drag | 支持拖拽上传 | boo | false | /
 :on-preview | 预览钩子 | func(file) | / | /
 :before-remove | 移除前钩子，返回 `false` 则停止删除 | func(file, fileList) | / | /
 :on-remove | 移除时钩子 | func(file, fileList) | / | /
-:limit | 最大允许上传个数 | num | / | /
 :on-exceed | 文件超出个数限制时的钩子 | func(files, fileList) | / | /
-:file-list | 上传的文件列表 | arr | \[\] | 每一项都为有 `name` 和 `url` 的对象  
-:show-file-list | 显示已上传文件列表 | boo | true | /
-before-upload | 上传前钩子，返回 `false` 则停止上传 | func(file) | / | /
-list-type | 文件列表的[类型](#文件列表类型) | str | text | picture / picture-card
-drag | 支持拖拽上传 | boo | false | /
+:before-upload | 上传前钩子，返回 `false` 则停止上传 | func(file) | / | /
 
 #### 文件列表类型  
 > 即 `list-type` 属性。  
@@ -756,6 +756,55 @@ drag | 支持拖拽上传 | boo | false | /
 'fileList' | 默认
 'picture-card' | 图片列表缩略图 
 'picture-card' | 照片墙 
+
+### Rate评分  
+
+```
+// 无颜色差异
+<el-rate v-model="value1"></el-rate>
+// 有颜色差异
+<el-rate v-model="value2" :colors="colors"></el-rate>
+      
+data() {
+  return {
+    value1: null,
+    value2: null,
+    colors: ['#99A9BF', '#F7BA2A', '#FF9900']  // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+  };
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值 | num | 0 | / 
+:colors | 分段颜色 | arr / obj | \['#F7BA2A', '#F7BA2A', '#F7BA2A'\] | /
+:max | 最大分值	 | num | 5 | / 
+low-threshold | **低分**和中等分数的界限值	 | num | 2 | / 
+high-threshold | **高分**和中等分数的界限值	 | num | 4 | / 
+disabled | 只读 | boo | false | / 
+show-text | 显示辅助文字 | boo | false | / 
+show-score | 显示分数，与文字冲突 | boo | false | / 
+texts | 辅助文字数组 | arr | \['极差', '失望', '一般', '满意', '惊喜'\] | / 
+text-color | 辅助文字/分数颜色 | str | #1F2D3D | / 
+score-template | 分数显示模板 | {value} | str | / 
+
+#### 只读评分  
+> 可以提供 `score-template` 作为显示模板，`{value}` 会被解析为分值。
+```
+<el-rate v-model="value" disabled show-score text-color="#ff9900" score-template="{value}分"></el-rate>
+
+data() {
+  return {
+    value1: 3.7
+  };
+}
+```
+
+
+
+
+
+
 
 
 
