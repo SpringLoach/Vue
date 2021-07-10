@@ -1,3 +1,5 @@
+[分组_Select](#分组_Select)  
+
 ### CDN引用  
 > 注意要**先**引入vue才能正常使用，而且需要使用到vue挂载的元素上。  
 
@@ -416,13 +418,114 @@ name | 原生 | str | / | /
 :-: | :-: | :-:
 change | 绑定值变化时触发	| 新值，旧值
 
+### Select选择器  
+> 即供以选择的下拉菜单。  
 
+```
+<el-select v-model="value">
+  <el-option v-for="item in options" :key="item.value"
+    :label="item.label" :value="item.value">
+  </el-option>
+</el-select>
 
+data() {
+  return {
+    options: [{
+      value: '选项1',
+      label: '黄金糕'
+    }, {
+      value: '选项2',
+      label: '双皮奶'
+    }],
+    value: ''
+  };
+}
+```
 
+Select属性 | 说明 | 类型 | 默认值 / 回调参 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值 | num / boo / str / arr | / | /
+placeholder | 占位符 | str | 请选择 | /
+disabled | 完全禁用 | boo | false | /
+clearable | 提供清空按钮 | boo | false | /
+multiple | 启用多选 | boo | false | /
+collapse-tags | 多选时将选中值按文字的形式展示 | boo | false | /  
+filterable | 可根据输入搜索 | boo | false | /
+filter-method | 自定义搜索方法 | func | 输入值 | /
+remote | 远程搜索 | boo | false | /
+remote-method | 远程搜索方法 | func | 输入值 | /
+allow-create | （需 filterable 真）允许用户创建新条目 | boo | false | /
+default-first-option | 提供回车选择 | boo | false | /
 
+Option属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:value | 选项的值 | str / num / obj | / | /
+:label | 展示值 | num / str | / | /
 
+#### 自定义模板_Select
+> 直接在项标签中插入相应内容。  
 
+```
+<el-select ...>
+  <el-option v-for="item in options"...>
+    <span>{{item.label}}</span>anything<span>{{item.value}}</span>
+  </el-option>
+</el-select>
+```
 
+#### 分组_Select  
+> 使用 `el-option-group` 对选项进行分组。  
+
+```
+<el-select v-model="value">
+  <el-option-group v-for="group in options" :key="group.label" :label="group.label">
+    <el-option v-for="item in group.options" :key="item.value" 
+      :label="item.label" :value="item.value">
+    </el-option>
+  </el-option-group>
+</el-select>
+
+data() {
+  return {
+    options: [{
+      label: '热门城市',
+      options: [{
+        value: 'Shanghai',
+        label: '上海'
+      }, {
+        value: 'Beijing',
+        label: '北京'
+      }]
+    }, {
+      label: '城市名',
+      options: [{
+        value: 'Chengdu',
+        label: '成都'
+      }, {
+        value: 'Shenzhen',
+        label: '深圳'
+      }]
+    }],
+    value: ''
+  };
+}
+```
+
+Option属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:label | 分组名 | str | / | /
+disabled | 禁用该分组 | boo | false | /
+
+#### 搜索_Select   
+> 给选择容器添加 `filterable` 属性，即能从选项中筛选出 `label` 属性包含输入值的项。  
+> 
+> 可以通过传入 `filter-method` 来改变搜索逻辑，在输入值改变时调用。  
+
+#### 远程搜索_Select  
+> 需要开启 `filterable` 和 `remote`，并传入 `remote-method`。  
+
+#### 创建条目_Select  
+> 需开启 `allow-create` 和 `filterable`，容器绑定对象类型时，使用 `item.value` 作为 key 值。  
 
 
 
