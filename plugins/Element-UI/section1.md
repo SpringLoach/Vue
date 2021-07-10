@@ -605,6 +605,109 @@ multiple | 开启多选 | boo | false | /
 </el-cascader>
 ```
 
+### Switch开关  
+> 模拟开关左右滑动的组件。  
+
+```
+<el-switch v-model="value"></el-switch>
+
+data() {
+  return {
+    value: true
+  };
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值 | boo / str / num | / | / 
+width | 宽度 | num | 40 | /
+active-color | 打开时的背景色 | str | #409EFF | /
+inactive-color | 关闭时的背景色 | str | #C0CCDA | /
+active-text | 打开时的文字描述 | str | / | /
+disabled | 禁用 | boo | false | /
+active-value | 打开时的值 | boo / str / num | true | / 
+inactive-value | 关闭时的值 | boo / str / num | false | / 
+
+### Slider滑块   
+
+```
+<el-slider v-model="value"></el-slider>
+
+data() {
+  return {
+    value: 15
+  };
+}
+```
+
+属性 | 说明 | 类型 | 默认值/回调参 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值 | num | 0 | / 
+min | 最小值 | num | 0 | /
+max | 最大值 | num | 100 | /
+step | 步长 | num | 1 | /
+:show-tooltip | 显示提示 | boo | true | /
+:format-tooltip | 格式化提醒 | func | val | /
+show-input | （非范围选择）显示输入框 | boo | false | /
+input-size | 输入框尺寸 | str | small | large / medium / small / mini
+vertical | 竖向模式 | boo | false | /
+height | 竖向模式高度，带单位 | str | / | /
+disabled | 禁用 | boo | false | /
+range | 范围选择 | boo | false | /
+
+### TimePicker时间选择器  
+
+#### 固定或任意时间点  
+```
+// 固定时间点
+<el-time-select v-model="value" :picker-options="pickOpt">
+</el-time-select>
+
+// 任意时间点
+<el-time-picker v-model="value2" :picker-options="pickOpt2">
+</el-time-picker>
+
+data() {
+  return {
+    value: '',
+    pickOpt: {
+      start: '08:30',
+      step: '00:15',
+      end: '18:30'
+    },
+    // 任意时间点
+    value2: '',
+    pickOpt2: {
+      selectableRange: '18:30:00 - 20:30:00'
+    }
+  };
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值 | num | 0 | / 
+placeholder | 占位符 | str | / | /
+:picker-options | [时间段选项](#picker-options) | obj | {} | /
+arrow-control | （需picker标签）使用箭头进行时间选择 | boo | false | / 
+is-range | （需picker标签）时间范围选择 | boo | false | / 
+start-placeholder | 范围选择时开始时间占位符 | str | / | / 
+end-placeholder | 范围选择时结束时间占位符 | str | / | / 
+
+#### picker-options  
+
+选项 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+start | 开始时间 | str | 09:00 | / 
+end | 结束时间 | str | 18:00 | /
+step | 间隔时间 | str | 00:30 | /
+minTime | 禁用的最小时间 | str | 00:00 | /
+maxTime | 禁用的最大时间 | str | / | /  
+selectableRange | 限制可选时间范围 | str / arr | 栗 `'18:30:00 - 20:30:00'` | /  
+
+#### 固定时间范围
+> 设置两个[固定时间](#固定或任意时间点)，将开始时间的绑定值设置为结束时间的禁用最小时间即可。  
 
 
 
