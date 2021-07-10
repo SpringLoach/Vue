@@ -1318,3 +1318,22 @@ methods: {
 type | 消息类型，用于显示图标 | str | / | success / info / warning / error
 cancelButtonText | 取消按钮的文本内容 | str | 取消 | /
 confirmButtonText | 确定按钮的文本内容	 | str | 确定 | /
+
+### Notification通知  
+> 悬浮出现在页面角落的全局通知。  
+
+```
+this.$notify({
+  title: '紧急通知',
+  message: '番禺区大雨蓝色预警'
+});
+```
+
+配置属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+title | 标题 | str | / | /
+message | 说明文字 | str | / | /
+type | 主题 | str | / | success/warning/info/error
+duration | 显示时间, 毫秒。为 0 时不会自动关闭 | num | 4500 | /
+position | 弹出位置 | str | top-right | top-right/top-left/bottom-right/bottom-left
+:showClose | 显示关闭按钮 | boo | true | /
