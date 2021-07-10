@@ -1252,6 +1252,42 @@ text | 自定义加载文案 | str | / | /
 spinner | 自定义加载图标类名 | str | / | /
 background | 遮罩背景色 | str | / | /
 
+### Message消息提示  
+> 常用于主动操作后的反馈提示。  
+
+```
+<el-button @click="clickBtn">提交</el-button>
+
+methods: {
+  clickBtn() {
+    this.$message('这是一条消息提示');
+  }
+}
+```
+
+使用主题
+```
+this.$message.error('错了哦，这是一条错误消息');
+
+this.$message({
+  message: '警告哦，这是一条错误消息',
+  type: 'error'
+});
+```
+
+配置属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+message | 消息文字 | str | / | /
+type | 主题 | str | info | success/warning/info/error
+showClose | 显示关闭按钮 | boo | false | /
+center | 文字居中 | boo | false | /
+:duration | 显示时间, 毫秒 | num | 3000 |
+:offset | 距离窗口顶部的偏移量 | num | 20 |
+
+
+
+
+
 
 
 
