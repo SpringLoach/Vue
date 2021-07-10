@@ -871,6 +871,73 @@ rules: {
 #### 限制输入为数字类型
 > 给对应的 `v-model` 加上 `.number` 修饰符即可。但无法输入小数点。  
 
+### Table表格  
+> 项标签的 `prop` 属性接收数据源的项属性作为列内容。  
+
+```
+<el-table :data="tableData" style="width: 100%">
+  <el-table-column type="index" label="#" width="180"></el-table-column>
+  <el-table-column prop="date" label="日期" width="180"></el-table-column>
+  <el-table-column prop="name" label="姓名"></el-table-column>
+</el-table>
+
+data() {
+  return {
+    tableData: [
+      {date: 233, name: 'white'},
+      {date: 567, name: 'black'}
+    ]
+  }
+}
+```
+
+容器属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:data | 数据源 | arr | / | / 
+height | 表格高度。设置后**固定表头** | num / str | / | /
+max-height | 表格最大高度 | num / str | / | /
+stripe | 带斑马纹 | boo | false | / 
+border | 带纵向边框 | boo | false | / 
+:fit | 列宽度自撑开 | boo | true | / 
+:show-header | 显示表头 | boo | true | / 
+highlight-current-row | 高亮选中行 | boo | false | / 
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+label | 列标题 | str | / | /
+prop | 列内容，选取数据源项的某个属性 | str | / | /
+width | 列宽度 | str | / | /
+min-width | 最小列宽度 | str | / | /
+type | （可选的）列类型 | str | / | selection多选框/index索引/expand展开按钮 
+:index | （如果有）自定义索引 | num / F(index) | / | /
+:max | 最大分值	| num | 5 | / 
+fixed | 列固定 | str / boo | / | true / left / right
+show-overflow-tooltip | 内容过多时，取消折行，以提示显示	| boo | false | / 
+
+#### 自定义列模板  
+> 通过模板标签中的 `slot-scope` 可以在内部用 `row` 取到相应项，用 `store` 取到状态管理等。  
+
+```
+<el-table-column label="日期">
+  <template slot-scope="scope">
+    <i class="el-icon-time"></i>
+    <span style="margin-left: 10px">{{ scope.row.date }}</span>
+  </template>
+</el-table-column>
+```
+
+#### 展开行  
+> 通过设置项类型为 type="expand" 可以开启展开行功能，其内部（模板）会被渲染成为展开行的内容。
+
+#### 自定义表头  
+> 通过设置 `slot="header"` 的模板实现，列内容可以使用模板也可以不使用。  
+
+```
+<el-table-column>
+  <template slot="header" slot-scope="scope">..</template>
+  <template>.. </template>
+</el-table-column>
+```
 
 
 
