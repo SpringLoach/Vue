@@ -1117,6 +1117,44 @@ fit	| 图片类型时，适应容器方式 | str | cover | fill / contain / none
 :-: | :-: | :-:
 error | 图片类头像加载失败的回调，返回 false 会关闭组件 | /
 
+### Skeleton骨架屏  
+> 在需要等待加载内容的位置设置一个骨架屏，某些场景下比 Loading 的视觉效果更好。  
+
+```
+<el-skeleton />
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:rows | 骨架屏段落数量 | num | 4 | /
+:src | 图片类型地址 | str | / | /  
+animated | 使用动画 | boo | false | /
+:loading | 显示骨架屏 | boo | true | /
+:count | 渲染模板的数量，尽可能小 | num | 1 | /
+:throttle | 延迟占位DOM渲染时间，毫秒 | num | 0 | /
+
+模板项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+variant | 占位元素的样式 | str | text | image / p /button / circle [等](https://element.eleme.cn/#/zh-CN/component/skeleton)
+
+#### 渲染状态    
+```
+<el-skeleton style="width: 240px" :loading="loading">
+  // 占位DOM
+  <template slot="template">...</template>
+  // 真实DOM
+  <template>...</template>
+</el-skeleton>
+
+data() {
+  return {
+    loading: true
+  }
+}
+```
+
+
+
 
 
 
