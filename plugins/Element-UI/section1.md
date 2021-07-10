@@ -1281,13 +1281,40 @@ message | 消息文字 | str | / | /
 type | 主题 | str | info | success/warning/info/error
 showClose | 显示关闭按钮 | boo | false | /
 center | 文字居中 | boo | false | /
-:duration | 显示时间, 毫秒 | num | 3000 |
-:offset | 距离窗口顶部的偏移量 | num | 20 |
+:duration | 显示时间, 毫秒 | num | 3000 | /
+:offset | 距离窗口顶部的偏移量 | num | 20 | /
 
+### MessageBox弹框
+> 模拟系统的消息提示框而实现的一套模态对话框组件，用于确认消息等。  
 
+#### 确认消息  
+> 点击了确定后，将执行 `then` 部分的程序。  
+```
+<el-button @click="open">删除</el-button>
 
+methods: {
+  open() {
+    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      this.$message({
+        type: 'success',
+        message: '删除成功!'
+      });
+    }).catch(() => {
+      this.$message({
+        type: 'info',
+        message: '已取消删除'
+      });          
+    });
+  }
+}
+```
 
-
-
-
-
+配置属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+type | 消息类型，用于显示图标 | str | / | success / info / warning / error
+cancelButtonText | 取消按钮的文本内容 | str | 取消 | /
+confirmButtonText | 确定按钮的文本内容	 | str | 确定 | /
