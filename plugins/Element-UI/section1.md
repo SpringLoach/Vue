@@ -1827,7 +1827,28 @@ data() {
 v-model | 绑定值 | Date/str/num | / | /
 :range | 时间范围，开始必须周一，结束周日，跨度小于两个月 | arr | / | 栗 `['2019-03-04', '2019-03-24']`
 
+### Image图片  
+> 支持懒加载，自定义占位、加载失败等。  
 
+```
+<el-image
+  style="width: 100px; height: 100px"
+  src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+></el-image>
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+src | 原生-图片源 | str | / | /
+fit | 图片如何适应容器框 | str | / | fill / contain / cover / none / scale-down
+alt | 原生 | str | / | /
+:preview-src-list | 开启图片预览功能，需预览图片URL列表 | arr | / | /
+z-index | 图片预览的层级 | num | 2000 | /
+
+插槽 | 说明 
+:-: | :-: 
+placeholder | 图片未加载的占位内容
+error | 加载失败的内容
 
 
 
