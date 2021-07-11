@@ -1702,6 +1702,37 @@ header | 头部文本 | str | / | /
 :-: | :-: 
 header | 头部元素
 
+### Carousel走马灯  
+> 可以当作轮播图。  
+
+```
+<el-carousel height="150px">
+  <el-carousel-item v-for="item in 4" :key="item">
+    <h3>{{ item }}</h3>
+  </el-carousel-item>
+</el-carousel>
+```
+
+容器属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+height | 容器高度 | str | / | /
+trigger | 自动切换间隔，毫秒 | num | 300 | /
+interval | 指示器的触发方式 | str | hover | click
+indicator-position | 指示器的位置	 | str | / | outside/none
+arrow | 切换箭头的显示 | str | hover | always/never
+type | 走马灯的类型 | str | / | card
+direction | 走马灯展示的方向	 | str | horizontal | vertical
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+height | 容器高度 | str | / | /
+
+
+
+
+
+
+
 
 
 
