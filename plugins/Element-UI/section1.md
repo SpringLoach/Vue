@@ -1517,6 +1517,99 @@ disabled | 禁用	| boo | false | /
 divided | 分割线	| boo | false | /
 icon | 图标类名	| str | / | /
 
+### Steps步骤条  
+
+```
+<el-steps :active="active" finish-status="success">
+  <el-step title="步骤 1"></el-step>
+  <el-step title="步骤 2"></el-step>
+  <el-step title="步骤 3"></el-step>
+</el-steps>
+      
+data() {
+  return {
+    active: 0
+  }
+}
+```
+
+容器属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:active | 设置当前激活步骤 | num | 0 | /
+finish-status | 结束步骤的状态	 | str | finish | wait / process / error / success  
+align-center | 居中对齐 | boo | false | /
+direction | 显示方向 | str | horizontal | vertical
+space | 步骤项间距 | num/str | 自适应 | /
+simple | （条件苛刻）简洁风格	| boo | false | /
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+title | 标题 | str | / | / 
+description | 描述性文字 | str | / | / 
+icon | 图标 | str | / | / 
+
+项插槽 | 说明 
+:-: | :-: 
+icon | 图标
+title | 标题
+description | 描述性文字
+
+### Dialog对话框  
+> 适用于表单、拟态图片等等。  
+
+#### 基本用法_Dialog    
+> `title` 属性用于定义标题。  
+> 
+> 向标签添加 `slot="footer"` 表示用于底部区域。  
+
+```
+<el-button @click="dialogVisible = true">点击</el-button>
+
+<el-dialog title="标题" :visible.sync="dialogVisible" width="50%"
+  :before-close="handleClose">
+  <span>正文内容</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+</el-dialog>
+      
+data() {
+  return {
+    dialogVisible: false
+  }
+},
+methods: {
+  handleClose() {
+    this.dialogVisible = false;
+  }
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+title | 对话框标题 | str | / | /
+:visible | 绑定是否可见 | boo | false | /
+width | 对话框宽度 | str | 50% | /
+:before-close | 关闭前的回调 | / | / | /
+fullscreen | 全屏 | boo | false | /
+append-to-body | 插入body，嵌套的对话框必用 | boo | false | /
+center | 标题和底部居中 | boo | false | /
+top | 对话框到顶部距离 | str | 15vh | /
+:modal | 添加遮罩层 | boo | true | /
+:show-close | 显示关闭按钮 | boo | true | /
+
+插槽 | 说明 
+:-: | :-: 
+title | 标题区
+footer | 按钮操作区
+
+
+
+
+
+
+
 
 
 
