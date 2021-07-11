@@ -1628,5 +1628,35 @@ offset | 偏移量 | num | 0 | /
 :visible-arrow | 显示箭头 | boo | true | /
 enterable | 鼠标可进入 | boo | true | /
 
+### Popover弹出框  
+> 与 Tooltip 很类似。但可以有多种触发方式，像一个迷你的对话框。  
+
+```
+<el-popover placement="top-start" title="标题" width="200"
+  trigger="hover" content="内容">
+  <el-button slot="reference">hover 激活</el-button>
+</el-popover>
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+title | 显示的标题 | str | / | /
+content | 显示的内容 | str | / | /
+placement | 布局方向 | str | bottom | \[top、left、right、bottom\] - \[start、、end\]
+width | 宽度 | str/num | 最小宽度 150px | /
+trigger | 触发方式 | str | click | focus/hover/manual
+v-model | 可见（配合manual） | boo | false | /
+disabled | 禁用 | boo | false | /
+offset | 偏移量 | num | 0 | /
+:visible-arrow | 显示箭头 | boo | true | /
+
+插槽 | 说明 
+:-: | :-: 
+/ | 代替 `content` 的元素
+reference | 占位元素
+
+
+
+
 
 
