@@ -1337,3 +1337,82 @@ type | 主题 | str | / | success/warning/info/error
 duration | 显示时间, 毫秒。为 0 时不会自动关闭 | num | 4500 | /
 position | 弹出位置 | str | top-right | top-right/top-left/bottom-right/bottom-left
 :showClose | 显示关闭按钮 | boo | true | /
+
+### Menu导航菜单
+
+```
+<el-menu :default-active="activeIndex" mode="horizontal">
+  <el-menu-item index="1">处理中心</el-menu-item>
+  <el-submenu index="2">
+    // 副容器的占位标题，视觉上与项一致，但不可点击
+    <template slot="title">我的工作台</template>
+    <el-menu-item index="2-1">选项1</el-menu-item>
+    <el-submenu index="2-2">
+      <template slot="title">选项2</template>
+      <el-menu-item index="2-2-1">选项1</el-menu-item>
+      <el-menu-item index="2-2-2">选项2</el-menu-item>
+    </el-submenu>
+  </el-submenu>
+  <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+</el-menu>
+
+data() {
+  return {
+    activeIndex: '1'
+  }
+}
+```
+
+容器属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+mode | 模式 | str | vertical | horizontal
+:default-active | 当前激活菜单的 `index` | str | / | /
+background-color | 菜单的背景色 | str | #ffffff | 栗 #545c64
+text-color | 菜单的文字颜色 | str | #303133 | 栗 #fff
+active-text-color | 激活菜单的文字颜色 | str | #409EFF | 栗 #ffd04b
+collapse | （垂直模式）[折叠菜单](#菜单折叠) | boo | false | /
+unique-opened | 仅保持一个子菜单的展开 | boo | false | /
+default-openeds | 默认打开的次级菜单的索引数组 | arr | / | /
+
+容器事件 | 说明 | 回调参数 
+:-: | :-: | :-:
+select | 菜单激活回调 | index, indexPath
+
+副容器属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+index | 唯一标志 | str | / | /
+disabled | 禁用 | boo | false | /
+popper-append-to-body | 将弹出菜单插入至 `body`，解决定位问题  | boo | / | /
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+index | 唯一标志 | str | / | /
+disabled | 禁用 | boo | false | /
+
+#### 菜单分组
+```
+<el-menu-item-group title="罗德岛">
+  <el-menu-item index="1-1">迷迭香</el-menu-item>
+  <el-menu-item index="1-2">温蒂</el-menu-item>
+</el-menu-item-group>
+<el-menu-item-group title="彩虹小队">
+  <el-menu-item index="1-3">灰烬</el-menu-item>
+</el-menu-item-group>
+```
+
+分组属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+title | 分组标题 | str | / | /
+
+#### 菜单折叠  
+> 给菜单容器添加折叠属性，并使用样式控制最小宽度。  
+>
+> 在菜单项、副容器标题模板中添加不同标签，被添加 `slot="title"` 的标签会在被折叠时隐藏。  
+
+```
+<el-menu-item index="1">
+  <span slot="title">处理中心</span><i>a</i>
+</el-menu-item>
+```
+
+
