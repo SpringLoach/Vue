@@ -1850,6 +1850,21 @@ z-index | 图片预览的层级 | num | 2000 | /
 placeholder | 图片未加载的占位内容
 error | 加载失败的内容
 
+### Backtop回到顶部  
+
+```
+<el-backtop></el-backtop>
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:visibility-height | 展现所需滚动高度 | num | 200 | /
+:right | 距离页面右边距 | num | 40 | /
+:bottom | 距离页面底部距离 | num | 40 | /
+
+
+
+
 
 
 
