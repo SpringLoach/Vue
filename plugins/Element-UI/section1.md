@@ -1863,6 +1863,8 @@ error | 加载失败的内容
 :bottom | 距离页面底部距离 | num | 40 | /
 
 ### InfiniteScroll无限滚动
+> 给任意元素添加 `v-infinite-scroll="load"` 以实现无限滚动。  
+> 
 > 容器元素需要有固定高度并设置 `overflow:auto`。  
 
 ```
@@ -1894,6 +1896,42 @@ v-infinite-scroll | 启用无限滚动 | func | func | /
 
 #### 禁用加载  
 > 利用的技术主要有定时决定末元素是否显示，条件渲染末元素。
+
+### Drawer抽屉  
+> 可以在两侧或底部展现临时文档。  
+
+```
+// 需要其它元素控制开关  
+<el-drawer
+  title="标题"
+  :visible.sync="drawer"
+  direction="rtl">
+  <span>内容</span>
+</el-drawer>
+      
+data() {
+  return {
+    drawer: true
+  }
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+visible | 是否显示 | boo | false | /
+direction | 打开的方向 | str | rtl | ltr / ttb / btt
+:before-close | 关闭前的回调 | func | / | /
+size | 窗体的大小 | str / num | '30%' | /
+:withHeader | 显示头部区域（包括标题） | boo | true | /
+title | 标题 | str | / | /
+
+
+
+
+
+
+
+
 
 
 
