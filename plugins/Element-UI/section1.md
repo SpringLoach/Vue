@@ -1457,5 +1457,66 @@ disabled | 禁用 | boo | false | /
 </el-tab-pane>
 ```
 
+### Breadcrumb面包屑
+
+```
+<el-breadcrumb separator="/">
+  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+  <el-breadcrumb-item>活动管理</el-breadcrumb-item>
+  <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+</el-breadcrumb>
+```
+
+容器属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+separator | 分隔符	 | str | '/' | /
+separator-class | 图标分隔符，使用Icon | str | / | /
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+to | 路由跳转对象，同 `vue-router` 的 `to`	| str/obj | / | /
+replace | 进行路由跳转时，不会向 history 添加新记录	| boo | false | /
+
+### Dropdown下拉菜单  
+> 将菜单折叠到下拉菜单中。  
+> 
+> 大容器内的首个标签为占位符，小容器需要使用 `slot="dropdown"` 来设置下拉菜单。  
+
+```
+<el-dropdown>
+  <span class="el-dropdown-link"> 
+    下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+  </span>
+  <el-dropdown-menu slot="dropdown">
+    <el-dropdown-item>黄金糕</el-dropdown-item>
+    <el-dropdown-item>狮子头</el-dropdown-item>
+  </el-dropdown-menu>
+</el-dropdown>
+      
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409EFF;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}      
+```
+
+大容器属性 | 说明 | 类型 | 默认值/回调参 | 可选值
+:-: | :-: | :-: | :-: | :-:
+@command | 点击菜单项的回调	| / | 项指令 | /
+size | 菜单尺寸	| str | / | medium / small / mini
+split-button | 呈现为按钮组	| boo | false | /
+type | （需按钮组）菜单按钮类型，同[按钮](#Button按钮)组件	| str | / | /
+:hide-on-click | 点击菜单项后隐藏菜单	| boo | true | /
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+command | 指令 | str/num/obj | / | /
+disabled | 禁用	| boo | false | /
+divided | 分割线	| boo | false | /
+icon | 图标类名	| str | / | /
+
+
 
 
