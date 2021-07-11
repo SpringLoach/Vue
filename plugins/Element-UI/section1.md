@@ -1684,6 +1684,25 @@ reference | 占位元素
 confirm | 点击确认触发
 cancel | 点击取消触发
 
+### Card卡片  
+> 将信息聚合在卡片容器中展示。  
+
+```
+<el-card>
+</el-card>
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+shadow | 阴影显示时机 | str | always | hover / never
+body-style | 设置样式 | obj | { padding: '20px' } | /
+header | 头部文本 | str | / | /
+
+插槽 | 说明 
+:-: | :-: 
+header | 头部元素
+
+
 
 
 
