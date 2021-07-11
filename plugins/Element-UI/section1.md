@@ -1655,7 +1655,34 @@ offset | 偏移量 | num | 0 | /
 / | 代替 `content` 的元素
 reference | 占位元素
 
+### Popconfirm气泡确认框
+> 点击元素时弹出的气泡确认框。  
 
+```
+<el-popconfirm title="这是一段内容确定删除吗？">
+  <el-button slot="reference">删除</el-button>
+</el-popconfirm>
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+title | 显示的标题 | str | / | /
+confirm-button-text | 确认按钮文字 | str | / | /
+cancel-button-text | 取消按钮文字 | str | / | /
+confirm-button-type | 确认按钮类型 | str | Primary | /
+cancel-button-type | 取消按钮类型 | str | Text | /
+hide-icon | 隐藏图标 | boo | false | /
+icon | 图标 | str | el-icon-question | /
+icon-color | 图标颜色 | str | #f90 | /
+
+插槽 | 说明 
+:-: | :-: 
+reference | 占位元素
+
+事件 | 说明 
+:-: | :-: 
+confirm | 点击确认触发
+cancel | 点击取消触发
 
 
 
