@@ -1415,4 +1415,47 @@ title | 分组标题 | str | / | /
 </el-menu-item>
 ```
 
+### Tabs标签页  
+> 分隔内容上有关联但属于不同类别的数据集合。
+> 
+> 每一个标签页可以有任意多的展现。    
+
+```
+<el-tabs v-model="activeName">
+  <el-tab-pane label="用户管理" name="first">内容一</el-tab-pane>
+  <el-tab-pane label="配置管理" name="second">内容二</el-tab-pane>
+  <el-tab-pane label="角色管理" name="third">内容三</el-tab-pane>
+  <el-tab-pane label="定时任务补偿" name="fourth">内容四</el-tab-pane>
+</el-tabs>
+      
+data() {
+  return {
+    activeName: 'second'
+  }
+}
+```
+
+容器属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值，激活选项卡的 `name` | str | 首个选项卡 `name` | /
+type | 风格类型 | str | / | card（选项卡）/border-card（卡片化）
+tab-position | 布局方向 | str | top | right/bottom/left
+before-leave | 切换标签前的钩子，返回 `false` 会阻止 | F(activeName, oldActiveName) | / | /
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+name | 选项卡标识符 | str | 1~ | /
+label | 选项卡标题 | str | / | /
+disabled | 禁用 | boo | false | /
+
+#### 自定义标签页  
+> 不需要 `label`，在项标签中添加额外标签并添加 `slot="label"`。  
+```
+<el-tab-pane name="first">
+  <span slot="label"><i class="el-icon-date"></i> 用户管理</span>
+  内容一
+</el-tab-pane>
+```
+
+
 
