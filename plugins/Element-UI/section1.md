@@ -1862,6 +1862,38 @@ error | 加载失败的内容
 :right | 距离页面右边距 | num | 40 | /
 :bottom | 距离页面底部距离 | num | 40 | /
 
+### InfiniteScroll无限滚动
+> 容器元素需要有固定高度并设置 `overflow:auto`。  
+
+```
+<div style="height:100px; overflow:auto">
+  <ul class="infinite-list" v-infinite-scroll="load" :infinite-scroll-immediate="false">
+    <li v-for="i in count" class="infinite-list-item">{{ i }}</li>
+  </ul>
+</div>
+      
+data() {
+  return {
+    count: 12
+  }
+},
+methods: {
+  load () {
+    this.count += 2;
+  }
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-infinite-scroll | 启用无限滚动 | func | func | /
+:infinite-scroll-immediate | 立即执行加载方法 | boo | true | /
+:infinite-scroll-distance | 触发加载的距离阈值(px) | num | 0 | /
+:infinite-scroll-delay | 节流时延(ms) | num | 200 | /
+:infinite-scroll-disabled | 禁用 | boo | false | /
+
+#### 禁用加载  
+> 利用的技术主要有定时决定末元素是否显示，条件渲染末元素。
 
 
 
