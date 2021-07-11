@@ -1727,7 +1727,29 @@ direction | 走马灯展示的方向	 | str | horizontal | vertical
 :-: | :-: | :-: | :-: | :-:
 height | 容器高度 | str | / | /
 
+### Collapse折叠面板
 
+```
+<el-collapse v-model="activeNames">
+  <el-collapse-item title="某段标题" name="1">
+    <div>Hello element</div>
+  </el-collapse-item>
+</el-collapse>
+```
+
+容器属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 设置当前激活面板 | arr | / | /
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+name | 唯一标志符 | str/num | / | /
+title | 面板标题 | str | / | /
+disabled | 禁用 | boo | false | /
+
+项插槽 | 说明 
+:-: | :-: 
+title | 面板标题
 
 
 
