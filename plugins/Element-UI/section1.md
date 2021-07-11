@@ -1809,6 +1809,26 @@ icon | 节点图标	 | str | / | /
 content-position | 分割线文案的位置 | str | center | left / right 
 direction | 分割线方向 | str | horizontal | vertical
 
+### Calendar日历  
+
+```
+<el-calendar v-model="value">
+</el-calendar>
+
+data() {
+  return {
+    value: new Date()
+  }
+}
+```
+
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+v-model | 绑定值 | Date/str/num | / | /
+:range | 时间范围，开始必须周一，结束周日，跨度小于两个月 | arr | / | 栗 `['2019-03-04', '2019-03-24']`
+
+
+
 
 
 
