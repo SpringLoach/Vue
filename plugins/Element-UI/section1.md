@@ -1796,9 +1796,18 @@ color | 节点颜色 | str | / | /
 size | 节点尺寸 | str | normal | large
 icon | 节点图标	 | str | / | /
 
+### Divider分割线  
 
+```
+<el-divider></el-divider>
 
+<el-divider>分割线</el-divider>
+```
 
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+content-position | 分割线文案的位置 | str | center | left / right 
+direction | 分割线方向 | str | horizontal | vertical
 
 
 
