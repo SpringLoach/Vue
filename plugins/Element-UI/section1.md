@@ -1751,6 +1751,50 @@ disabled | 禁用 | boo | false | /
 :-: | :-: 
 title | 面板标题
 
+### Timeline时间线  
+> 可视化地呈现**时间流**信息。  
+
+#### 基础用法  
+> 每一项用 `timestamp` 属性接收时间，用插槽接收内容。  
+
+```
+<el-timeline-item
+    v-for="(activity, index) in activities"
+    :key="index"
+    :timestamp="activity.timestamp">
+    {{activity.content}}
+  </el-timeline-item>
+</el-timeline>
+
+data() {
+  return {
+    activities: [{
+      content: '活动按期开始',
+      timestamp: '2018-04-15'
+    }, {
+      content: '通过审核',
+      timestamp: '2018-04-13'
+    }, {
+      content: '创建成功',
+      timestamp: '2018-04-11'
+    }]
+  }
+}
+```
+
+容器属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+reverse | 节点排序方向 | false | 正向 | /
+
+项属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+:timestamp | 时间戳 | str | / | /
+hide-timestamp | 隐藏时间戳 | boo | false | /
+placement | 时间戳位置	 | str | bottom | top
+type | 节点类型 | str | / | primary / success / warning / danger / info
+color | 节点颜色 | str | / | /
+size | 节点尺寸 | str | normal | large
+icon | 节点图标	 | str | / | /
 
 
 
