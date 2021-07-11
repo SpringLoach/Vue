@@ -1604,12 +1604,29 @@ top | 对话框到顶部距离 | str | 15vh | /
 title | 标题区
 footer | 按钮操作区
 
+### Tooltip文字提示
+> 鼠标悬浮时的提示信息。  
 
+```
+<el-tooltip content="提示文本" placement="top">
+  <el-button>正上</el-button>
+</el-tooltip>
 
+<el-tooltip content="提示文本" placement="top-start">
+  <el-button>上左</el-button>
+</el-tooltip>
+```
 
-
-
-
+属性 | 说明 | 类型 | 默认值 | 可选值
+:-: | :-: | :-: | :-: | :-:
+content | 显示的内容 | str | / | /
+placement | 布局方向 | str | bottom | \[top、left、right、bottom\] - \[start、、end\]
+effect | 主题 | str | dark | light
+:visible | 绑定是否可见 | boo | false | /
+disabled | 禁用 | boo | false | /
+offset | 偏移量 | num | 0 | /
+:visible-arrow | 显示箭头 | boo | true | /
+enterable | 鼠标可进入 | boo | true | /
 
 
 
