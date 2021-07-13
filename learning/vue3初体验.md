@@ -365,7 +365,15 @@ event | input | update:modelValue
 />
 ```
 
+----
 
+### Key
+
+索引 | 说明 | 补充
+:-: | :- | :-:
+Ⅰ | 对于条件渲染，key 可以不提供 | Vue 会自动生成唯一的 key
+Ⅱ | 对于条件渲染，如果手动提供 key，必须保证唯一性 | /
+Ⅲ | 对于 `<template v-for>`, key 应该设置在 <template\> 标签上 | Vue2 则需要设置到它的子节点
 
 
 
