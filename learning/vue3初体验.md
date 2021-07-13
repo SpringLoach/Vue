@@ -458,8 +458,27 @@ const asyncModalWithOptions = defineAsyncComponent({
 })
 ```
 
+----
 
+#### 生命周期选项重命名  
 
+原名 | 重命名 | 说明
+:-: | :-： | :-：
+destroyed | unmounted | 组件卸载后
+beforeDestroy | beforeUnmount | 组件卸载前
+hook: | vnode- | 监听组件生命周期  
+
+```
+<template>
+  <child-component @hook:updated="onUpdated">
+</template>
+
+<template>
+  <child-component @vnode-updated="onUpdated">
+  // 也可以是驼峰式命名法 
+  <child-component @vnodeUpdated="onUpdated">
+</template>
+```
 
 
 
