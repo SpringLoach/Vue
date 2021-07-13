@@ -480,10 +480,35 @@ hook: | vnode- | 监听组件生命周期
 </template>
 ```
 
+生成prop默认值的工厂函数不再能访问[this](https://v3.cn.vuejs.org/guide/migration/props-default-this.html)
+default prop 工厂函数不再可以访问 this 上下文
 
+#### 自定义指令  
 
+新指令/命名 | [原名](https://github.com/SpringLoach/Vue/blob/main/learning/其它官方补充.md#钩子函数) | 说明
+:-: | :-： | :-：
+created | / | 在元素的 attribute 或事件侦听器应用之前调用
+beforeMount | bind | / 
+mounted | inserted | /  
+beforeUpdate | / | 在元素本身更新之前调用 
+/ | update | 移除 
+updated | componentUpdated | /  
+beforeUnmount | / | 在卸载元素之前调用 
+unmounted | unbind | / 
 
+```
+<p v-highlight="'yellow'">高亮显示此文本亮黄色</p>
 
+const app = Vue.createApp({})
+
+app.directive('highlight', {
+  beforeMount(el, binding, vnode) {
+    el.style.background = binding.value
+  }
+})
+```
+
+:snowflake: 可以通过 `binding.instance` 访问组件实例。  
 
 
 
