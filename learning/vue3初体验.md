@@ -478,10 +478,7 @@ hook: | vnode- | 监听组件生命周期
   // 也可以是驼峰式命名法 
   <child-component @vnodeUpdated="onUpdated">
 </template>
-```
-
-生成prop默认值的工厂函数不再能访问[this](https://v3.cn.vuejs.org/guide/migration/props-default-this.html)
-default prop 工厂函数不再可以访问 this 上下文
+```  
 
 #### 自定义指令  
 
@@ -510,8 +507,35 @@ app.directive('highlight', {
 
 :snowflake: 可以通过 `binding.instance` 访问组件实例。  
 
+#### 侦听数组变更   
+> 现在，当侦听一个数组时，只有当数组被替换时才会触发回调。如果需要在数组改变时触发回调，添加 `deep` 选项。
 
+```
+watch: {
+  bookList: {
+    handler(val, oldVal) {
+      console.log('book list changed')
+    },
+    deep: true
+  },
+}
+```
 
+#### 原生模板元素  
+> 没有特殊指令的 `<template>` 现在被视为普通元素，并将生成原生的 `<template>` 元素，而不是渲染其内部内容。  
+
+指令
+:-:
+v-if /else-if /else、v-for 或 v-slot
+  
+#### 其它改变  
+
+相关 | 说明 
+:-: | :-:
+prop 默认值 | 生成prop默认值的工厂函数不再能访问[this](https://v3.cn.vuejs.org/guide/migration/props-default-this.html)
+data 选项 | data 选项应始终被声明为一个函数，包括根实例
+Mixin 混入 | `data` 选项现在为浅合并，即存在同名对象时，会直接取组件的，而不会合并对象内部的属性
+被挂载元素 | 将不会被应用（Vue 实例）替代，而是成为其容器元素。
 
 
 
