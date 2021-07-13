@@ -23,6 +23,7 @@
 
 <script>
 
+// 该方法暴露在全局 Vue 上  
 Vue.createApp({
   data(){
     return{
@@ -209,6 +210,77 @@ setup(props) {
   }
 }
 ```
+
+----
+
+### 全局API
+> 在 Vue2 中，只有全局的 Vue 接口而没有**实例接口**，因此全局配置很容易意外地污染其他测试用例。  
+
+#### 接口转移  
+> 任何全局改变 Vue 行为的 API 现在都会移动到应用实例上。  
+
+2.x 全局 API | 3.x 实例 API (以app为栗) | 说明
+:-: | :-: | :-: 
+Vue.config | app.config | /
+Vue.config.productionTip | 移除 | “使用生产版本” 提示
+Vue.config.ignoredElements | app.config.isCustomElement  | 支持原生自定义元素
+Vue.component | app.component | /
+Vue.directive | app.directive | /
+Vue.mixin | app.mixin | /
+**Vue.use** | app.use  | /
+**Vue.prototype** | app.config.globalProperties | 用于添加所有组件都能访问的属性
+
+#### 插件使用须知  
+> 之前的 `Vue.use()` 被废除，需要在实例上使用插件（挂载前）。  
+
+```
+/* 之前 */
+Vue.use(VueRouter)
+
+/* 现在 */
+const app = createApp(`组件`)
+app.use(VueRouter)
+```
+
+#### 挂载App实例  
+> 使用 createApp(/\* options \*/) 初始化后，将它挂载到元素上。  
+
+```
+import { createApp } from 'vue'
+import MyApp from './MyApp.vue'
+
+const app = createApp(MyApp)
+
+// 可以通过 app 添加指令、插件依赖性等
+
+app.mount('#app')
+```
+
+#### 依赖注入  
+> 与 Vue2 的 [provide](https://github.com/SpringLoach/Vue/blob/main/learning/其它官方补充.md#依赖注入) 选项类似。  
+
+```
+// 在入口
+app.provide('guide', 'Vue 3 Guide')
+
+// 在子组件以 book 取得相应值、方法等
+export default {
+  inject: {
+    book: {
+      from: 'guide'
+    }
+  }
+}
+```
+
+#### 在应用之间共享配置  
+> 创建工厂函数。即在函数内部通过参数创建 Vue 实例并添加配置，最终将实例返回。  
+
+
+
+
+
+
 
 
 
