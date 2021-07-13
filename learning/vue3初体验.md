@@ -318,7 +318,52 @@ module.exports = {
 }
 ```
 
+### v-model  
 
+1\. 用于自定义组件时，`v-model` prop 和事件默认名称已更改
+
+v-model | 从前 | 现在
+:-: | :-: | :-:
+prop | value | modelValue
+event | input | update:modelValue
+
+2\. 移除了 `v-bind` 的 `.sync` 修饰符和组件的 `model` 选项，可用 v-model 作为代替。  
+
+3\. 允许在同一个组件上使用多个 `v-model` 进行双向绑定。  
+
+4\. 允许[自定义](https://v3.cn.vuejs.org/guide/component-custom-events.html#处理-v-model-修饰符) `v-model` 修饰符，例如解决 `number` 无法输入小数点的问题。  
+
+#### 默认情况  
+```
+<ChildComponent v-model="pageTitle" />
+
+<!-- 相当于 2.X -->
+<ChildComponent :value="pageTitle" @input="pageTitle = $event" />
+
+<!-- 相当于 3.X -->
+<ChildComponent :modelValue="pageTitle" @update:modelValue="pageTitle = $event" />
+```
+
+#### 更改model名称  
+```
+<ChildComponent v-model:title="pageTitle" />
+
+<!-- 是以下的简写: -->
+
+<ChildComponent :title="pageTitle" @update:title="pageTitle = $event" />
+```
+
+#### 使用多个v-model
+```
+<ChildComponent v-model:title="pageTitle" v-model:content="pageContent" />
+
+<!-- 是以下的简写： -->
+
+<ChildComponent
+  :title="pageTitle" @update:title="pageTitle = $event"
+  :content="pageContent" @update:content="pageContent = $event"
+/>
+```
 
 
 
