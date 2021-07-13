@@ -11,6 +11,36 @@
     - [watch响应式更改](#watch响应式更改)
     - [独立的computed属性](#独立的computed属性)
     - [功能模块的结合](#功能模块的结合)
+- 非兼容性改变  
+  + [全局API](#全局API)
+    - [接口转移](#接口转移)
+    - [插件使用须知](#插件使用须知)
+    - [挂载App实例](#挂载App实例)
+    - [依赖注入](#依赖注入)
+    - [在应用之间共享配置](#在应用之间共享配置)
+  + [Treeshaking](#Treeshaking)
+    - [受影响的 API](#受影响的 API)
+    - [防止模块打包工具打包Vue](#防止模块打包工具打包Vue)
+  + 模板指令
+    - [v-model](#v-model)
+      + [默认情况](#默认情况)
+      + [更改model名称](#更改model名称)
+      + [使用多个v-model](#使用多个v-model)
+    - [模板上的Key](#模板上的Key)
+    - [v-if与v-for的优先级](#v-if与v-for的优先级)
+    - [v-bind敏感排序](#v-bind敏感排序)
+    - [移除.native修饰符](#移除.native修饰符)
+    - [v-for中的Ref数组](#v-for中的Ref数组)
+  + 组件
+    - [异步组件](#异步组件)
+      + [不带选项的异步组件](#不带选项的异步组件)
+      + [带选项的异步组件](#带选项的异步组件)
+  + 其他小改变
+    - [生命周期选项重命名](#生命周期选项重命名)
+    - [自定义指令](#自定义指令)
+    - [侦听数组变更](#侦听数组变更)
+    - [原生模板元素](#原生模板元素)
+    - [其它改变](#其它改变)
 
 
 #### 基本使用  
@@ -367,7 +397,7 @@ event | input | update:modelValue
 
 ----
 
-#### Key
+#### 模板上的Key
 
 索引 | 说明 | 补充
 :-: | :- | :-:
@@ -463,10 +493,10 @@ const asyncModalWithOptions = defineAsyncComponent({
 #### 生命周期选项重命名  
 
 原名 | 重命名 | 说明
-:-: | :-： | :-：
+:-: | :-: | :-:
 destroyed | unmounted | 组件卸载后
 beforeDestroy | beforeUnmount | 组件卸载前
-hook: | vnode- | 监听组件生命周期  
+hook: | vnode\- | 监听组件生命周期  
 
 ```
 <template>
@@ -483,7 +513,7 @@ hook: | vnode- | 监听组件生命周期
 #### 自定义指令  
 
 新指令/命名 | [原名](https://github.com/SpringLoach/Vue/blob/main/learning/其它官方补充.md#钩子函数) | 说明
-:-: | :-： | :-：
+:-: | :-: | :-:
 created | / | 在元素的 attribute 或事件侦听器应用之前调用
 beforeMount | bind | / 
 mounted | inserted | /  
@@ -531,7 +561,7 @@ v-if /else-if /else、v-for 或 v-slot
 #### 其它改变  
 
 相关 | 说明 
-:-: | :-:
+:-: | :-
 prop 默认值 | 生成prop默认值的工厂函数不再能访问[this](https://v3.cn.vuejs.org/guide/migration/props-default-this.html)
 data 选项 | data 选项应始终被声明为一个函数，包括根实例
 Mixin 混入 | `data` 选项现在为浅合并，即存在同名对象时，会直接取组件的，而不会合并对象内部的属性
