@@ -276,16 +276,47 @@ export default {
 #### 在应用之间共享配置  
 > 创建工厂函数。即在函数内部通过参数创建 Vue 实例并添加配置，最终将实例返回。  
 
+----
 
+### Treeshaking  
+> 过去有许多直接暴露在单个 Vue 对象上的全局 API，尽管没有使用它们，仍会被包含在最终的打包产物中。  
+> 
+> `tree-shaking` 是表达 “死代码消除” 的一个花哨术语。有了全局 tree-shake 后，用户只需为他们实际使用的功能 “买单” 。
 
+```
+// 要使用全局 API，现在必须导出
+import { nextTick } from 'vue'
 
+nextTick(() => {
+  // 一些和DOM有关的东西
+})
+```
 
+#### 受影响的 API  
 
+Vue 2.x | 说明
+:-: | :-:
+Vue.nextTick | 常用于操作 DOM
+Vue.observable | 用 Vue.reactive 替换
+Vue.version | /
+Vue.compile | 仅完整构建版本
+Vue.set | 仅兼容构建版本
+Vue.delete | 仅兼容构建版本
 
+#### 防止模块打包工具打包Vue  
+> 如果使用 webpack 这样的模块打包工具，这可能会导致 Vue 的源代码输出打包到插件中。  
+>
+> 可以告诉 webpack 将 Vue 模块视为一个外部库。  
 
-
-
-
+```
+// webpack.config.js
+module.exports = {
+  /*...*/
+  externals: {
+    vue: 'Vue'
+  }
+}
+```
 
 
 
