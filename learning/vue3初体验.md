@@ -422,8 +422,41 @@ emits: ['close']
 > 
 > 现在，要从单个绑定获取多个 ref，需要将 `ref` 定义为[回调函数](https://v3.cn.vuejs.org/guide/migration/array-refs.html)，显式地[传递](https://v3.cn.vuejs.org/api/special-attributes.html#ref)元素或组件实例。  
 
+----
 
+#### 异步组件  
+> 过去，异步组件是通过将组件定义为返回期约的函数来创建的。  
+> 
+> 现在，由于函数式组件被定义为纯函数，故异步组件的定义需要被包裹在助手方法 `defineAsyncComponent` 中。  
+> 
+> 路由的懒加载和 Vue 支持的异步组件不同，不需要改助手方法。  
 
+#### 不带选项的异步组件
+```
+// 过去
+const asyncModal = () => import('./Modal.vue')
+
+// 现在
+import { defineAsyncComponent } from 'vue'
+
+const asyncModal = defineAsyncComponent(() => import('./Modal.vue'))
+```
+
+#### 带选项的异步组件  
+> 以前的 `component` 选项被重命名为 `loader`。它的方法不再接收 `resolve` 和 `reject` 参数，但内部必须返回一个期约。  
+```
+import { defineAsyncComponent } from 'vue'
+import ErrorComponent from './components/ErrorComponent.vue'
+import LoadingComponent from './components/LoadingComponent.vue'
+
+const asyncModalWithOptions = defineAsyncComponent({
+  loader: () => import('./Modal.vue'),
+  delay: 200,
+  timeout: 3000,
+  errorComponent: ErrorComponent,
+  loadingComponent: LoadingComponent
+})
+```
 
 
 
