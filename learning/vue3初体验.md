@@ -121,10 +121,81 @@ setup(props) {
 }
 ```
 
+#### watch响应式更改  
+> 首参为需要侦听的**响应式引用**或 getter 函数  
+> 
+> 第二个参数为回调。  
 
+```
+import { ref, watch, toRefs } from 'vue'
 
+props: {
+  user: {
+    type: String,
+    default: 'abc'
+  } 
+},
+setup(props) {
+  // // 使用 `toRefs` 创建对自定义属性 `user` 的响应式引用
+  const { user } = toRefs(props)
+  
+  const abc = ref([])
+  
+  // 更新值的方法
+  const mF = () => {abc.value.push(user.value)}
+  
+  // 在 user prop 的响应式引用上设置一个侦听器
+  watch(user, mF)
+  
+  return {abc}
+}
+```
 
+#### 独立的computed属性  
+> 该方法接收类似 getter 的回调函数，输出**只读**的响应式引用。  
 
+```
+import { toRefs, computed } from 'vue'
+
+props: {
+  user: {
+    type: Number,
+    default: 2
+  } 
+},
+setup(props) {
+  // // 使用 `toRefs` 创建对自定义属性 `user` 的响应式引用
+  const { user } = toRefs(props)
+  
+  const abc = computed(() => {
+    return user.value + 1;
+  })
+  
+  return {abc}
+}
+```
+
+#### 功能模块的结合  
+> 可以将不同功能的模块拆分成单独的文件，将其作为函数导出，并使用结构获取返回值。  
+> 
+> 之后的函数可以使用先前函数的返回值作为参数。最终再从 `setup` 导出需要的变量。  
+
+```
+setup(props) {
+  const { user } = toRefs(props)
+
+  const { data1, data2 } = mF1(user)
+
+  const { data3, data4 } = mF2(data1)
+
+  return {
+    data1,
+    data2,
+    data3,
+    otherName: data4
+  }
+}
+```
 
 
 
