@@ -567,6 +567,79 @@ data 选项 | data 选项应始终被声明为一个函数，包括根实例
 Mixin 混入 | `data` 选项现在为浅合并，即存在同名对象时，会直接取组件的，而不会合并对象内部的属性
 被挂载元素 | 将不会被应用（Vue 实例）替代，而是成为其容器元素。
 
+### 移除API  
+
+#### 键码版本的按键修饰符  
+> 不再支持使用数字 (即键码) 作为该指令的修饰符。  
+> 
+> 不再支持配置自定义别名的方法 `config.keyCodes` 。  
+
+```
+<!-- 键码版本，已废弃 -->
+<input v-on:keyup.13="submit" />
+
+<!-- 别名版本，仍支持 -->
+<input v-on:keyup.enter="submit" />
+```
+
+#### 过滤器  
+> 推荐使用计算属性替代。  
+> 
+> 对于全局过滤器，可以使用[全局属性](#接口转移)。  
+
+```
+const app = createApp(App)
+
+app.config.globalProperties.$filters = {
+  currencyUSD(value) {
+    return '$' + value
+  }
+}
+```
+
+#### [内联模板属性](https://github.com/SpringLoach/Vue/blob/main/learning/其它官方补充.md#内联模板)  
+
+#### $children  
+> 如果你需要访问子组件实例，建议使用 `$refs`。  
+
+#### propsData
+> 用于向根组件[传入](https://v3.cn.vuejs.org/guide/migration/props-data.html#概述) prop。  
+
+#### $destroy  
+> 实例方法，手动管理单个 Vue 组件的生命周期。  
+
+#### set和delete  
+> 全局函数 `set` 和 `delete` 以及实例方法 `$set` 和 `$delete`。基于代理的变化检测不再需要了。  
+
+#### 官方支持库版本  
+
+原名 | 最低要求版本 | 说明
+:-: | :-: | :-: 
+[Vue CLI](https://cli.vuejs.org/zh/guide/) | v4.5.0 | 可在创建新项目时选择 Vue 3
+[Vue Router](https://next.router.vuejs.org/zh/guide/migration/index.html) | v4.0 | 有许多突破性的变化
+[Vuex](https://next.vuex.vuejs.org/zh/guide/migrating-to-4-0-from-3-x.html) | v4.0 | 插件的安装方式较大变化
+
+#### IDE支持  
+> 推荐使用 VSCode 和官方拓展 Vetur，能更好支持 Vue3。[其它见详](https://v3.cn.vuejs.org/guide/migration/introduction.html#其他项目)。  
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
