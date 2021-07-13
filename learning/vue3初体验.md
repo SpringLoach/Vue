@@ -415,6 +415,15 @@ emits: ['close']
 /* 父组件将不能监听该组件的 close */
 ```
 
+----
+
+#### v-for中的Ref数组  
+> 过去，在带有 `v-for` 结构的标签里使用 ref 会用 ref 数组填充相应的 `$refs`，但被遗弃了。  
+> 
+> 现在，要从单个绑定获取多个 ref，需要将 `ref` 定义为[回调函数](https://v3.cn.vuejs.org/guide/migration/array-refs.html)，显式地[传递](https://v3.cn.vuejs.org/api/special-attributes.html#ref)元素或组件实例。  
+
+
+
 
 
 
