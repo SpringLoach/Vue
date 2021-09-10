@@ -1,7 +1,9 @@
 
-#### 最初的栗子  
+#### 简单栗子    
 ```
 /* HTML */
+<script src="https://cdn.staticfile.org/vue/2.6.11/vue.min.js"></script>
+
 <div id="demo">
     <p>{{text}}</p>
 </div>
@@ -114,7 +116,7 @@ const demo = new Vue({
 })
 ```
 
-v-once指令  
+#### v-once  
 > 能执行首次的插值，但当数据改变时，插值处的内容不会更新。
 ```
 <div id="demo">
@@ -122,8 +124,8 @@ v-once指令
 </div>
 ```
 
-#### 原始HTML  
-> 可以输出真正的 HTML。  
+#### v-html  
+> 可以把内容当作原始 HTML 真正地输出。  
 
 ```
 <p v-html="url"></p>
@@ -189,7 +191,7 @@ const demo = new Vue({
 ```
 :snowflake: `v-bind` 的语法糖形式为 `:` 
 
-布尔属性  
+#### 动态绑定属性_布尔属性  
 ```
 // 布尔属性
 <button :hidden="isActive">Button</button>
@@ -207,7 +209,7 @@ const demo = new Vue({
 #### 绑定class  
 > 在将 `v-bind` 用于 `class` 和 `style` 时，Vue.js 做了专门的增强。表达式结果的类型除了字符串之外，还可以是对象或数组。
 
-**#对象语法**
+#### 绑定class_对象语法
 ```
 // 对象语法
 <p :class="{active: isActive}">abc</p>
@@ -238,7 +240,7 @@ const demo = new Vue({
 })
 ```
 
-**#数组语法**   
+#### 绑定class_数组语法
 ```
 <p  class="app" :class="['top', class1]">asdf</p>
 
@@ -253,7 +255,8 @@ const demo = new Vue({
 
 #### 绑定style  
 
-**#对象语法**
+#### 绑定style_对象语法  
+
  对象 | 键 | 值
  :-: | :-: | :-:
  class | 类名 | 布尔值（变量）
@@ -282,7 +285,7 @@ const demo = new Vue({
 :snowflake: 属性用驼峰式大小写。  
 :snowflake: 对于对象中的值，加引号视为字符串，否则视作变量。
 
-**#数组语法**   
+#### 绑定style_数组语法   
 > 可以将多个样式对象应用到同一个元素上。 
 
 ```
@@ -363,14 +366,22 @@ computed: {
 
 ```
 <button @keyup.enter="onEnter">按钮</button>
+
+<!-- 修饰符可以串联，结果受顺序影响 -->
+<a v-on:click.stop.prevent="doThat"></a>
 ```
 
- 修饰符 | 说明
- :-: | :-: 
- .stop | 阻止时间冒泡
- .prevent | 阻止默认行为，可不添加事件
- .{keyCode|keyAlias} | 监听特定按键
- .once | 只触发一次回调
+修饰符 | 说明
+:-: | :-: 
+.stop | 阻止事件冒泡
+.prevent | 阻止默认行为，可不接事件处理程序
+.once | 只触发一次回调
+.capture | 注册捕获模式的处理程序  
+.self | 事件处理程序不能由内部元素触发
+.{keyCode\|keyAlias} | 监听特定按键
+.enter | 按键修饰符，还有[其它](https://cn.vuejs.org/v2/guide/events.html#按键码)  
+.ctrl | 系统修饰符，配合[对应键](https://cn.vuejs.org/v2/guide/events.html#系统修饰键)才能触发鼠标、键盘监听器
+.left | 限制处理函数仅响应[特定的](https://cn.vuejs.org/v2/guide/events.html#鼠标按钮修饰符)鼠标按钮  
 
 #### 条件渲染  
 > 需要多个方案时，指令用到不同的同胞节点上。  
@@ -387,7 +398,7 @@ data: {
     score: 87
 }     
 ```
-:snowflake: 这种情况用 `计算属性` 处理更合适，但是如果需要渲染不同的模板，可能就需要用到条件渲染。
+:snowflake: 这种情况用 `计算属性` 处理更合适，但是如果需要渲染不同的**模板**，可能就需要用到条件渲染。
 
 #### 用 key 管理可复用的元素
 > Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染。
@@ -397,9 +408,13 @@ data: {
   <label>Username</label>
   <input placeholder="Enter your username" key="username-input">  // 拥有不同 key 值的元素将不会复用
 </template>
+<template v-else>
+  <label>Email</label>
+  <input placeholder="Enter your Email">  
+</template>
 ...
 ```
-:snowflake: 现在，每次切换时，输入框都将被重新渲染。
+:snowflake: 由于添加了 `key`，每次切换时，输入框都将被重新渲染。
 
 #### v-if vs v-show  
 > `v-show` 指令也是根据条件展示元素。
@@ -474,6 +489,12 @@ this.anyt = this.anyt.filter(item => {
 ```
 this.anyt[5] = 7;
 this.anyt = [...this.anyt];
+```
+
+#### 修改对象  
+
+```
+this.obj = {...this.obj};
 ```
 
 #### 购物车清算——补给
@@ -592,7 +613,7 @@ data: {
 }
 ```  
 
-#### 值绑定  
+#### 列表渲染复选框  
 
 ```
 <label v-for="item in fruits">
@@ -608,7 +629,7 @@ data: {
 ```
 > 这里 data 中有两个数组，一个负责初始化选项，一个负责初始化选中。
 
-#### v-model修饰符  
+#### v-model的修饰符  
 
  修饰符 | 说明
  :-: | :-: 
@@ -648,7 +669,7 @@ Vue.component('my-cpn', cpnC);  // 第一个参数为注册组件的标签名
 ```
 :snowflake: `template`模板 定义的元素要放在一个根元素中。
 
-**#单标签**
+#### 单标签
 > 使用组件时，若不需要传递什么东西，可以使用单标签  
 ```
 <div id="demo">
@@ -799,7 +820,7 @@ Vue.component('my-cpn', {
 
 \- 通过自定义事件向父组件发送消息  
 
-**#父传子**  
+#### 父传子    
 > 通过**动态绑定**自定义属性，并将父组件的数据传入到子组件。   
 
 ```
@@ -834,7 +855,7 @@ const demo = new Vue({
 })
 ```
 
-**#props的用法**  
+#### props的用法  
 > `props` 选项的值通常为对象，在其中可以验证自定义属性的值等。
 
 1. 验证自定义属性的值的类型  
@@ -871,14 +892,14 @@ props: {
 }
 ```
 
-**#Prop的大小写**  
+#### Prop的大小写   
 
 命名方式 | 使用属性模板 | 使用字符串模板
  :-: | :-: | :-:
  camelCase | kebab-case | camelCase
  kebab-case | kebab-case | camelCase
 
-**#子传父**   
+#### 子传父     
 
 - 在子组件中，通过 `$emit()` 来触发事件  
 - 在父组件中，通过 `v-on` 来监听子组件事件  
