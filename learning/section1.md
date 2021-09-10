@@ -536,14 +536,13 @@ filters: {
 :snowflake: `v-model` 会忽略所有表单元素的一些初始值，将 Vue 实例的数据作为数据来源。故应该在组件的 `data选项` 中声明初始值。
 
 #### 结合radio类型使用  
-> 
 
 ```
-<label>
-    <input type="radio" value="男" v-model="message">男孩
+<label for="male">
+    <input type="radio" id="male" value="男" name="sex">男孩
 </label>
-<label>
-    <input type="radio" value="女" v-model="message">女孩
+<label for="female">
+    <input type="radio" id="female" value="女" name="sex">女孩
 </label>
 
 /* Vue */
@@ -958,6 +957,39 @@ const demo = new Vue({
 
 :herb: 表单元素不能在双向绑定的同时，又将 value 绑定为父的数据。  
 
+```
+/* 父组件 */
+<HelloWorld :fdata="fdata" @handleKeyup="handleKeyup" />
+<input type="text" v-model="fdata" />
+
+data() {
+  return {
+    fdata: 'abc'
+  }
+},
+methods: {
+  handleKeyup(value) {
+    this.fdata = value;
+  }
+}
+
+/* 子组件，避免使用 v-model 直接通过输入修改值 */
+<input type="text" :value="hdata" @keyup="handleKeyup">
+
+props: {
+  fdata: String
+},
+computed: {
+  hdata() {
+    return this.fdata;
+  }
+},
+methods: {
+  handleKeyup(e) {
+    this.$emit('handleKeyup', e.target.value)
+  }
+}
+```
 
 #### 父访问子
 > 有 `$children` 和 `$refs` 两种方式，实际开发基本只使用 `$refs`。
@@ -1078,8 +1110,8 @@ methods: {
 > 父组件替换插槽的标签，且内容来自子组件。  
 
 1. 向子模板的 `<slot>` 中添加一个任意名的绑定属性（名称小写），值为子组件要传递的内容  
-2. 在父模板的对应位置添加 `<template>`，并添加一个 `slot-scope` 属性  
-3. 这时就可以通过它们来获取内容，并处理了  
+2. 在父模板的对应位置添加 `<template>`，并添加一个 `slot-scope` 属性，它的值将供内部使用，值的具体属性由子插槽提供    
+3. 即数据由子组件提供。`<slot>` 内的内容会被替代   
 
 ```
 /* 父组件模板 */
