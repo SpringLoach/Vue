@@ -1309,7 +1309,7 @@ location.hash = 'xxx'
 npm install vue-router --save
 ```
 
-**#在vue-cli2模块化工程中使用vue-router**
+**#在vue-cli2模块化工程中使用vue-router(vue2)**
 
 1. 安装并创建路由实例
 
@@ -1351,6 +1351,35 @@ new Vue({
 ```
 :star2: 当路径为某个文件夹时，自动选择该文件夹下的 `index.js`。  
 :herb: 这里运用了 ES6 对象增强的写法。   
+
+**#在vue-cli3模块化工程中使用vue-router(vue2)**  
+
+```
+/* router 下的 index.js */
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
+
+const routes = [
+
+]
+
+export default new Router({
+  routes,
+  mode: 'history'
+})
+```
+
+```
+/* main.js */
+import router from './router'
+
+new Vue({
+  render: h => h(App),
+  router
+}).$mount('#app')
+```
 
 #### 路由映射配置  
 
@@ -1489,16 +1518,33 @@ data() {
 }
 ```
 
-3. 在组件中透出  
+3. 在目标组件获取动态路由的参数  
 ```
 /* User.vue */
-<template>
-  <h2>{{$route.params.userId}}<h2>
-</template>
+data() {
+  return {
+    userId: null
+  }
+},
+createduserId {
+  this.iid = this.$route.params.userId
+}
 ```
 :snowflake: 路由自动在所有组件中都添加了属性，`$router` 表示路由实例， `$route` 表示当前当前活跃的路由。     
 :snowflake: 此处的 `userId` 对应的是路由映射中 `userId`。  
 :palm_tree: param：参数（缩写）   
+
+#### 动态路由的使用_通过代码跳转路由  
+
+```
+<div class="list-item" @click="itemClick">
+
+methods: {
+  itemClick() {
+    this.$router.push('/detail/' + this.userId);
+  }
+}
+```
 
 #### vue-router打包文件的解析  
 
@@ -1602,6 +1648,32 @@ const routes = [
   <router-link to="/home/news">新闻</router-link>
   <router-view></router-view>
 </template>
+```
+
+#### 路由的嵌套使用2  
+> 如果路由存在嵌套子路由，要添加 `<router-view/>` 决定嵌套子路由渲染时在 HTML 中出现的位置。  
+
+```
+/* Home.vue */
+<div>
+  这里能展示Home独有的内容，后面将展示与子路径匹配的组件（如果有）
+  <router-view/>
+</div>
+```
+
+```
+/* HelloWorld.vue */
+<div>
+  <button @click="section1Btn">section1</button>
+  <button @click="section2Btn">section2</button>
+</div>
+
+section1Btn() {
+  this.$router.push('/home')      // 将跳转至 /home/message
+},
+section2Btn() {
+  this.$router.push('/home/news')   // 将跳转至 /home/news
+},
 ```
 
 #### vue-router参数传递
