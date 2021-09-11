@@ -2,7 +2,7 @@
 
 多人开发时，引入多个 `.js` 文件特别是其中包含的全局变量会导致混乱。  
 
-**#实现模块化**
+#### 实现模块化  
 > ES5 及以前，只能通过下面这样通过匿名函数实现闭包（立即执行）的方式来避免全局变量的问题。
 
 ```
@@ -39,7 +39,7 @@ var adata = (function() {
 ```
 :snowflake: 在每个 `.js` 文件开头加上 `;`，可以避免引用时的一些冲突。
 
-**#CommonJS规范**
+#### CommonJS规范  
 > 这种模块化规范被 Node.js 很好的实现了。当然了，缺乏底层支撑原生的 Javascript 不能直接这样做。
 
 ```
@@ -59,7 +59,7 @@ let {hi, show} = require('./a.js')
 ```
 :star2: 这里使用了 ES6 的对象字面量的增强写法和对象解构。
 
-**#ES6方法**
+#### ES6方法  
 
 1. `module` 类型能够将作用域隔离，因此哪怕在文件中使用 `var` 也不会产生冲突。  
 2. 为了能够从其它文件获取需要的数据，需要通过 `export` 关键字导出，`import` 关键字导入。
@@ -87,7 +87,7 @@ console.log(hi);
 ```
 :star2: 使用这个方法会有跨域的问题，在 VScode 中使用插件 `Live Server` 可以解决。  
 
-export的更多用法  
+#### export的更多用法  
 ```
 /* a.js */
 export let x = 3;
@@ -130,7 +130,7 @@ objectA.show();
 
 ----
 
-**#webpack的模块化和打包**   
+#### webpack的模块化和打包     
 
 - 模块化  
   + 以往通过模块化开发的项目，在模块间会产生各种依赖（如导出导入）。  
@@ -139,7 +139,7 @@ objectA.show();
   + 打包就是将 webpack 中的各种资源模块进行打包合成一个或多个包。
   + 打包的过程中，还可以对资源进行处理，比如压缩图片，将 scss 转成 css，将 ES6 语法转成 ES5，将 TypeScript 转化为 JavaScript等。  
 
-**#和 grunt/gulp 的对比**  
+#### 和grunt/gulp的对比    
 
 - grunt/gulp 的核心是 Task。  
   + 配置一系列的 task， 并且定义 task 要处理的事务（例如 ES6、ts 转化，图片压缩，scss 转化）。  
@@ -150,7 +150,7 @@ objectA.show();
   + grunt/gulp 更强调前端流程的自动化。  
   + webpack 更加强调模块化开发管理，而文件压缩合并、预处理等功能，是它附带的功能。  
 
-**#使用webpack的前置条件**  
+#### 使用webpack的前置条件  
 
 ![webpack打包](./img/webpack打包.jpg)
 
@@ -227,9 +227,9 @@ export {fruit, eat}
 重新打包，即再次执行第二步
 ```
 
-#### 配置webpack文件  
+### 配置webpack文件  
 
-**#配置默认打包源文件路径**
+#### 配置默认打包源文件路径  
 
 1. 添加配置文件 `webpack.config.js`
 
@@ -287,7 +287,7 @@ npm install
 webpack
 ```
 
-**#配置命令（快捷键）**  
+#### 配置命令（快捷键）  
 
 1. 打开 `package.json` 文件  
 2. 在 "script"对象下添加键值对  
@@ -308,7 +308,7 @@ npm run build
 webpack
 ```
 
-**#webpack的局部安装**  
+#### webpack的局部安装  
 > 项目一般在（本地）局部安装 webpack，因为不同的项目依赖的版本不同。  
 
 ```
@@ -327,14 +327,14 @@ npm install webpack@3.6.0 --save-dev
 :snowflake: `package.json` 中的脚本在执行时，先寻找本地的 node_modules/.bin 路径中的命令，找不到就到全局环境找。  
 
 ----
-#### 拓展loader
+### 拓展loader
 > 给 webpack 拓展对应的 loader，就可以具备加载css、图片等的能力。  
 
 1. 通过 npm 安装需要使用的 loader，指令可以到[官网](https://www.webpackjs.com/loaders/)中找。  
 
 2. 在 `webpack.config.js` 中的 `modules` 关键字下进行配置。
 
-**#webpack中使用css文件**  
+#### webpack中使用css文件  
 > 
 
 1. 添加依赖
@@ -371,7 +371,7 @@ module.exports = {
 
 4. 这时就可以正常的将 css 文件打包了
 
-**#webpack中使用less文件**  
+#### webpack中使用less文件  
 
 0. 新建文件 `special.less`
 ```
@@ -400,7 +400,7 @@ npm install --save-dev less-loader@4.1.0 less@3.9.0
 把 rules 数组中的对象添加到相应位置。
 ```
 
-**#webpack中使用图片文件**  
+#### webpack中使用图片文件    
 
 0. 更新文件 `normal.css`
 ```
@@ -469,7 +469,7 @@ name: 'img/[name].[hash:8].[ext]'
  ext | 使用图片原来的拓展名
  [\] | 代表变量
 
-**#webpack中将ES6语法转化为ES5**   
+#### webpack中将ES6语法转化为ES5   
 
 1. 安装loader  
 ```
@@ -484,7 +484,7 @@ presets: ['es2015']
 ```
 :star: 其中的 `exclude` 属性表示排除哪些文件。  
 
-**#webpack中使用Vue**  
+#### webpack中使用Vue  
 
 1. 安装loader  
 ```
@@ -536,9 +536,9 @@ new Vue({
 
 ----
 
-#### Vue的抽离写法
+### Vue的抽离写法
 
-**#创建Vue时，template和el的关系**
+#### 创建Vue时，template和el的关系  
 
 选项 `template` 中的内容会替换挂载元素。
 
@@ -565,7 +565,7 @@ new Vue({
 :snowflake: 注意模版中需要有一个根元素。  
 
 
-**#Vue的抽离原理一**  
+#### Vue的抽离原理一  
 
 可以将子组件当作根实例的模板使用。
 
@@ -594,7 +594,7 @@ new Vue({
 })
 ```
 
-**#Vue的抽离原理二**  
+#### Vue的抽离原理二    
 
 既然子组件被抽离成了一个对象，自然可以用模块化的方式将其从其它地方导入。  
 
@@ -630,7 +630,7 @@ export default  {
   }
 ```
 
-**#Vue组件的抽离**   
+#### Vue组件的抽离     
 
 `.vue` 文件对应的其实就是一个组件，通过它可以实现组件的模板、Javascript 和样式分离。
 
@@ -711,7 +711,7 @@ export default {
 </style>
 ```
 
-**#向组件中添加子组件**
+#### 向组件中添加子组件
 
 1. 在 `<script>` 标签内导入子组件
 > 没有[配置文件后缀](#配置文件后缀)前，不能缩写。
@@ -742,7 +742,7 @@ resolve:{
 
 ----
 
-#### plugin的使用
+### plugin的使用
 
 - `loader` 主要用于转换某些类型的模块，它是一个转换器。  
 - `plugin` 是插件，它是对 webpack 本身的扩展，是一个扩展器。
@@ -751,7 +751,7 @@ resolve:{
 1. 通过 npm 安装（部分 `plugin` 已经在 webpack 中内置）。    
 2. 在 `webpack.config.js` 中配置插件。  
 
-**#横幅plugin的使用**  
+#### 横幅plugin的使用  
 > 可用于在文件的头部添加版权信息等。  
 
 ```
@@ -766,7 +766,7 @@ module.exports = {
 ```
 > 首行的导入会自动到 `node_modules` 文件中去找。  
 
-**#HtmlWebpackplugin的使用**  
+#### HtmlWebpackplugin的使用  
 > 将 `index.html` 打包到 `dist文件夹` 中（实际发布的项目内容）。
 
 1. 安装plugin
@@ -810,7 +810,7 @@ module.exports = {
 <script src="./dist/bundle.js"></script>
 ```
 
-**#UglifyjsWebpackPlugin的使用**  
+#### UglifyjsWebpackPlugin的使用  
 > 在项目发布前，需要对 js 等文件进行压缩处理 。  
 
 1. 安装plugin
@@ -829,7 +829,7 @@ plugins: [
 ```
 :star2: 将删除所有的注释，与 `横幅plugin` 相冲突。  
 
-**#Webpack-dev-server搭建本地服务器**  
+#### Webpack-dev-server搭建本地服务器  
 > Webpack 提供了一个可选的本地开发服务器，这个本地服务器基于 node.js 搭建，内部使用 express 框架，可以实现浏览器自动刷新，类似于 VScode 中的 `live-server` 的效果。
 
 这个服务器缓存到内存中，读取速度比磁盘快得多，在得到想要的结果、调试结束后，使用 `Ctrl` + `C` 终止命令，然后打包。
@@ -873,7 +873,7 @@ module.exports = {
 
 :herb: 以 `.` 开头的路径要使用反斜杠。
 
-**#Webpack-配置文件的分离**  
+### #Webpack-配置文件的分离  
 
 - 项目文件
   + build
@@ -973,7 +973,7 @@ vue-cli2初始化项目弹出选项
  
 :star2: 项目名称不要包含中文和大写。
  
-**淘宝 NPM 镜像**  
+#### 淘宝NPM镜像   
 > 使用 `cnpm` 代替 `npm`，在国内的下载速度更快。
 
 1. 安装 cnpm
@@ -986,7 +986,7 @@ cnpm install [name]
 ```
 ----
 
-#### vuecli-2 的目录结构
+#### vuecli-2的目录结构
 
 - 项目文件
   + build
@@ -1029,27 +1029,27 @@ cnpm install [name]
  package.json | 管理 node 相关的包等
  package-lock.json | 真实的 node 版本
  
-**#package.json**  
+#### cli2_package.json  
 1. 文件中的 `"script"`，指出了 `npm run build` 和 `npm run dev` 执行的具体内容。   
 2. 依赖文件，分为开发时依赖和运行时依赖，都放在 `node_modules` 中。
 3. 其中的 `babel-preset-env` 和 `babel-preset-stage-2` 与 `.babelrc` 文件相关。  
 4. `^` 表示后面两节可以更高，`~`表示最后一节可以更高，栗子`4.15.0`。  
 
-**#build.js**   
+#### cli2_build.js     
 1. `rm()` 移除原打包文件。  
 2. `webpack()` 使用第一个参数作为配置，执行相关的内容。  
 3. 第一个参数引入的是 `webpack.prod.conf.js` 文件，其中合并了基础配置。  
 
-**#.babelrc**  
+#### cli2_babelrc    
 1. 根据条件决定需要转换的语法。 
 2. `"browsers"` 指定了市场份额大于 1%，最后的两个版本，不考虑 IE8 及以下。  
 
-**#node**  
+#### cli2_node    
 > node 由 C++ 编写，使用的是 V8 引擎(编译为二进制代码)，而且能为 JavaScript 提供运行环境。
 
 指令 node 可以直接执行 `.js` 文件。
 
-**#eslint规范**  
+#### cli2_eslint规范    
 > 在安装了 `ESLint` 后取消该规范：在 `config` - `index.js` 中
 ```
 useEslint: flase
@@ -1064,7 +1064,7 @@ useEslint: flase
  runtime-complier | template -> ast -> render -> vdom -> UI | /
  runtime-only  | render -> vdom -> UI | 性能更高，代码量更少
 
-**#render函数**  
+#### render函数    
 > 用作组件的一个选项。传入的参数实际上为 createElement 方法，生成的内容将**替换挂载元素**。  
 
 1. 用法一
@@ -1096,14 +1096,14 @@ new Vue({
 })
 ```
 
-**#runtime-only中的组件**
+#### runtime-only中的组件  
 > 使用 `runtime-only` 时，.vue 文件中的 template 是如何编译的？  
 
 是由默认安装的 loader `vue-template-complier`（开发时依赖）将 template 编译成了 render 函数。  
 
 ----
 
-**#vue-cli3与vue-cli2的区别**  
+#### vue-cli3与vue-cli2的区别  
   - vue-cli3基于 webpack 4 打造
   - 移除了配置文件 `build` 和 `config`等。  
   - 提供了 vue ui 命令，可以配置插件、依赖等。  
@@ -1168,11 +1168,11 @@ C:/Users/Administrator/.vuerc
  babel.config.js | 对 babel 相关的配置
  postcss.config.js | css转化相关
 
-**#package.json**  
+#### cli3_package.json   
 
 其中的 `@vue/cli-plugin-babel` 和 `@vue/cli-service` 帮助管理了很多配置。
 
-**#dev的新实现**
+#### cli3_dev的新实现   
 ```
 npm run serve
 
@@ -1182,7 +1182,7 @@ npm run serve
 npm run dev
 ```
 
-**#`main.js`的变化**  
+#### cli3_`main.js`的变化    
 
 ```
 /* 查看构建信息 */ 
@@ -1205,7 +1205,6 @@ vue ui
 > 选择 `导入`——（找到并进入项目文件）——`导入这个文件夹`——侧边栏可选插件、依赖、
 
 :herb: 运行依赖的 `vue` 和开发依赖的 `@vue/compiler-sfc` 版本必须一致，否则会报错。  
-:cyclone: `GUI`：用户界面
 
 2. 查找隐藏配置文件  
 > 在项目文件下，找到 `node_modules` - `@vue` - `cli-service` - `webpack.config.js`，其中又引用了当前文件夹下的 `lib` - `Service.js`。
@@ -1231,9 +1230,9 @@ module.exports = {
 
 ----
 
-#### 前端路由和后端路由  
+### 前端路由和后端路由  
 
-**#1.后端路由阶段**  
+#### 后端路由阶段  
 
 + 早期的网页开发整个 HTML 网页是由服务器来渲染的。  
 
@@ -1247,7 +1246,7 @@ module.exports = {
   
   + 但这回导致整个页面的模块由后端人员来编写和维护。且 HTML 代码和数据以及对应的逻辑混在一起，不利于编写和维护。  
 
-**#2.前后端分离阶段**  
+#### 前后端分离阶段    
 
 + 随着 `Ajax` 的出现，有了前后端分离的开发模式。
 
@@ -1259,7 +1258,7 @@ module.exports = {
 
 :star2: 静态资源服务器和提供 API 接口的服务器可以是同一个。
 
-**#3.单页面富应用阶段**  
+#### 单页面富应用阶段    
 
 - SPA 最主要的特点就是在前后端分离的基础上加了一层前端路由。  
 
@@ -1293,7 +1292,7 @@ location.hash = 'xxx'
 
 ----
 
-#### vue-router的安装和配置方式  
+### vue-router的安装和配置方式  
 > 当然了，使用脚手架时可以自定义安装。  
 
 - `vue-router` 是 Vue.js 官方的路由插件，它和 vue.js 是深度集成的，适合用于构建单页面应用。  
@@ -1304,12 +1303,12 @@ location.hash = 'xxx'
   
   + 在 `vue-router` 的单页面应用中，页面路径的改变就是组件的切换。
 
-**#安装vue-router**
+#### 安装vue-router
 ```
 npm install vue-router --save
 ```
 
-**#在vue-cli2模块化工程中使用vue-router(vue2)**
+#### 在vue-cli2模块化工程中使用vue-router(vue2)  
 
 1. 安装并创建路由实例
 
@@ -1352,7 +1351,7 @@ new Vue({
 :star2: 当路径为某个文件夹时，自动选择该文件夹下的 `index.js`。  
 :herb: 这里运用了 ES6 对象增强的写法。   
 
-**#在vue-cli3模块化工程中使用vue-router(vue2)**  
+#### 在vue-cli3模块化工程中使用vue-router(vue2)   
 
 ```
 /* router 下的 index.js */
@@ -1587,7 +1586,7 @@ const routes = [
 :herb: 此时就不需要像以前那样去创建依赖关系了。    
 :herb: 此时 `dist` - `static` - `js` 就不止三个文件了。  
 
-**#路由懒加载的其它两种方式**  
+#### 路由懒加载的其它两种方式  
 
 1. 结合 Vue 的异步组件和 Webpack 的代码分割  
 ```
@@ -1656,11 +1655,14 @@ const routes = [
 ```
 /* Home.vue */
 <div>
-  这里能展示Home独有的内容，后面将展示与子路径匹配的组件（如果有）
+  <p>some text.</p>
   <router-view/>
 </div>
 ```
 
+> 由于子路径对 `/` 使用了重定向，跳转到 `/home` 时将跳转到 `/home/message`    
+> 
+> 想要跳转到子路由时，根路径不能省 
 ```
 /* HelloWorld.vue */
 <div>
@@ -1676,7 +1678,7 @@ section2Btn() {
 },
 ```
 
-#### vue-router参数传递
+#### 通过路由传递参数
 
 1. [动态路由的使用](#动态路由的使用)中的 `$route.params`
 
@@ -1700,7 +1702,7 @@ section2Btn() {
 <p>{{$route.query.height}}<p>
 ```
 
-**#[通过代码跳转路](#通过代码跳转路)由并进行参数传递**
+#### 通过路由传递参数_通过代码跳转
 ```
 /* Vue.vue */
 <button @click="profileclick">按钮</button>
@@ -1738,7 +1740,7 @@ Router.install(Vue)
 
 #### 全局导航守卫  
 
-#普通方法
+#### 改变文档标题  
 ```
 /* About.vue */
 
@@ -1781,7 +1783,7 @@ export default router
 :snowflake: `matched[0]` 用于取出第一层嵌套的组件。  
 :snowflake: `from` 指向即将离开的路由，`to` 指向即将前往的路由。  
 
-**#全局守卫**  
+#### 全局守卫    
 
 全局守卫 | 说明 | 补充
  :-: | :-: | :-:
@@ -1819,7 +1821,7 @@ beforeRouteLeave(to, from, next) {
 :snowflake: `activated` 为进入已经缓存的页面时，触发的钩子函数。  
 :snowflake: 这里使用了组件内的守卫。
 
-**#keep-alive的属性**  
+#### keep-alive的属性    
 
  属性 | 值 | 说明
  :-: | :-: | :-:
