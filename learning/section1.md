@@ -557,7 +557,7 @@ this.anyt = [...this.anyt];
 #### 修改对象  
 
 ```
-this.obj = {...this.obj};
+this.obj = {...this.obj, newProp: 123};
 ```
 
 #### 购物车清算——补给
