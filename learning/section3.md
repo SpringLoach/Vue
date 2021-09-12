@@ -3,11 +3,11 @@
 [Vuex](#Vuex概念)    
 [axios框架](#axios框架的基本使用) 
 
-#### tabber
+#### tabber小项目
 
-**#模块化思路**
+#### tabber_组件化思路  
 1. 建立一个 TabBar 组件，并以 TabBarItem 组件作为它的子组件。  
-2. 在 TabBar 组件中使用插槽，使外界可以动态插入任意数量的 TabBarItem 组件。  
+2. TabBar 和 TabBarItem 都为某父组件下的子组件，TabBar 提供容器样式并提供插槽，以便放入任意数量的 TabBarItem。      
 3. 在 TabBarItem 组件中，使用图片插槽和文字插槽。  
   
 :palm_tree: 组件自身相关的 HTML 和样式写到自己内部，然后引入根组件注册并使用。  
@@ -40,7 +40,7 @@
  Home.vue | vue 件用大写命名
 
 
-**#样式**
+#### tabber_样式  
 
 1. 初始化的样式很多（这里初始化内外边距），可以写到 `base.css` 中，然后引入 `App.vue`  
 ```
@@ -63,7 +63,7 @@
 
 ----
 
-#### 传入active图片  
+#### tabber_条件渲染激活态图片  
 
 在 TabBarItem 组件中新增一个具名插槽 `name="item-icon-active"` 用于放入活跃状态的图片。   
 
@@ -73,7 +73,7 @@
 
 ----
 
-#### 结合路由进行页面跳转
+#### tabber_结合路由进行页面跳转
 
 - 在创建好组件后，进行[路由映射配置](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#路由映射配置)以及[路由的默认值和模式修改](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#路由的默认值和模式修改)，而且使用的是[路由懒加载](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#路由懒加载)的方式。
 - 在 `TabBarItem` 组件中进行[父传子](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#父子组件通信)来获取自定义属性 `path`，最后[通过代码跳转路由](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#通过代码跳转路由)。  
@@ -83,15 +83,15 @@
 
 ----
 
-#### 颜色动态控制  
+#### tabber_父组件传入动态样式值  
 
 1. 通过判断活跃路由是否为当前路由，选择对变量的赋值，从而进行条件渲染。  
 2. 对于字体颜色，我们希望可以让外界动态决定，故需要设置自定义属性（用于获取颜色）并动态绑定样式。同时我们希望给它一个默认值，并添加到自定义属性中。  
-3. 添加计算属性，通过判断活跃路由是否为当前路由，决定添加到[动态样式](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#绑定style)的内容。
+3. 添加计算属性，通过判断活跃路由的路径是否为组件内的自定义属性 `path`，决定添加到[动态样式](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#绑定style)的内容。
 
 ----
 
-#### 进一步抽离 
+#### tabber_进一步抽离 
 
 - src
   + components
@@ -106,9 +106,9 @@
 
 #### 起别名  
 
-#cli-2
+#### 起别名_cli-2
 
-`项目文件/build/webpack.base.conf.js` 中的有一个 `resolve` 对象，其中的 `alas` 属性为别名。  
+`项目文件/build/webpack.base.conf.js` 中的有一个 `resolve` 对象，其中的 `alias` 属性为别名。  
 ```
 resolve: {
     ...,
@@ -224,7 +224,7 @@ new Promise((resolve, reject) => {
     console.log(err);
 })
 ```
-**#取得两个请求的结果后进行一些操作**
+#### 取得多个请求的结果后操作  
 > `Promise.all()`方法接受一个可迭代对象，其中可包括多个期约实例，待所有期约解决后，返回一个新期约，并将可迭代对象中期约的解决值作为数组参数传过去。  
 
 ```
@@ -505,7 +505,7 @@ actions: {
 :snowflake: `actions` 中的方法接受一个 `context` 参数，在这里代表 `store` 对象
 :palm_tree: 上下文
 
-**#actions属性的传参及完成**  
+#### actions属性的传参及完成  
 > 可以通过返回期约的方式，告诉调用操作的地方异步操作的完成。  
 
 ```
@@ -566,7 +566,7 @@ const store = new Vuex.Store({
 ```
 :snowflake: 实际上也可以在模块内继续使用 `modules`，但这样仿佛就太乱了。  
 
-**#modules属性中的state**
+#### modules属性中的state  
 > 定义时一致；使用时，先取出模块（被放到了根 `state` 中），再从模块中取出。
 ```
 const moduleA = {
@@ -580,7 +580,7 @@ const moduleA = {
 <h2>{{$store.state.a.name}}</h2>
 ```
 
-**#modules属性中的mutations**  
+####  modules属性中的mutations    
 > 定义和使用方式与原先一致。  
 ```
 const moduleA = {
@@ -602,7 +602,7 @@ methods: {
 }
 ```
 
-**#modules属性中的getters**  
+#### modules属性中的getters    
 > 定义和使用方式与原先一致。  
 ```
 const moduleA = {
@@ -623,7 +623,7 @@ const moduleA = {
 ```
 :snowflake: 它接受的第二个参数为自身的 getters 对象，第三个参数为根部的 state 对象。  
 
-**#modules属性中的actions**  
+#### modules属性中的actions    
 > 定义和使用方式与原先一致。  
 ```
 const moduleA = {
@@ -649,7 +649,7 @@ methods: {
 :snowflake: 模块中的 `context` 仅能 commit 自身模块中的 `mutations`。  
 :snowflake: 模块中的 `context` 对象中还有些属性能获取根的 state 等。   
 
-**#context的对象结构赋值**  
+#### context的对象结构赋值    
 > 这是 ES6 的简写语法。  
 
 ```
@@ -766,7 +766,7 @@ axios({
  axios.post(url, [data,[config\]]) | / | /
  ... | / | /
 
-**#错误接口**  
+#### 携带参数发起请求
 :bug: 错误接口 123.207.32.32:8000/home/data?type=pop&page=1  
 ```
 axios({
@@ -816,7 +816,7 @@ axios({
 ```
 :snowflake: 配置将自动应用到相关的 axios 方法中。  
 
-**#常见的配置选项**  
+#### axios_常见的配置选项  
 
  配置 | 方式/栗子 | 说明
  :-: | :-: | :-:
@@ -927,7 +927,7 @@ export function request(config) {
 }
 ```
  
-**#回调函数简单栗子**  
+#### 回调函数简单栗子    
 
 ```
 function makeData(x) {
