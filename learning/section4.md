@@ -1,12 +1,10 @@
-[回到顶部](#回到顶部)  
-
-#### 项目创建和GitHub托管的不唯一方法  
+#### 项目创建及托管  
 
 1. 使用 vue-cli-3 创建
 ```
 vue create linshi
 ```
-:bug: 这里不要选择版本，vue3 以上的版本在[安装路由](https://blog.csdn.net/m0_46442996/article/details/108961492)等方面都与原先完全不同。
+> 这里不要选择版本，vue3 以上的版本在[安装路由](https://blog.csdn.net/m0_46442996/article/details/108961492)等方面都与原先完全不同。
 
 2. 在 GitHub 上创建一个仓库
 > 可以选择一个 `MIT license`，先不创建 `README` 文件了，会和脚手架自带的冲突。
@@ -84,7 +82,7 @@ where git
  utils.js | 公共方法 
  mixin.js | 混入
  
-#### css文件的引入  
+#### 初始化样式    
 
 - css
   + normalize.css
@@ -125,13 +123,13 @@ module.exports = {
   }
 }
 ```
-:snowflake: 在 HTML 中，使用别名时加 `~` 前缀；在 export 时则不用加。  
+:snowflake: 使用别名：在 HTML 中需要加 `~` 前缀、在 export 时则不用加。  
 
-在高版本脚手架中，没有 `.editorconfig` 这个文件，从项目拷贝。
+较高版本的脚手架中，没有 `.editorconfig` 这个文件，从项目拷贝。
  
 #### tabbar的引入  
 
-将之前做的小项目 `tabbar` 中的两个文件夹引进。由于 `MainTabBar.vue` 中用于将图片和文字插入组件，将其归属为不可复用的业务组件；而 `tabber` 不关系嵌入的内容，属于真正封装的组件。   
+将之前做的小项目 `tabbar` 中的两个文件夹引进。由于 `MainTabBar.vue` 中用于将图片和文字插入组件，将其归属为不可复用的业务组件；而 `tabber` 不关心嵌入的内容，属于真正封装的组件。   
 
 - components
   + commom
@@ -154,15 +152,16 @@ npm install vue-router --save
 
 :bug: 经测试，vue-cli 在 4.5 版本中使用 `<keep-alive>` 和 `<router-view/>` 来[缓存组件](https://github.com/SpringLoach/Vue/blob/main/learning/section2.md#路由中使用keep-alive)是没问题的。  
 
-#### 改图标  
+#### 更改文档图标  
+> 将项目文件中 `public` 下的 `favicon.ico` 更替为自己需要的图片。 
 
-将项目文件中 `public` 下的 `favicon.ico` 更替为自己需要的图片。 
+`public` 下的 `index.html` 中使用了 `<%= BASE_URL %>` ，这是 jsp 的语法，用于动态获取路径，表示当前文件夹下。
 
-:palm_tree: `public` 下的 `index.html` 中使用了 `<%= BASE_URL %>` ，这是 jsp 的语法，用于动态获取路径，表示当前文件夹下。
+----
 
-## 首页
+#### 首页
 
-#### 首页导航栏的封装和使用  
+#### 首页_导航栏的封装和使用  
 > 需要搭建的项目中，每个页面都有顶部导航栏，有的只有文字，有的两侧有图片，甚至有动态属性，选项卡。此时封装需要考虑到拓展性，要预留插槽。  
 
 - commom
@@ -184,7 +183,7 @@ CSS
 导入 `Home.vue` 中，并对该模块设置字体和背景颜色。  
 
 
-#### 请求首页的多个数据  
+#### 首页_请求多个数据  
 
 将先前封装好的 `network` 中的 `request.js` 拉过来。  
 
@@ -224,7 +223,7 @@ created() {
 }
 ```
 
-#### 轮播图的展示  
+#### 首页_轮播图的展示  
 
 将项目中的 `swiper` 拉过来。  
 
@@ -244,7 +243,7 @@ created() {
     - childComps
       + HomeSwiper
 
-使用方法为 `sweiper` （预留了插槽）包围 `swiper-item` 。由于有多个轮播图，可以直接[遍历](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#v-for遍历数组和对象)数组。轮播图可以实现链接的功能，所以用 `<a>` 包围 `<img>`。  
+使用方法为 `swiper` （预留了插槽）包围 `swiper-item` 。由于有多个轮播图，可以直接[遍历](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#v-for遍历数组和对象)数组。轮播图可以实现链接的功能，所以用 `<a>` 包围 `<img>`。  
 
 ```
 <swiper>
@@ -266,13 +265,9 @@ props: {
 }
 ```
 
-最后注册到父组件并在使用时传递数据就可以了。  
+最后注册到父组件并在使用时传递数据就可以了。   
 
-:bug: 有时候轮播图是在轮播，但是没有图片，一片空白，只有第一张图。有小伙伴认为是异步操作导致的。：banners的动态绑定，发现所需的数据是经过异步请求传过来的。我们也知道，异步请求的结果是在回调函数中，所以先渲染的模板可能会出现空数据的情况，即还没有拿到返回的数据，后来拿到了数据，但模板已经渲染完了，并没有响应式的刷新。  
-:bug: 但我发现这个现象仅发生在使用 `F12` 之后的第一次刷新。  
-:herb: 之后尝试用状态管理调整一下。  
-
-#### 推荐信息的展示  
+#### 首页_推荐信息的展示  
 
 - views
   + home
@@ -293,7 +288,7 @@ props: {
 ```
 :snowflake: 给所有弹性项目加上 `flex: 1` 可以做到在一行内均等分布。  
 
-#### 特性类别的展示 
+#### 首页_特性类别的展示 
 
 - views
   + home
@@ -310,7 +305,7 @@ props: {
 
 然后把置顶和置底的导航栏的固定以及遮蔽问题解决 `positon: sticky`。  
 
-#### 表格切换控制的封装  
+#### 首页_表格切换控制的封装  
 
 - components
   + content
@@ -346,7 +341,7 @@ methods: {
 
 :snowflake: 在向页面导入其它组件时，可以按私有组件、公用组件、插入数据的顺序进行排序。  
 
-#### 保存商品的数据结构  
+#### 首页_保存商品的数据结构  
 > 考虑到切换表格时还有进行加载会给用户带来不好的体验，先将不同表格的前面一部分直接请求下来，只有下拉加载更多时，才会继续请求数据。  
 
 goods：（流行/新款/精选）  
@@ -374,7 +369,7 @@ data() {
 }
 ```
 
-#### 商品数据的请求和保存  
+#### 首页_商品数据的请求和保存  
 
 封装请求并在 `Home.vue` 导出，只要传入特定的 `type` 和 `page` 就可以请求到对应的数据了。
 ```
@@ -420,7 +415,7 @@ methods: {
 }
 ```
 
-#### 商品数据的展示  
+#### 首页_商品数据的展示  
 > `GoodsList.vue` 从父组件获取 `list` 数据；`GoodsListItem.vue` 则从父组件获取 list 中每一个具体的 `对象`。  
 
 - components
@@ -431,7 +426,7 @@ methods: {
 
 :snowflake: 仅当需要复用的组件结构不同时，采用插槽。仅数据不同时，不必使用。  
 
-#样式  
+#### 商品数据的展示_样式  
 1. 采用弹性布局时，要保证元素之前是直接的父子关系，所有 `v-for` 要直接用到组件上。  
 2. 设置[文本溢出](https://www.w3school.com.cn/tiy/t.asp?f=css3_text-overflow)效果。   
 3. 设置图片[固定宽高比](https://blog.csdn.net/qq_26173001/article/details/102770651)。  
@@ -449,7 +444,7 @@ methods: {
 }
 ```
 
-#### TabControl切换商品  
+#### 首页_TabControl切换商品  
 > 当点击不同的分类时，切换对应的展示数据。  
 
 将点击的索引值[传给父组件](https://github.com/SpringLoach/Vue/blob/main/learning/section1.md#父子组件通信)，并判断具体需要展示的数据，再通过计算属性 `showGoods` 保存需要展示的数据。  
