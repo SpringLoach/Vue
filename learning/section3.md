@@ -1,7 +1,40 @@
-[tabber小项目](#tabber)  
-[promise简单用法](#promise)  
-[Vuex](#Vuex概念)    
-[axios框架](#axios框架的基本使用) 
+- [tabber](#tabber)
+  + [tabber_组件化思路](#tabber_组件化思路)
+  + [tabber_样式](#tabber_样式)
+  + [tabber_条件渲染激活态图片](#tabber_条件渲染激活态图片)
+  + [tabber_结合路由进行页面跳转](#tabber_结合路由进行页面跳转)
+  + [tabber_父组件传入动态样式值](#tabber_父组件传入动态样式值)
+  + [tabber_进一步抽离](#tabber_进一步抽离)
+- [起别名_cli-2](#起别名_cli-2)
+- [promise](#promise)
+  + [取得多个请求的结果后操作](#取得多个请求的结果后操作)
+- [Vuex概念](#Vuex概念)
+  + [安装并配置Vuex](#安装并配置Vuex)
+  + [state属性](#state属性)
+  + [mutations属性](#mutations属性)
+    - [mutations提交风格](#mutations提交风格)
+    - [Mutation相应规则](#Mutation相应规则)
+    - [Mutations的类型常量](#Mutations的类型常量)
+  + [getters属性](#getters属性)  
+  + [actions属性](#actions属性)
+    - [actions属性的传参及完成](#actions属性的传参及完成)
+    - [context的对象结构赋值](#context的对象结构赋值)
+  + [modules属性](#modules属性)
+    - [modules属性中的state](#modules属性中的state)
+    - [modules属性中的mutations](#modules属性中的mutations)
+    - [modules属性中的getters](#modules属性中的getters)
+    - [modules属性中的actions](#modules属性中的actions)
+  + [vue-store目录组织](#vue-store目录组织)  
+- [网络请求模块（框架）的选择](#网络请求模块（框架）的选择)
+- [axios框架的基本使用](#axios框架的基本使用)
+  + [携带参数发起请求](#携带参数发起请求)
+  + [axios发送并发请求后处理](#axios发送并发请求后处理)
+  + [axios的配置相关信息](#axios的配置相关信息)
+  + [axios_常见的配置选项](#axios_常见的配置选项)
+  + [axios的实例](#axios的实例)
+  + [模块封装](#模块封装)
+  + [回调函数简单栗子](#回调函数简单栗子)
+  + [拦截器](#拦截器)
 
 #### tabber小项目
 
@@ -103,8 +136,6 @@
 4. 改写一下图片的路径。  
 
 ----
-
-#### 起别名  
 
 #### 起别名_cli-2
 
@@ -264,7 +295,7 @@ Promise.all([
 :palm_tree: Devtools：Vue 开发的一个浏览器插件（需安装）。记录（同步的）修改，方便跟踪  
 :palm_tree: Mutate：改变    
 
-**安装并配置Vuex**
+#### 安装并配置Vuex  
 ```
 npm install vuex --save
 ```
@@ -310,7 +341,7 @@ const store = new Vuex.Store({
 })
 ```
 
-**state属性**
+#### state属性  
 ```
 /* store 下的 index.js */
 state: {counter: 101}, 
@@ -321,7 +352,7 @@ state: {counter: 101},
 ```
 :herb: 任何组件都可以读取该状态，但是不建议直接 `$store.state.counter++` 来修改状态，这样的修改没有记录。  
 
-**mutations属性**
+#### mutations属性  
 > 用于同步操作中更新 `state` 的状态，默认参数为 state 对象。
 
 ```
@@ -353,7 +384,7 @@ methods: {
 :snowflake: 在 `this.$store.commit()`中，第一个参数为事件类型，第二个参数为载荷。  
 :palm_tree: Payload：载荷，此处为传递的参数，当参数不止一个时，可以将 Payload 以对象的形式传递。  
 
-**mutations提交风格**  
+#### mutations提交风格    
 > 实际上，`this.$store.commit()` 还有其它的提交方式。  
 
 ```
@@ -384,34 +415,7 @@ methods: {
   }
 }
 ```
-:snowflake: 以第二种风格提交的参数始终是一个对象。
-
-**getters属性**  
-> 多个页面需要获取处理后的状态时使用，第一个参数为 state 对象，第二个参数为 getters 对象。
-
-```
-/* store 下的 index.js */
-getters: {
-  powerCounter(state){
-    return state.counter * state.counter
-  },
-  powerCounteradd(state, getters){
-    return getters.powerCounter + 1
-  },
-  powerCounterAnyadd(state, getters){
-    return num => {
-      return getters.powerCounter + num
-    }
-  }
-},
-...
-
-/* App.vue */
-<h2>{{$store.getters.powerCounter}}</h2>
-<h2>{{$store.getters.powerCounteradd}}</h2>
-<h2>{{$store.getters.powerCounterAnyadd(666)}}</h2>
-```
-:snowflake: 当某些处理需要传参才能进行时，需要在定义的方法中返回一个函数，用这个函数去接受参数并进行处理。  
+:snowflake: 以第二种风格提交的参数始终是一个对象。  
 
 #### Mutation相应规则   
 > 需要提前在 store 中初始化所需的属性。  
@@ -480,6 +484,33 @@ mutations: {
 }
 ```
 
+#### getters属性    
+> 多个页面需要获取处理后的状态时使用，第一个参数为 state 对象，第二个参数为 getters 对象。
+
+```
+/* store 下的 index.js */
+getters: {
+  powerCounter(state){
+    return state.counter * state.counter
+  },
+  powerCounteradd(state, getters){
+    return getters.powerCounter + 1
+  },
+  powerCounterAnyadd(state, getters){
+    return num => {
+      return getters.powerCounter + num
+    }
+  }
+},
+...
+
+/* App.vue */
+<h2>{{$store.getters.powerCounter}}</h2>
+<h2>{{$store.getters.powerCounteradd}}</h2>
+<h2>{{$store.getters.powerCounterAnyadd(666)}}</h2>
+```
+:snowflake: 当某些处理需要传参才能进行时，需要在定义的方法中返回一个函数，用这个函数去接受参数并进行处理。
+
 #### actions属性
 > 在进行一些**异步操作**时，不能在 `mutations` 属性中进行，这会导致无法及时观察状态的变化。此时，应该使用 `actions` 属性。  
 
@@ -536,6 +567,20 @@ actions: {
 ```
 :snowflake: 一般认为 `context.commit()` 执行后表示修改成功。  
 :snowflake: actions 属性也接受一个 payload。  
+
+#### context的对象结构赋值    
+> 这是 ES6 的简写语法。  
+
+```
+actions: {
+    aChangeName({ state, commit, rootState }) {
+      setTimeout(() => {
+        commit('ChangeName', 'ash')
+      }, 2000)
+    }
+  }
+```
+:snowflake: 相当于抽取同名属性并赋值。  
 
 #### modules属性  
 > 当需要管理的状态太多时，内容会显得臃肿，其实使用 `modules` 属性可以实现状态的分离。    
@@ -648,20 +693,6 @@ methods: {
 ```
 :snowflake: 模块中的 `context` 仅能 commit 自身模块中的 `mutations`。  
 :snowflake: 模块中的 `context` 对象中还有些属性能获取根的 state 等。   
-
-#### context的对象结构赋值    
-> 这是 ES6 的简写语法。  
-
-```
-actions: {
-    aChangeName({ state, commit, rootState }) {
-      setTimeout(() => {
-        commit('ChangeName', 'ash')
-      }, 2000)
-    }
-  }
-```
-:snowflake: 相当于抽取同名属性并赋值。  
 
 #### vue-store目录组织  
 > 官网推荐。  
