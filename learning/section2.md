@@ -44,7 +44,6 @@
 - [runtime-complier和runtime-only](#runtime-complier和runtime-only)
   + [render函数](#render函数)
   + [runtime-only中的组件](#runtime-only中的组件)  
-
 - [vue-cli3与vue-cli2的区别](#vue-cli3与vue-cli2的区别)
 - [vuecli-3初始化项目弹出选项](#vuecli-3初始化项目弹出选项)
 - [vuecli-3的目录结构](#vuecli-3的目录结构)
@@ -67,14 +66,16 @@
   + [router-link标签的属性](#router-link标签的属性)
   + [通过代码跳转路由](#通过代码跳转路由)
   + [动态路由的使用](#动态路由的使用)
-    - [动态路由的使用_通过代码跳转路由](#动态路由的使用_通过代码跳转路由)
+    - [动态路由的使用_通过代码跳转路由](#动态路由的使用_通过代码跳转路由)  
+    - [动态路由的使用_组件复用](#动态路由的使用_组件复用)  
   + [vue-router打包文件的解析](#vue-router打包文件的解析)
   + [路由懒加载](#路由懒加载)
     - [路由懒加载的其它两种方式](#路由懒加载的其它两种方式)
   + [路由的嵌套使用](#路由的嵌套使用)
     - [路由的嵌套使用2](#路由的嵌套使用2)
   + [通过路由传递参数](#通过路由传递参数)
-    - [通过路由传递参数_通过代码跳转](#通过路由传递参数_通过代码跳转)
+    - [通过路由传递参数_通过代码跳转](#通过路由传递参数_通过代码跳转)  
+  + [路由对象属性](#路由对象属性)  
   + [vue-router和vue-route的由来](#vue-router和vue-route的由来)
   + [全局导航守卫](#全局导航守卫)
     - [改变文档标题](#改变文档标题)
@@ -1505,6 +1506,26 @@ const routes = [
 </template>
 ```  
 
+#### 路由的重定向  
+> 当用户访问 `/a` 时，URL 将会被替换成 `/b`，然后匹配路由为 `/b`。
+> 
+> 重定向的目标可以是路径、命名路由或方法。
+> 
+> 此时为 `/a` 路由添加 beforeEnter 守卫并不会有任何效果。  
+
+```
+const router = new VueRouter({
+  routes: [
+    { path: '/a', redirect: '/b' },
+    { path: '/b', redirect: { name: 'foo' }},
+    { path: '/c', redirect: to => {
+      // 方法接收 目标路由 作为参数
+      // return 重定向的 字符串路径/路径对象
+    }}
+  ]
+})
+```
+
 #### 路由的默认值和模式修改  
 
 1. 添加路由的默认映射  
@@ -1570,7 +1591,7 @@ methods: {
 > `$router.replace()`方法可以替换当前的 URL，替换该状态的历史记录。
 
 #### 动态路由的使用  
-> 某些情况下，一个页面的 path 路径可能是不确定的，比如 `/user/用户Id`。  
+> 某些情况下，一个页面的 path 路径可能是不确定的，比如 `/user/用户Id`。   
 
 1. 创建组件并添加到路由
 ```
@@ -1627,6 +1648,28 @@ methods: {
     this.$router.push('/detail/' + this.userId);
   }
 }
+```
+
+#### 动态路由的使用_组件复用  
+> 当使用路由参数时，例如从 `/user/foo` 导航到 `/user/bar`，原来的组件实例会被复用，组件的生命周期钩子不会再被调用。  
+
+复用组件时，如果想对参数变化作出响应，可以使用 `beforeRouteUpdate` [导航守卫](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html)。  
+```
+data() {},
+beforeRouteUpdate(to, from, next) {
+  // do something
+  // next()
+}
+```
+
+也可以在路由变化时，再次执行逻辑
+```
+created () {
+  this.fetchData()
+},
+watch: {
+  '$route': 'fetchData'
+},
 ```
 
 #### vue-router打包文件的解析  
@@ -1720,7 +1763,7 @@ const routes = [
   }
 ]
 ```
-:snowflake: 注意 `chilren` 中的对象的 `path` 和 `redirect`属性不需要加上 `/`。   
+:snowflake: 注意 `chilren` 中的对象的 `path` 和 `redirect`属性不需要加上 `/`，根路径才加。   
 :snowflake: 可以将子路径和重定向改为 `/home/message` 来将路径延申。  
 
 2. 添加到父组件
@@ -1806,6 +1849,16 @@ methods: {
 }
 ```
 
+#### 路由对象属性  
+
+属性 | 说明 | 类型 | 栗子
+:- | :-: | :-: | :-:
+$route.path | 对应当前路由的决定路径 | str | "/foo/bar"
+$route.params | **动态**路由参数 | obj | `/user/evan` => `$route.params.username == 'evan'`
+$route.query |  URL 查询参数 | obj | `/foo?user=1` => `$route.query.user == 1`
+$route.hash | 当前路由的hash值（带 `#`） | str |
+$route.name | 路由的名字(如果有) | str |
+
 #### vue-router和vue-route的由来  
 
 当使用 Vue 安装插件时
@@ -1877,6 +1930,44 @@ export default router
 :snowflake: 其中的 `router` 为一个引用了路由实例的变量。   
 :snowflake: 除了全局守卫以外，还有路由独享守卫、组件内的守卫等。  
 
+#### 路由元信息_实现登录认证  
+
+```
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/foo',
+      component: Foo,
+      children: [
+        {
+          path: 'bar',
+          component: Bar,
+          meta: { requiresAuth: true }
+        }
+      ]
+    }
+  ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // 对于需要权限的路由，验证登录状态
+    if (!auth.loggedIn()) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+```
+> `$route.matched` 数组中包括父路由记录以及子路由记录。
+
+
 
 #### 路由中使用keep-alive  
 > 正常情况下，在路由之间跳转，会导致原组件的销毁，但被 `<keep-alive>` 标签包围后，组件将会缓存。
@@ -1922,6 +2013,78 @@ beforeRouteLeave(to, from, next) {
 :snowflake: `exclude` 的参数之间**不能加空格**。  
 :herb: 可以在子组件中使用生命周期钩子 `created` 进行验证。  
 
+#### 命名路由  
+> 也可以通过名称来标识路由，以实现跳转。  
+
+```
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/user/:userId',
+      name: 'user',
+      component: User
+    }
+  ]
+})
+
+/* 标签跳转 */
+<router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
+
+/* 代码调用 */
+router.push({ name: 'user', params: { userId: 123 } })
+```
+
+#### 命名视图  
+> 同级想展示多个视图，比如有定制块、主内容和侧边栏，就可以设置多个出口。  
+> 
+> 对于没有设置名字的 `<router-view>`，默认为 `default`。  
+
+```
+<router-view class="view one"></router-view>
+<router-view class="view two" name="main"></router-view>
+<router-view class="view three" name="siber"></router-view>
+
+/* index.js */
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/',
+      components: {
+        default: Foo,
+        main: Bar,
+        siber: Baz
+      }
+    }
+  ]
+})
+```
+> 也可以在嵌套路由 `children` 中使用[命名视图](https://router.vuejs.org/zh/guide/essentials/named-views.html#嵌套命名视图)。  
+
+#### 数据获取的展示时机  
+> 可以在导航完成前/后获取数据。  
+
+步骤 | 说明
+:- | :-:
+① | 在模板中条件渲染加载、失败样式
+② | 在created钩子获取数据
+③ | 请求到数据后，改变渲染条件
+
+```
+<div class="post">
+  <div v-if="loading" class="loading">
+    Loading...
+  </div>
+
+  <div v-if="error" class="error">
+    {{ error }}
+  </div>
+
+  <div v-if="post" class="content">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.body }}</p>
+  </div>
+</div>
+```
 
 
 
