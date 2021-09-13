@@ -9,6 +9,7 @@
 - [promise](#promise)
   + [取得多个请求的结果后操作](#取得多个请求的结果后操作)
 - [Vuex概念](#Vuex概念)
+  + [Vuex要点](#Vuex要点)
   + [安装并配置Vuex](#安装并配置Vuex)
   + [state属性](#state属性)
   + [mutations属性](#mutations属性)
@@ -295,6 +296,11 @@ Promise.all([
 :palm_tree: Devtools：Vue 开发的一个浏览器插件（需安装）。记录（同步的）修改，方便跟踪  
 :palm_tree: Mutate：改变    
 
+#### Vuex要点  
+
+1. 组件不允许直接变更属于 store 实例的 state，而应在 mutation 中实现，这样可以明确地追踪到状态的变化，方便调试工具记录变更、进行历史回滚。  
+2. 如果开发的不是大型单页应用，使用 Vuex 可能是繁琐冗余的。  
+
 #### 安装并配置Vuex  
 ```
 npm install vuex --save
@@ -352,6 +358,10 @@ state: {counter: 101},
 ```
 :herb: 任何组件都可以读取该状态，但是不建议直接 `$store.state.counter++` 来修改状态，这样的修改没有记录。  
 
+> 该属性的读取很适合放在组件的[计算属性](https://vuex.vuejs.org/zh/guide/state.html#在-vue-组件中获得-vuex-状态)中。  
+> 
+> 当一个组件需要获取多个状态的时候，可以使用 `mapState` 辅助函数帮助我们生成计算属性，在使用上与 [mapGetters](https://github.com/SpringLoach/Vue/blob/main/learning/section4.md#购物车_导航栏的其它实现方法_mapgetters辅助函数) 一致。  
+
 #### mutations属性  
 > 用于同步操作中更新 `state` 的状态，默认参数为 state 对象。
 
@@ -380,7 +390,7 @@ methods: {
   }
 }
 ```
-:snowflake: 一般认为 `mutations` 中包括事件类型和回调函数两部分。  
+:snowflake: 一般认为 `mutations` 中包括**事件类型**和**回调函数**两部分。  
 :snowflake: 在 `this.$store.commit()`中，第一个参数为事件类型，第二个参数为载荷。  
 :palm_tree: Payload：载荷，此处为传递的参数，当参数不止一个时，可以将 Payload 以对象的形式传递。  
 
@@ -434,6 +444,7 @@ mutations: {
     /③/ Vue.set(state.info, 'sex', 'girl')
     /④/ delete state.info.age
     /⑤/ Vue.delete(state.info, 'age')
+    /⑥/ state.info = { ...state.info, color: 'red' }
   }
 }
 
@@ -485,7 +496,7 @@ mutations: {
 ```
 
 #### getters属性    
-> 多个页面需要获取处理后的状态时使用，第一个参数为 state 对象，第二个参数为 getters 对象。
+> 类似计算属性。多个页面需要获取处理后的状态时使用，第一个参数为 state 对象，第二个参数为 getters 对象。
 
 ```
 /* store 下的 index.js */
@@ -509,10 +520,12 @@ getters: {
 <h2>{{$store.getters.powerCounteradd}}</h2>
 <h2>{{$store.getters.powerCounterAnyadd(666)}}</h2>
 ```
-:snowflake: 当某些处理需要传参才能进行时，需要在定义的方法中返回一个函数，用这个函数去接受参数并进行处理。
+:snowflake: 当某些处理需要传参才能进行时，需要在定义的方法中返回一个函数，用这个函数去接受参数并进行处理，此时不会缓存结果。
 
 #### actions属性
 > 在进行一些**异步操作**时，不能在 `mutations` 属性中进行，这会导致无法及时观察状态的变化。此时，应该使用 `actions` 属性。  
+> 
+> 待异步操作结束后，提交 mutation。  
 
 ```
 /* Vue.js */
@@ -655,7 +668,7 @@ const moduleA = {
     fullname(state) {
       return state.name + 'sir'
     },
-    fullname2(state, getters, rootState) {
+    fullname2(state, getters, rootState, rootGetters) {
       return getters.fullname + rootState.counter
     }
   },
