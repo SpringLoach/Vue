@@ -2086,6 +2086,57 @@ const router = new VueRouter({
 </div>
 ```
 
+#### 导航守卫  
+> 有全局的、路由独享、组件级的。  
+> 
+> 在守卫执行完前，导航一直是等待状态。  
+
+守卫名称 | name | 回调参数 | 说明
+:- | :- | :- | :-
+全局前置守卫 | router.beforeEach | to, from, next | 
+全局解析守卫 | router.beforeResolve | to, from, next | 
+全局后置钩子 | router.afterEach | to, from |  
+路由独享的守卫 | beforeEnter | to, from, next | 为路由配置对象的选项
+组件内的守卫 | beforeRouteEnter | to, from, next | 不能获取组件实例 `this`，唯一可通过 `next` 回调的首参获取组件实例
+组件内的守卫 | beforeRouteUpdate | to, from, next | 能获取组件实例 `this`，可在复用组件时添加逻辑
+组件内的守卫 | beforeRouteLeave | to, from, next | 能获取组件实例 `this`，可作用于验证用户未保存修改
+
+参数 | 说明
+:- | :-
+to | 即将进入目标的路由对象
+from | 当前导航正要离开的路由
+next | 必须执行以 resolve 当前钩子
+
+next函数 | 行为 | 说明
+:- | :- | :-
+next() | 进行管道中的下一个钩子 | 当所有钩子执行完毕，导航状态为 confirmed
+next(false) | 中断当前的导航 | URL 地址会重置到 from 路由对应的地址
+next({ path: '/' }) | 中断当前的导航，进入新的导航 | 可以配路径、命名等
+next(error) | 终止导航 | 将对象传给 `router.onError()` 的回调  
+
+#### 完整的导航解析流程  
+
+顺序 | 调用位置 | 说明
+:-: | :- | :- 
+① | | 导航被触发
+② | 失活组件 | beforeRouteLeave 
+③ | 全局 | beforeEach
+④ | 重用组件 | beforeRouteUpdate 
+⑤ | 路由配置 | beforeEnter
+⑥ | | 解析异步路由组件
+⑦ | 激活组件 | beforeRouteEnter
+⑧ | 全局 | beforeResolve
+⑨ | | 导航被确认
+⑩ | 全局 | afterEach
+new | | 触发 DOM 更新
+new | 激活组件 | beforeRouteEnter 传给 next 的回调
+
+
+
+
+
+
+
 
 
 
