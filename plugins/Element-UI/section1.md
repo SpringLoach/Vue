@@ -1472,19 +1472,35 @@ position | 弹出位置 | str | top-right | top-right/top-left/bottom-right/bott
 ### Menu导航菜单
 
 ```
+import {Menu, Submenu, MenuItem,} from 'element-ui';
+
+Vue.use(Menu);
+Vue.use(Submenu);
+Vue.use(MenuItem);
+```
+
+```
 <el-menu :default-active="activeIndex" mode="horizontal">
-  <el-menu-item index="1">处理中心</el-menu-item>
-  <el-submenu index="2">
-    // 副容器的占位标题，视觉上与项一致，但不可点击
-    <template slot="title">我的工作台</template>
-    <el-menu-item index="2-1">选项1</el-menu-item>
-    <el-submenu index="2-2">
-      <template slot="title">选项2</template>
-      <el-menu-item index="2-2-1">选项1</el-menu-item>
-      <el-menu-item index="2-2-2">选项2</el-menu-item>
+  <!-- 最普通的项 -->  
+  <el-menu-item index="1">导航一</el-menu-item>
+  <!-- 带链接的项 --> 
+  <el-menu-item index="2"><a href="https://www.ele.me" target="_blank">导航二</a></el-menu-item>
+  <!-- 带图标的项 -->
+  <el-menu-item index="3">
+    <i class="el-icon-menu"></i>
+    <span slot="title">导航三</span>
+  </el-menu-item>
+  <!-- 带了双层嵌套的项 -->
+  <el-submenu index="4">
+    <!-- 副容器的占位标题，视觉上与项一致，但不可点击 -->  
+    <template slot="title">导航四标题</template>
+    <el-menu-item index="4-1">导航四内容一</el-menu-item>
+    <el-submenu index="4-2">
+      <template slot="title">导航四内容二</template>
+      <el-menu-item index="4-2-1">子选项1</el-menu-item>
+      <el-menu-item index="4-2-2">子选项2</el-menu-item>
     </el-submenu>
   </el-submenu>
-  <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
 </el-menu>
 
 data() {
