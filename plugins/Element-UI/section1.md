@@ -135,7 +135,7 @@ new Vue({
 ----
 
 ### 快速上手  
-> 针对CDN引用外的其它引入方式，可以完整引入或按需引入。    
+> 针对CDN引用外的其它[引入方式](https://github.com/SpringLoach/Vue/blob/main/learning/实验项.md#安装element)，可以完整引入或按需引入。    
 
 #### 按需引入  
 > 按需引入时，通常先导入，然后安装/添加到原型。  
@@ -196,6 +196,13 @@ Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
 
 ### Layout布局  
 > 在行标签内镶嵌列标签，列标签占据的**最大**列数总合为24。  
+
+```
+import {Row, Col} from 'element-ui';
+
+Vue.use(Row);
+Vue.use(Col);
+```
 
 ```
 <el-row>
