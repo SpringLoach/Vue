@@ -37,6 +37,25 @@
 }
 ```
 
+#### 改变组件默认样式  
+> 对于某些组件，如 `el-select`，其内部存在嵌套较深的元素，可以在调试窗口找到。  
+> 
+> 由于使用了 `scoped`，样式无法影响到这些元素。  
+
+索引 | 操作 | 说明
+:-: | :- | :-  
+① | 导入全局样式 | 适合对elementUI的整体修改 
+② | [样式穿透](#去除默认边框及改变宽度) | 需要使用 less 或 sass    
+
+- src  
+  + assets
+    - global.css  
+
+```
+/* main.js */
+import "./assets/style/global.css";
+```
+
 ----
 
 #### Menu导航菜单  
@@ -58,7 +77,21 @@
 ① | 默认内边距 | header、main等有默认内边距，可按需修改  
 ② | 固定高度 | 设置了容器高度时，可以通过 `height: 100%` 继承到内部以实现垂直居中  
 
+#### Select选择器  
 
+#### 去除默认边框及改变宽度
+
+```
+// 需要使用 less 或 sass  
+@deep: ~'>>>';
+
+.el-select {   
+  width: 120px;
+  @{deep} .el-input__inner {
+    border: none; 
+  }
+}
+```
 
 
 
