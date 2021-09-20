@@ -222,9 +222,19 @@ Col属性 | 说明 | 类型 | 默认值
 > 
 > 当存在顶栏或低栏容器时，子元素垂直上下排列，否则水平排列。  
 
+```
+import {Container, Header, Aside, Main, Footer,} from 'element-ui';
+
+Vue.use(Container);
+Vue.use(Header);
+Vue.use(Aside);
+Vue.use(Main);
+Vue.use(Footer);
+```
+
 标签 | 说明 
 :-: | :-: 
-`<el-container>` | 必须的外层容器 
+`<el-container>` | **必须的外层容器** 
 `<el-header>` | 顶栏容器 
 `<el-aside>` | 侧边栏容器 
 `<el-main>` | 主要区域容器 
@@ -234,6 +244,17 @@ Col属性 | 说明 | 类型 | 默认值
 :-: | :-: | :-: | :-:
 height | 顶/底栏高度 | str | 60px
 width | 侧边栏宽度	 | str | 300px
+
+> 可以在内部嵌套 `<el-container>`，使子元素能够垂直排列。  
+```
+<el-container>
+  <el-header>Header</el-header>
+  <el-container>
+    <el-aside width="200px">Aside</el-aside>
+    <el-main>Main</el-main>
+  </el-container>
+</el-container>
+```
 
 ### 字体和投影参考  
 
