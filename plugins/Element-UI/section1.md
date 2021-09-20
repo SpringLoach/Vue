@@ -62,7 +62,7 @@
   + [Tree树形控件](#Tree树形控件)
     - [配置选项_Tree](#配置选项_Tree)
     - [禁用状态_Tree](#禁用状态_Tree)
-  + [Select选择器](#Select选择器)
+  + [Pagination分页](#Pagination分页)
     - [选用组件](#选用组件)
   + [Badge标记](#Badge标记)
   + [Avatar头像](#Avatar头像)
@@ -1157,7 +1157,7 @@ disabled | 以节点对象的某个属性值作为**禁用** | boo / func(data, 
 #### 禁用状态_Tree  
 > 给节点对象添加 `disabled` 属性并设置为 `true`。  
 
-### Select选择器
+### Pagination分页  
 
 ```
 <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
