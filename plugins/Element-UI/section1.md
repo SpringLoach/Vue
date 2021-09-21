@@ -1487,17 +1487,47 @@ Vue.use(Submenu);
 Vue.use(MenuItem);
 ```
 
+普通垂直导航菜单栗子
 ```
 <el-menu :default-active="activeIndex" mode="horizontal">
+  <el-menu-item index="1">导航一</el-menu-item>
+  <el-menu-item index="2">导航二</el-menu-item>
+  <el-menu-item index="3">导航三</el-menu-item>
+</el-menu>
+```
+
+各种项演示  
+```
+<el-menu :default-active="activeIndex" mode="horizontal">
+
   <!-- 最普通的项 -->  
   <el-menu-item index="1">导航一</el-menu-item>
+  
   <!-- 带链接的项 --> 
   <el-menu-item index="2"><a href="https://www.ele.me" target="_blank">导航二</a></el-menu-item>
+  
   <!-- 带图标的项 -->
   <el-menu-item index="3">
     <i class="el-icon-menu"></i>
     <span slot="title">导航三</span>
   </el-menu-item>
+  
+  <!-- 仅图标的项 -->
+  <el-menu-item index="3">
+    <i class="el-icon-bell"></i>
+  </el-menu-item>
+  
+  <!-- 图标在后的项 -->
+  <el-menu-item index="3">
+    <span slot="title">导航三<i class="el-icon-bell"></i></span>
+  </el-menu-item>
+  
+  <!-- 图像在后的项 -->
+  <el-menu-item index="6">
+    Spring
+    <img src="~@/assets/logo.png" />
+  </el-menu-item>
+  
   <!-- 带了双层嵌套的项 -->
   <el-submenu index="4">
     <!-- 副容器的占位标题，视觉上与项一致，但不可点击 -->  
@@ -1509,6 +1539,7 @@ Vue.use(MenuItem);
       <el-menu-item index="4-2-2">子选项2</el-menu-item>
     </el-submenu>
   </el-submenu>
+  
 </el-menu>
 
 data() {
