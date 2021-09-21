@@ -60,7 +60,7 @@ import "./assets/style/global.css";
 
 #### Menu导航菜单  
 
-#### 垂直菜单项左对齐排列及边缘凹进解决  
+#### Menu导航菜单_垂直菜单项左对齐排列及边缘凹进解决  
 
 ```
 .el-menu {
@@ -70,7 +70,7 @@ import "./assets/style/global.css";
 }
 ```
 
-#### 水平菜单项高度更改  
+#### Menu导航菜单_水平菜单项高度更改  
 > 默认高度和行高为 `60px`。  
 
 ```
@@ -82,7 +82,7 @@ import "./assets/style/global.css";
 }
 ```
 
-#### 水平菜单激活项下划线去除&设置图片样式  
+#### Menu导航菜单_水平菜单激活项下划线去除&设置图片样式  
 > 需要将默认的边界动画去除。  
 
 ```
@@ -108,7 +108,7 @@ import "./assets/style/global.css";
 
 #### Select选择器  
 
-#### 去除默认边框及改变宽度
+#### Select选择器_去除默认边框及改变宽度
 
 ```
 // 需要使用 less 或 sass  
@@ -121,6 +121,25 @@ import "./assets/style/global.css";
   }
 }
 ```
+
+#### Tag标签  
+
+#### Tag标签_更改默认字体颜色高度和边框
+
+```
+.el-tag {
+  color: rgb(18, 180, 145);
+  border: none;
+  height: 28px;
+  line-height: 28px;
+}
+```
+
+
+
+
+
+
 
 
 
