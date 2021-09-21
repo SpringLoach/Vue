@@ -110,6 +110,10 @@ import "./assets/style/global.css";
 
 #### 选择器_去除默认边框及改变宽度
 
+索引 | 说明
+:-: | :- 
+① | 更改文字区域到下拉图标的可显示距离，与图标宽一致。  
+
 ```
 // 需要使用 less 或 sass  
 @deep: ~'>>>';
@@ -118,6 +122,9 @@ import "./assets/style/global.css";
   width: 120px;
   @{deep} .el-input__inner {
     border: none; 
+    /* ①
+    padding-right: 25px;
+    */
   }
 }
 ```
@@ -149,7 +156,7 @@ import "./assets/style/global.css";
 }
 ```
 
-#### 标记_修改位置及大小  
+#### 标记_修改原点位置及大小  
 ```
 .el-badge {
   vertical-align: baseline;
@@ -164,7 +171,48 @@ import "./assets/style/global.css";
 }
 ```
 
+#### 标记_修改单数字位置及大小_绝对定位     
+> 将标记与文字置于一条直线上，但会导致项之间的间距不等。  
+> 
+> 防止被其它项激活时覆盖 `z-index: 1`，应对Chrome对文字大小的最小限制 `transform: scale(0.9)`。  
+```
+.el-badge {
+  vertical-align: baseline;
+  z-index: 1;
+  @{deep} .is-fixed {
+    top: 50%; 
+    right: -3px;
+    transform: translateY(-50%) translateX(100%) scale(0.9);
+  }
+  @{deep} .el-badge__content {
+    border: none;
+    height: 14px;
+    line-height: 14px;
+    padding: 0 3.5px;
+  }
+}
+```
 
+#### 标记_修改单数字位置及大小_相对定位     
+> 由于相对定位时，位置属性基于自身。不标准地将标记与文字置于一条直线上，项之间等距。   
+```
+.el-badge {
+  vertical-align: baseline;
+  @{deep} .is-fixed {
+    position: relative;
+    top: -1px;
+    vertical-align: baseline; 
+    right: -3px;
+    transform: scale(0.9);
+  }
+  @{deep} .el-badge__content {
+    border: none;
+    height: 14px;
+    line-height: 14px;
+    padding: 0 3.5px;
+  }
+}
+```
 
 
 
