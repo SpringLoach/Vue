@@ -149,6 +149,20 @@ import "./assets/style/global.css";
 }
 ```
 
+#### 标记_修改位置及大小  
+```
+.el-badge {
+  vertical-align: baseline;
+  @{deep} .is-fixed {
+    top: 6px;
+    right: 1px;
+  }
+  @{deep} .is-dot {
+    height: 6px;
+    width: 6px;
+  }
+}
+```
 
 
 
