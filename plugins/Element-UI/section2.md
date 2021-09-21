@@ -94,7 +94,6 @@ import "./assets/style/global.css";
       transition: background-color .3s,color .3s;
     img {
       width: 18px;
-      margin-left: 5px;
     }
   }
 }
