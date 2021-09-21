@@ -45,7 +45,7 @@
 索引 | 操作 | 说明
 :-: | :- | :-  
 ① | 导入全局样式 | 适合对elementUI的整体修改 
-② | [样式穿透](#去除默认边框及改变宽度) | 需要使用 less 或 sass    
+② | [样式穿透](#选择器_去除默认边框及改变宽度) | 需要使用 less 或 sass    
 
 - src  
   + assets
@@ -60,7 +60,7 @@ import "./assets/style/global.css";
 
 #### Menu导航菜单  
 
-#### Menu导航菜单_垂直菜单项左对齐排列及边缘凹进解决  
+#### 导航菜单_垂直菜单项左对齐排列及边缘凹进解决  
 
 ```
 .el-menu {
@@ -70,7 +70,7 @@ import "./assets/style/global.css";
 }
 ```
 
-#### Menu导航菜单_水平菜单项高度更改  
+#### 导航菜单_水平菜单项高度更改  
 > 默认高度和行高为 `60px`。  
 
 ```
@@ -82,7 +82,7 @@ import "./assets/style/global.css";
 }
 ```
 
-#### Menu导航菜单_水平菜单激活项下划线去除&设置图片样式  
+#### 导航菜单_水平菜单激活项下划线去除&设置图片样式  
 > 需要将默认的边界动画去除。  
 
 ```
@@ -108,7 +108,7 @@ import "./assets/style/global.css";
 
 #### Select选择器  
 
-#### Select选择器_去除默认边框及改变宽度
+#### 选择器_去除默认边框及改变宽度
 
 ```
 // 需要使用 less 或 sass  
@@ -124,17 +124,30 @@ import "./assets/style/global.css";
 
 #### Tag标签  
 
-#### Tag标签_更改默认字体颜色高度和边框
+#### 标签_更改默认字体颜色高度和边框  
+> 可给特定标签添加类，以添加特定样式。    
 
 ```
 .el-tag {
-  color: rgb(18, 180, 145);
   border: none;
   height: 28px;
   line-height: 28px;
 }
+.tag_active {
+  color: rgb(18, 180, 145);
+}
 ```
 
+#### Badge标记  
+
+#### 标记_修复添加后不对齐  
+> 默认添加的 `vertical-align` 会导致文字下移。。  
+
+```
+.el-badge {
+  vertical-align: baseline;
+}
+```
 
 
 
