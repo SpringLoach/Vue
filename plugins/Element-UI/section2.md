@@ -74,9 +74,29 @@ import "./assets/style/global.css";
 > 默认高度和行高为 `60px`。  
 
 ```
-.el-menu--horizontal>.el-menu-item {
-  height: 40px;
-  line-height: 40px;
+.el-menu--horizontal {
+  &>.el-menu-item {
+    height: 40px;
+    line-height: 40px;
+  }
+}
+```
+
+#### 水平菜单激活项下划线去除&设置图片样式  
+> 需要将默认的边界动画去除。  
+
+```
+.el-menu--horizontal {
+    .is-active {
+      border: none;
+    }
+    &>.el-menu-item {
+      transition: background-color .3s,color .3s;
+    img {
+      width: 18px;
+      margin-left: 5px;
+    }
+  }
 }
 ```
 
