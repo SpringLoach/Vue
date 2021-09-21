@@ -1057,12 +1057,15 @@ show-overflow-tooltip | 内容过多时，取消折行，以提示显示	| boo |
 > 通过模板标签中的 `slot-scope` 可以在内部用 `row` 取到相应项，用 `store` 取到状态管理等。  
 
 ```
-<el-table-column label="日期">
-  <template slot-scope="scope">
-    <i class="el-icon-time"></i>
-    <span style="margin-left: 10px">{{ scope.row.date }}</span>
-  </template>
-</el-table-column>
+<el-table :data="tableData" style="width: 100%">
+  <el-table-column label="日期">
+    <template slot-scope="scope">
+      <i class="el-icon-time"></i>
+      <span style="margin-left: 10px">{{ scope.row.date }}</span>
+    </template>
+  </el-table-column>
+  ...
+</el-table>
 ```
 
 #### 展开行  
