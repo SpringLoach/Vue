@@ -214,3 +214,9 @@ initData(){
 	//		包含事件方法（handle开头），普通方法（包括提供给父页面调用的方法），普通方法一律放到事件后
 	//4、emit 提供给子页面调整的则使用emit开头
 ```
+
+```
+editUsb(...args: any[]) {
+      console.log(args)
+    }
+```
