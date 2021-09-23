@@ -220,3 +220,20 @@ editUsb(...args: any[]) {
       console.log(args)
     }
 ```
+
+```
+	import {
+		Vue,
+		Component,
+		Emit,
+		Prop
+	} from "vue-property-decorator";
+	
+	import usbDownload from '../../components/usb-download/usb-download.vue';
+	
+	@Component({
+		components: {
+			usbDownload
+		},
+	})
+```
