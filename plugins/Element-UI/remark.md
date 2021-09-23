@@ -106,3 +106,17 @@ static | 用于放置图片
 <style lang="scss" scoped>
 </style>
 ```
+
+```
+getMsgFormSon(data:any){
+  this.stopOrResume = data
+};
+
+updateDmOpenlink(...args:any[]) {
+  console.log("updateDmOpenlink");
+};
+
+initData(){
+  (this.$refs['usbDownload'] as any).initPageData();
+};
+```
