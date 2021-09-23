@@ -194,3 +194,15 @@ initData(){
 </style>
 
 ```
+
+```
+		//===================================data区域begin
+		form: any = {
+
+		};
+		fileList: any = [];
+		headers: any = {};
+		previewImage: string = '';
+		previewVisible: boolean = false;
+		//===================================data区域end
+```
