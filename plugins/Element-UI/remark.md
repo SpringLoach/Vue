@@ -120,3 +120,77 @@ initData(){
   (this.$refs['usbDownload'] as any).initPageData();
 };
 ```
+
+```
+<template>
+</template>
+
+<script lang="ts">
+	import {Vue,Component,Emit,Prop} from "vue-property-decorator";
+	
+	import empty from "../../components/empty.vue";
+	@Component({
+		components: {
+			empty
+		},
+	})
+	export default class tempDemo extends Vue{
+		//===================================data区域begin
+		name:string = "";
+		user:any = {}; 
+		pageData:any = {
+			helpList:[],
+			labPlatformList:[]
+		};
+		//===================================data区域end
+		
+		//===================================prop区域begin
+		//主题
+		@Prop({default: 'white'}) themeMode?: string;
+		//是否显示首页
+		@Prop({default: true}) showHome?: boolean;
+		//是否显示导航
+		@Prop({default: true}) showNavigationTitle?:boolean;
+		//导航部分的内容
+		@Prop({default: ''}) navigationTitle?: string;
+		//是否要求登录：不要求登录，与登录相关的数据将全部不显示，与登录相关的请求不执行
+		@Prop({default: true}) requireLogin?:boolean;
+		//是否显示个人中心
+		@Prop({default: true}) showUserCenter?:boolean;
+		//===================================prop区域end
+		
+		
+		//===================================computed区域begin
+		get demoCompute():boolean {
+		    return true;
+		};
+		//===================================computed区域end
+		
+		
+		//===================================methods区域begin
+		demoMethod():void{
+			this.$confirm({
+				title: '提示',
+				content: "是否退出登录?",
+				onOk() {
+					console.log('onOk');
+				},
+				onCancel() {
+					console.log('Cancel');
+				}
+			});
+		};
+		//===================================methods区域end
+		mounted(){
+		};
+		created() {
+
+		};
+	}
+</script>
+
+<style lang="scss" scoped>
+	@import '../../assets/css/login.scss';
+</style>
+
+```
