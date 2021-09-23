@@ -15,4 +15,10 @@ SVN | / | /
 用户名 | masterspringl
 邮箱 | fanhaodong@starthope.com.cn
 
+更改SVN账户信息  
+> 项目/桌面 → 右键 TortoiseSVN → 设置 → 已保存数据 → 清除 → 再次svn更新/提交 → 输入账号密码  
+
+通过svn提交 
+> 在文件栏，项目处右键 → svn提交  
+
 
