@@ -206,3 +206,11 @@ initData(){
 		previewVisible: boolean = false;
 		//===================================data区域end
 ```
+
+```
+	//1、data区
+	//2、computed：计算属性
+	//3、methods
+	//		包含事件方法（handle开头），普通方法（包括提供给父页面调用的方法），普通方法一律放到事件后
+	//4、emit 提供给子页面调整的则使用emit开头
+```
