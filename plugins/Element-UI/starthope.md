@@ -1,3 +1,10 @@
+- [工作相关网站](#工作相关网站)
+- [操作者相关账号更改](#操作者相关账号更改)
+- [项目操作A](#项目操作A)
+- [工作流程](#工作流程)
+  + [工作流程_修改样式bug](#工作流程_修改样式bug)
+
+#### 工作相关网站
 
 名称 | 说明 | 网址
 :- | :- | :-
@@ -8,6 +15,8 @@ Github | 个人账号 | https://github.com/masterspringl
 GitLab | 代码管理库、登录失败 | https://github.dm-ai.cn/users/sign_in
 TAPD | 腾讯协作云平台，改样式bug | https://www.tapd.cn/
 SVN | / | /
+
+#### 操作者相关账号更改
 
 [全局更改git用户信息](https://github.com/SpringLoach/origin-2021/blob/main/git/Git速查.md#提交操作者信息)    
 
@@ -34,7 +43,6 @@ SVN | / | /
 ⑥ | 提交修改  
 
 可能需要拖拽全局样式、特定组件样式、字体样式  
-
 
 #### 工作流程  
 
