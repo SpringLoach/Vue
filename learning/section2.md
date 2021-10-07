@@ -97,7 +97,7 @@
 #### 实现模块化  
 > ES5 及以前，只能通过下面这样通过匿名函数实现闭包（立即执行）的方式来避免全局变量的问题。
 
-```
+```javascript
 (function() {
     var hi = 'nihao';
     var show = function() {
@@ -108,7 +108,7 @@
 
 但此时，其它 `.js` 文件要复用这些变量，只能重新创建。所以最好将需要的变量返回到一个对象中，用模块专属的全局变量接受。  
 
-```
+```javascript
 /* a.js */
 var adata = (function() {
     var out = {};
